@@ -25,5 +25,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: npm test
       # build = vue-tsc (type-check) + vite build
       - run: npm run build

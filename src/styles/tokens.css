@@ -1,0 +1,75 @@
+/* Tokens du design system (docs/05-design-system.md §2), tirés de la DA v0.1.
+   Les composants n'utilisent que ces variables : aucune valeur en dur. */
+
+:root {
+  /* Couleurs : le site est noir et blanc, la couleur vient des projets (DA §3) */
+  --blanc: #ffffff;
+  --noir: #000000;
+  --gris: #595959; /* texte secondaire, 7:1 sur blanc */
+
+  /* Typographie (DA §4) : Chivo seule, la graisse fait la hiérarchie */
+  --police: 'Chivo Variable', system-ui, sans-serif;
+  --graisse-texte: 400;
+  --graisse-intertitre: 700;
+  --graisse-titre: 800;
+
+  --taille-legende: 0.875rem;
+  --taille-texte: 1.0625rem;
+  --taille-intertitre: 1.5rem;
+  --taille-titre-calque: clamp(1.25rem, 1.6vw, 1.5rem);
+  --taille-menu: clamp(2rem, 5vw, 3.5rem);
+  --taille-titre-projet: clamp(2.5rem, 6vw, 4.5rem);
+
+  --interligne-serre: 1.05;
+  --interligne-titre: 1.15;
+  --interligne-legende: 1.4;
+  --interligne-texte: 1.55;
+
+  --mesure: 65ch; /* longueur de ligne maximale du texte courant */
+  --soulignement: 2px;
+  --soulignement-decalage: 0.2em;
+
+  /* Espacements */
+  --espace-1: 4px;
+  --espace-2: 8px;
+  --espace-3: 16px;
+  --espace-4: 24px;
+  --espace-5: 48px;
+  --espace-6: 96px;
+  --marge: clamp(24px, 4vw, 48px);
+  --marge-calque: clamp(16px, 2vw, 28px);
+
+  /* Mise en page */
+  --hauteur-header: 96px;
+  --hauteur-logo: clamp(28px, 3.4vw, 44px);
+  --largeur-centrale: 56vw;
+  --largeur-voisine: 22vw;
+  --contour-focus: 3px;
+
+  /* Mouvement (DA §7) */
+  --duree-rapide: 150ms;
+  --duree-standard: 250ms;
+  --duree-lente: 500ms;
+  --decalage-cascade: 40ms;
+  --deplacement-texte: 8px;
+  --ease-signature: cubic-bezier(0.2, 0, 0, 1);
+  --ease-sortie: cubic-bezier(0.3, 0, 1, 1);
+}
+
+@media (max-width: 700px) {
+  :root {
+    --hauteur-header: 72px;
+    --largeur-centrale: 80vw;
+    --largeur-voisine: 10vw;
+  }
+}
+
+/* Mouvement réduit : fondus courts, aucun déplacement (DA §7) */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duree-standard: var(--duree-rapide);
+    --duree-lente: var(--duree-rapide);
+    --deplacement-texte: 0px;
+    --decalage-cascade: 0ms;
+  }
+}
