@@ -74,3 +74,9 @@
 | 17/11/2026 | Mise en ligne aussi à chaque publication dans Dashility (`repository_dispatch`), sans relancer les tests ; contenu copié dans le job, avant l'image | Architecture §5 ; la clé de lecture n'entre jamais dans l'image |
 | 17/11/2026 | Tests de bout en bout Playwright + axe (WCAG 2.2 AA) sur ordinateur et mobile, lancés par la CI sur le contenu de démonstration | Architecture §1 ; résultat indépendant de ce que publie la cliente |
 | 17/11/2026 | Nom accessible de la carte tiré du texte du calque + « voir le projet » masqué (plus d'`aria-label`) ; image de la carte décorative (alt vide) | Axe : le nom ne contenait pas le texte affiché (WCAG 2.5.3) ; la discipline et le client décrivent déjà l'image |
+| 17/11/2026 | Page projet d'après la maquette de la cliente : bandeau « Client — Discipline » à la couleur du projet, fond teinté, présentation sur deux colonnes, galerie en mosaïque | Maquette transmise par le propriétaire ; remplace la page projet de l'UX v0.1 |
+| 17/11/2026 | Texte du bandeau en couleur automatique (`aplat()`), pas en blanc | Blanc sur bleu clair : 1,9:1 ; même règle que les calques |
+| 17/11/2026 | Mosaïque composée par Mandolina : champ « Largeur » (`pleine`, `moitie`, `tiers`) par image de la galerie | Elle maîtrise la composition ; pas de règle automatique surprenante |
+| 17/11/2026 | Présentation sur deux colonnes alignées à gauche, pas justifiée | Le justifié en colonnes étroites crée des trous, gênants à la lecture |
+| 17/11/2026 | La couverture sert au carrousel et au partage ; la page projet montre la galerie (la couverture seule si la galerie est vide) | La maquette commence la page par la galerie, pas par la photo du carrousel |
+| 17/11/2026 | Documents alignés sur l'intégration : nom accessible des cartes (UX §5, design system §5), CSP sans empreintes et scripts réels (architecture §2, §6, §11) | Écarts constatés pendant la phase 7 |
