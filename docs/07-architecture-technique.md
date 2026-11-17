@@ -72,7 +72,7 @@ Un espace **Mandolina** dans Dashility, créé par le super-admin ; Mandolina y 
 
 | Clé | Nature | Champs |
 |---|---|---|
-| `projets` | Collection | `nom` (texte court, trad.), `discipline` (texte court, trad.), `client` (texte court), `presentation` (texte riche, trad., facultatif), `couverture` (image), `galerie` (groupe répétable : `image`), `couleur` (texte court `RRGGBB`, avec ou sans `#`), `ordre` (nombre) |
+| `projets` | Collection | `nom` (texte court, trad.), `discipline` (texte court, trad.), `client` (texte court), `presentation` (texte riche, trad., facultatif), `couverture` (image), `galerie` (groupe répétable : `image`, `largeur` liste de choix `pleine` / `moitie` / `tiers`), `couleur` (texte court `RRGGBB`, avec ou sans `#`), `ordre` (nombre) |
 | `a-propos` | Page unique | `accroche` (texte court, trad.), `presentation` (texte riche, trad.), `email` (texte court) |
 | `book` | Page unique | `fichier` (PDF, un par langue : fonction CV de Dashility) |
 | `mentions-legales` | Page unique | `contenu` (texte riche, trad.) |

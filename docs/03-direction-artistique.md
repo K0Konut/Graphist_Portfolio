@@ -1,6 +1,6 @@
 # Direction artistique — Mandolina, graphiste
 
-Version 0.1 — 17/11/2026 — **statut : à valider**
+Version 0.2 — 17/11/2026 — **statut : à valider** (v0.2 : page projet d'après la maquette de la cliente)
 
 S'appuie sur le PRD v0.2 (carrousel à carte centrale, survol coloré par projet, WCAG 2.2 AA) et le territoire de marque v0.1 (retenue, clarté, soin du détail ; « le site s'efface derrière les images »). Planche de tendance : `docs/06-maquettes/moodboard.html`.
 
@@ -125,7 +125,13 @@ Mobile — accueil
 
 - **Grille** : marges latérales de 24 px (mobile) à 48 px (ordinateur) pour le header et les pages de texte ; le carrousel et les images sont bord à bord.
 - **Coins** : aucun arrondi. **Ombres** : aucune. **Bordures** : aucune, sauf le soulignement du titre de calque et le contour de focus.
-- **Page projet** : titre et texte alignés à gauche dans une colonne de 65 caractères, puis galerie d'images en pleine largeur, empilées ; liens projet précédent / suivant en bas.
+- **Page projet** (maquette de la cliente, 17/11/2026) :
+  - **bandeau** pleine largeur à la couleur du projet, titre « Client — Discipline » centré en 800, couleur du texte donnée par `aplat()` (noir, ou blanc sur le gris), comme les calques ;
+  - **fond de page** teinté : la couleur du projet très diluée dans le blanc (environ 6 %), pour que la page « appartienne » au projet sans gêner la lecture ;
+  - **largeur de contenu** centrée (environ 1100 px au plus) pour le texte et la galerie ; marges latérales `--marge` sur mobile ;
+  - **présentation** sur deux colonnes alignées à gauche sur ordinateur (pas de justification), une sur mobile ;
+  - **galerie en mosaïque** : grille de six colonnes, chaque image en pleine largeur (6), moitié (3) ou tiers (2) ; images recadrées à la hauteur de leur rangée ; 8 px entre les images ;
+  - liens projet précédent / suivant en bas.
 - **Menu** (icône à droite du header, trois barres épaisses comme la maquette) : panneau blanc plein écran, liens À propos et Mentions légales en grand, choix FR / EN.
 
 ---
