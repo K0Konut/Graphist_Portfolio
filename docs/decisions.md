@@ -20,3 +20,6 @@
 | 17/11/2026 | Couleur de survol en champ texte hexadécimal, vérifiée au build | Dashility n'a pas de champ couleur |
 | 17/11/2026 | Spécialités de la graphiste non affichées comme telles | Sans importance pour la cliente |
 | 17/11/2026 | `mandolina.costamask.dev` = domaine de test ; mentions légales basiques | Domaine définitif à venir |
+| 17/11/2026 | Personnalité épurée et éditoriale ; archétype « la Créatrice, en retrait » | Choix du propriétaire ; cohérent avec la vision du PRD (le travail d'abord) |
+| 17/11/2026 | Ton : « je » + vouvoiement, sans superlatifs | Elle parle en son nom ; politesse rassurante pour le client freelance |
+| 17/11/2026 | Pas de référence nommée : positionnement face aux profils Behance/Instagram, aux portfolios sur modèle et aux sites de studios | Aucune référence fournie ; références visuelles éventuelles en phase 3 |
