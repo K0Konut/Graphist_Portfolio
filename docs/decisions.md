@@ -13,3 +13,10 @@
 | 17/11/2026 | Site bilingue FR/EN dès la V1 | Clientèle freelance possiblement internationale |
 | 17/11/2026 | Police Chivo et palette de la cliente imposées | Identité existante de la cliente ; intégrées en phase 3 |
 | 17/11/2026 | Pas d'échéance ferme, 5 à 10 projets au lancement | Choix du propriétaire |
+| 17/11/2026 | Pas de pied de page : lien Mentions légales dans le header | Choix du propriétaire |
+| 17/11/2026 | Carte du carrousel : image seule ; au survol (et au focus), calque à la couleur du projet avec nom, client et bouton « Voir le projet » | Brief de la cliente ; couleurs fournies par projet |
+| 17/11/2026 | Carrousel mobile : même principe, défilement au doigt, calque affiché en permanence sur la carte centrale ; jamais de défilement automatique | Pas de survol au toucher ; laissé au choix du développeur |
+| 17/11/2026 | Ordre des projets fixé dans Dashility par un champ nombre « Ordre » | Dashility n'a pas d'ordre manuel des entrées ; le glisser-déposer serait une évolution de Dashility |
+| 17/11/2026 | Couleur de survol en champ texte hexadécimal, vérifiée au build | Dashility n'a pas de champ couleur |
+| 17/11/2026 | Spécialités de la graphiste non affichées comme telles | Sans importance pour la cliente |
+| 17/11/2026 | `mandolina.costamask.dev` = domaine de test ; mentions légales basiques | Domaine définitif à venir |

@@ -1,6 +1,6 @@
 # PRD — Portfolio de Mandolina, graphiste
 
-Version 0.1 — 17/11/2026 — **statut : à valider**
+Version 0.2 — 17/11/2026 — **statut : à valider** (v0.2 : réponses aux questions ouvertes de la v0.1 ; pas de pied de page, mentions légales dans le header ; carte du carrousel avec survol coloré)
 
 ---
 
@@ -66,7 +66,8 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 **Visiteur (P1, P2)**
 - En tant que visiteur, je veux voir les projets en grand dès l'arrivée, afin de saisir son style immédiatement.
 - En tant que visiteur, je veux faire défiler le carrousel (souris, clavier, toucher), afin de parcourir les projets.
-- En tant que visiteur, je veux ouvrir un projet en cliquant sur sa carte, afin de découvrir son contenu en détail.
+- En tant que visiteur, je veux voir le nom et le client d'un projet en survolant sa carte, afin de choisir quoi ouvrir.
+- En tant que visiteur, je veux ouvrir un projet depuis sa carte (bouton « Voir le projet »), afin de découvrir son contenu en détail.
 - En tant que visiteur, je veux passer au projet suivant ou précédent depuis une page projet, afin de continuer sans revenir à l'accueil.
 - En tant que visiteur, je veux choisir entre le français et l'anglais, afin de lire le site dans ma langue.
 
@@ -75,8 +76,8 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 - En tant que client potentiel, je veux un lien mail et son book en PDF, afin de la contacter ou de garder une trace de son travail.
 
 **Mandolina (P3)**
-- En tant que graphiste, je veux créer un projet (titre, texte, images) en FR et en EN dans Dashility, afin de le publier sans le développeur.
-- En tant que graphiste, je veux choisir l'ordre des projets dans le carrousel, afin de mettre en avant mes meilleurs travaux.
+- En tant que graphiste, je veux créer un projet (titre, client, texte, images, couleur de survol) en FR et en EN dans Dashility, afin de le publier sans le développeur.
+- En tant que graphiste, je veux fixer l'ordre des projets dans Dashility, afin de mettre en avant mes meilleurs travaux dans le carrousel.
 - En tant que graphiste, je veux que le site se mette à jour quelques minutes après « Publier », afin de voir mon travail en ligne tout de suite.
 
 ---
@@ -84,13 +85,15 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 ## 6. Périmètre
 
 ### MVP (V1)
-- **Header** sur toutes les pages : nom de Mandolina (retour à l'accueil), lien vers À propos, choix de la langue.
-- **Accueil** : carrousel plein écran sous le header ; une carte centrale mise en avant, les cartes voisines visibles sur les côtés ; clic sur une carte → page du projet.
+- **Header** sur toutes les pages : nom de Mandolina (retour à l'accueil), liens vers À propos et Mentions légales, choix de la langue. **Pas de pied de page.**
+- **Accueil** : carrousel plein écran sous le header ; une carte centrale mise en avant, les cartes voisines visibles sur les côtés ; pas de défilement automatique.
+- **Carte du carrousel** : l'image du projet seule. Au survol, un calque de la couleur propre au projet recouvre l'image et affiche le nom du projet, le client et un bouton « Voir le projet » → page du projet. Au clavier, le calque apparaît aussi au focus.
+- **Carrousel sur mobile** (pas de survol au toucher) : même principe, une carte centrale et les voisines qui dépassent sur les côtés, défilement au doigt. La carte centrale affiche son calque en permanence ; toucher une carte voisine la ramène au centre.
 - **Page projet** : titre, texte de présentation, galerie d'images, liens projet précédent / suivant.
 - **Page À propos** : présentation, lien mail, téléchargement du book PDF (un fichier par langue).
 - **Bilingue FR/EN** dès la V1, traduction manuelle saisie dans Dashility.
-- **Contenu géré dans Dashility** : projets (collection), À propos (page unique), book PDF ; mise en ligne automatique à chaque publication.
-- **Mentions légales** (obligation légale en France) : lien discret en pied de page.
+- **Contenu géré dans Dashility**, tous les projets compris : projets (collection), À propos (page unique), book PDF ; mise en ligne automatique à chaque publication.
+- **Mentions légales** (obligation légale en France), version basique : éditrice, contact, hébergeur, propriété intellectuelle des visuels. Lien dans le header.
 - Partage : chaque projet a sa propre adresse, avec titre et image d'aperçu (Open Graph) pour les réseaux.
 - Analytics Dashility (sans cookies).
 
@@ -98,6 +101,7 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 - Formulaire de contact.
 - Filtres ou catégories de projets.
 - Liens vers les réseaux (Instagram, Behance…), si la cliente le souhaite.
+- Réordonner les projets par glisser-déposer dans Dashility : évolution de Dashility lui-même, hors de ce projet.
 
 ### Hors périmètre
 - Boutique, vente d'œuvres ou de prestations en ligne.
@@ -111,21 +115,20 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 
 - **Identité imposée** : police Chivo, palette de la cliente. La DA (phase 3) part de ces éléments, elle ne les remplace pas.
 - **CMS** : Dashility, espace dédié à Mandolina ; c'est le développeur qui crée les types de contenu et leurs champs. Les capacités nécessaires (images avec texte alternatif, groupe répétable pour la galerie, fichier PDF par langue, déclenchement de la mise en ligne à la publication) sont à confirmer en phase 7.
-- **Ordre des projets** : Dashility laisse l'ordre d'affichage au site ; un champ d'ordre (ou une règle de tri) est à prévoir dans le type « Projet ».
+- **Ordre des projets** : décidé dans Dashility par Mandolina. Dashility renvoie les projets du plus récemment publié au plus ancien et n'a pas d'ordre manuel des entrées : le type « Projet » porte un champ nombre « Ordre », sur lequel le site trie.
+- **Couleur de survol** : propre à chaque projet (couleurs fournies par la cliente). Dashility n'a pas de champ couleur : champ texte court au format hexadécimal (`#RRGGBB`), vérifié au build, avec une couleur par défaut si la valeur est invalide. Le texte du calque doit rester lisible (contraste AA) sur chaque couleur.
 - **Technique** : Vue 3 + Vite + TypeScript ; image Docker publiée sur GHCR et récupérée par le serveur (déjà en place). Le partage avec aperçu et le SEO demandent des pages pré-rendues (à trancher en phase 7).
-- **Hébergement** : serveur auto-hébergé du développeur, derrière Nginx Proxy Manager ; domaine actuel `mandolina.costamask.dev`.
+- **Hébergement** : serveur auto-hébergé du développeur, derrière Nginx Proxy Manager. `mandolina.costamask.dev` est un domaine de test ; le domaine définitif viendra plus tard.
 - **Accessibilité** : WCAG 2.2 AA. Le carrousel doit être utilisable au clavier et au lecteur d'écran, et respecter `prefers-reduced-motion` ; aucun défilement automatique sans bouton pause.
 - **Images** : nombreuses et lourdes ; formats modernes et tailles adaptées à l'écran pour tenir la performance, en particulier sur mobile.
-- **Légal** : mentions légales (éditrice : Mandolina ; hébergeur : à préciser). Pas de cookies, donc pas de bandeau de consentement.
+- **Légal** : mentions légales basiques. Pas de cookies, donc pas de bandeau de consentement.
 - **Budget** : aucun service payant prévu.
 
 ---
 
 ## 8. Questions ouvertes
 
-1. **Spécialités de Mandolina** (identité visuelle, affiche, illustration, édition…) : à déduire des projets fournis, à confirmer avec elle.
-2. **Contenu d'une carte du carrousel** : image seule, ou image + titre ? (phase 4)
-3. **Carrousel sur mobile** : même principe ou défilement vertical ? Défilement automatique ou non ? (phase 4)
-4. **Ordre des projets** : ordre manuel choisi par Mandolina, ou du plus récent au plus ancien ?
-5. **Domaine définitif** : `mandolina.costamask.dev` reste-t-il, ou un domaine à son nom est-il prévu ?
-6. **Informations des mentions légales** : identité légale de l'éditrice (nom, statut, SIRET éventuel).
+1. **Domaine définitif** : à communiquer avant la mise en ligne publique.
+2. **Contenu des mentions légales** : nom et contact de l'éditrice à fournir au moment de la saisie.
+
+Contenus déjà fournis par la cliente : noms des projets, images, couleurs de survol, police et palette.
