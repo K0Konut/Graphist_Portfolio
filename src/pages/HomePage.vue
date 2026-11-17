@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // Accueil (UX §3) : le carrousel plein écran sous le header, rien d'autre.
 import ProjectCarousel, { type ProjetCarte } from '../components/projets/ProjectCarousel.vue'
+import { dernierProjet as actif } from '../composables/useDernierProjet'
 import type { Textes } from '../content/textes'
 
 defineProps<{ t: Textes; projets: ProjetCarte[]; aProposHref: string }>()
-const actif = defineModel<number>('actif', { default: 0 })
 </script>
 
 <template>
