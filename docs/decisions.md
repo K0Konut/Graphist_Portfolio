@@ -31,3 +31,4 @@
 | 17/11/2026 | Navigation par menu (icône à droite du header) : À propos, Mentions légales, FR / EN | Maquette de la cliente |
 | 17/11/2026 | Motion posée : 150 / 250 / 500 ms, courbe signature cubic-bezier(0.2, 0, 0, 1), pas de couche d'ambiance ni de défilement automatique | Retenue du territoire de marque |
 | 17/11/2026 | 17 projets fournis au lancement (au lieu de 5 à 10) | Liste transmise par la cliente |
+| 17/11/2026 | PRD v0.3 : aligné sur la DA (carte cliquable sans bouton, calque discipline + client, menu, 17 projets) | Décisions de la phase 3 du 17/11/2026 |
