@@ -30,7 +30,7 @@ for (const langue of LANGUES) {
         problemes.push(`Projet « ${slug} » (${langue}) : champ « ${champ} » vide`)
     if (!estCouleurValide(String(fields.couleur ?? '')))
       avertissements.push(
-        `Projet « ${slug} » : couleur « ${fields.couleur} » invalide (#RRGGBB attendu), gris par défaut`,
+        `Projet « ${slug} » : couleur « ${fields.couleur} » invalide (RRGGBB attendu, avec ou sans #), gris par défaut`,
       )
   }
   for (const type of ['projets', 'a-propos', 'mentions-legales', 'book']) {

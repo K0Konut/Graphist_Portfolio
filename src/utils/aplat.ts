@@ -20,10 +20,13 @@ export const luminance = ([r, g, b]: Rgb) =>
   0.2126 * lineaire(r) + 0.7152 * lineaire(g) + 0.0722 * lineaire(b)
 export const contraste = (a: number, b: number) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 
-export const estCouleurValide = (valeur: string) => /^#[0-9a-f]{6}$/i.test(valeur.trim())
+// Avec ou sans « # » : la cliente note ses couleurs sans (« 85c4f9 »)
+export const estCouleurValide = (valeur: string) => /^#?[0-9a-f]{6}$/i.test(valeur.trim())
 
 export function aplat(valeur: string): Aplat {
-  const couleur = estCouleurValide(valeur) ? valeur.trim().toLowerCase() : APLAT_DEFAUT
+  const couleur = estCouleurValide(valeur)
+    ? `#${valeur.trim().replace('#', '').toLowerCase()}`
+    : APLAT_DEFAUT
   const rgb = [1, 3, 5].map((i) => parseInt(couleur.slice(i, i + 2), 16)) as Rgb
   const l = luminance(rgb)
   const noir = contraste(l, 0) >= contraste(l, 1)
