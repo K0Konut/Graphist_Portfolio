@@ -105,6 +105,7 @@ Règle de la DA §3, testée sur les 17 couleurs de la cliente (`tests/unit/apla
 |---|---|
 | Chargement | Aplat du projet à la taille finale (`aspect-ratio` d'après largeur et hauteur) : pas de saut de mise en page |
 | Chargée | L'image recouvre l'aplat |
+| Entière (page projet) | Pleine largeur, mais jamais plus haute que l'écran sous le header : centrée si elle est plus haute que large |
 | Introuvable | L'image est retirée ; l'aplat reste, avec `role="img"` et le texte alternatif |
 
 ### `ProjectCard`
