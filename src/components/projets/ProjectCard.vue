@@ -3,12 +3,12 @@
 // au survol et au focus, ou en permanence sur un écran tactile. Toute la carte est le lien.
 import { computed } from 'vue'
 import { aplat } from '../../utils/aplat'
-import ProjectImage from './ProjectImage.vue'
+import ProjectImage, { type ImageProjet } from './ProjectImage.vue'
 
 const props = withDefaults(
   defineProps<{
     href: string
-    image: { src: string; alt: string; largeur?: number; hauteur?: number }
+    image: ImageProjet
     discipline: string
     client: string
     couleur: string
@@ -41,7 +41,9 @@ const style = computed(() => ({
       :couleur="a.couleur"
       :largeur="image.largeur"
       :hauteur="image.hauteur"
+      :srcset="image.srcset"
       :chargement="chargement"
+      sizes="(max-width: 700px) 80vw, 56vw"
       remplir
     />
     <span class="calque" aria-hidden="true">

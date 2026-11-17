@@ -35,6 +35,7 @@ describe('aplat', () => {
     expect(aplat('rouge').couleur).toBe('#727272')
     expect(aplat('#fff').couleur).toBe('#727272')
     expect(aplat(' #34b772 ').couleur).toBe('#34b772')
+    expect(aplat('2AF4DE').couleur).toBe('#2af4de')
   })
 
   it('garde un contraste AA pour toutes les couleurs de la cliente, au pire cas', () => {
@@ -57,9 +58,10 @@ describe('aplat', () => {
 })
 
 describe('estCouleurValide', () => {
-  it('accepte uniquement #RRGGBB', () => {
+  it('accepte RRGGBB, avec ou sans #', () => {
     expect(estCouleurValide('#AbCdEf')).toBe(true)
-    expect(estCouleurValide('abcdef')).toBe(false)
+    expect(estCouleurValide('abcdef')).toBe(true)
+    expect(estCouleurValide('##abcdef')).toBe(false)
     expect(estCouleurValide('#abcdeg')).toBe(false)
   })
 })
