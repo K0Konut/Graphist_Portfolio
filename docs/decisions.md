@@ -32,3 +32,11 @@
 | 17/11/2026 | Motion posée : 150 / 250 / 500 ms, courbe signature cubic-bezier(0.2, 0, 0, 1), pas de couche d'ambiance ni de défilement automatique | Retenue du territoire de marque |
 | 17/11/2026 | 17 projets fournis au lancement (au lieu de 5 à 10) | Liste transmise par la cliente |
 | 17/11/2026 | PRD v0.3 : aligné sur la DA (carte cliquable sans bouton, calque discipline + client, menu, 17 projets) | Décisions de la phase 3 du 17/11/2026 |
+| 17/11/2026 | Adresses préfixées par la langue (`/fr`, `/en`), `/` redirige selon le navigateur ; même slug de projet dans les deux langues | Changement de langue sur la même page ; même schéma que Portfolio |
+| 17/11/2026 | Clic sur une voisine du carrousel = recentrage ; clic sur la carte centrale = ouverture | Choix du propriétaire |
+| 17/11/2026 | Calque de survol réservé à la carte centrale | Sur une voisine, il promettrait un lien alors que le clic recentre |
+| 17/11/2026 | Carrousel et projet précédent / suivant en boucle | Choix du propriétaire ; toujours deux voisines visibles |
+| 17/11/2026 | Page projet : nom, discipline et client, présentation, puis galerie (couverture en tête) | Choix du propriétaire |
+| 17/11/2026 | Modèle Dashility : Projet (nom, discipline, client, présentation, couverture, galerie, couleur, ordre), À propos, Mentions légales | Champs déduits du PRD et de la fiche projets de la cliente |
+| 17/11/2026 | Image en chargement remplacée par l'aplat du projet ; retour à l'accueil recentré sur le dernier projet vu | Continuité visuelle de la DA ; ne pas perdre sa place |
+| 17/11/2026 | Pas de lien « Projets » dans le menu : le logotype seul ramène à l'accueil | Choix du propriétaire |
