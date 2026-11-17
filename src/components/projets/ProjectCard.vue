@@ -1,6 +1,8 @@
 <script setup lang="ts">
 // Carte du carrousel (UX §5, DA §3) : l'image seule ; le calque coloré (discipline + client) n'apparaît que sur la carte centrale,
 // au survol et au focus, ou en permanence sur un écran tactile. Toute la carte est le lien.
+// Nom du lien = le texte du calque + « voir le projet » masqué : il contient ce qui est affiché (WCAG 2.5.3).
+// L'image est décorative ici (alt vide) : la discipline et le client la décrivent déjà.
 import { computed } from 'vue'
 import { aplat } from '../../utils/aplat'
 import ProjectImage, { type ImageProjet } from './ProjectImage.vue'
@@ -28,16 +30,10 @@ const style = computed(() => ({
 </script>
 
 <template>
-  <a
-    class="carte"
-    :class="{ centrale }"
-    :href="href"
-    :style="style"
-    :aria-label="`${discipline}, ${client} — ${voirLabel}`"
-  >
+  <a class="carte" :class="{ centrale }" :href="href" :style="style">
     <ProjectImage
       :src="image.src"
-      :alt="image.alt"
+      alt=""
       :couleur="a.couleur"
       :largeur="image.largeur"
       :hauteur="image.hauteur"
@@ -46,9 +42,11 @@ const style = computed(() => ({
       sizes="(max-width: 700px) 80vw, 56vw"
       remplir
     />
-    <span class="calque" aria-hidden="true">
+    <span class="calque">
       <span class="discipline">{{ discipline }}</span>
-      <span class="client">{{ client }}</span>
+      <span class="client"
+        >{{ client }}<span class="visuellement-masque"> — {{ voirLabel }}</span></span
+      >
     </span>
   </a>
 </template>
