@@ -40,3 +40,9 @@
 | 17/11/2026 | Modèle Dashility : Projet (nom, discipline, client, présentation, couverture, galerie, couleur, ordre), À propos, Mentions légales | Champs déduits du PRD et de la fiche projets de la cliente |
 | 17/11/2026 | Image en chargement remplacée par l'aplat du projet ; retour à l'accueil recentré sur le dernier projet vu | Continuité visuelle de la DA ; ne pas perdre sa place |
 | 17/11/2026 | Pas de lien « Projets » dans le menu : le logotype seul ramène à l'accueil | Choix du propriétaire |
+| 17/11/2026 | Chivo actuelle (variable, 2022) via `@fontsource-variable/chivo` ; le kit Chivo 2012 fourni n'est pas utilisé | Le kit n'a que 400 et 900 ; la DA demande 400/700/800 et la cliente utilise des graisses fines |
+| 17/11/2026 | Vitest ajouté, lancé par la CI (`npm test`) | Tester la logique non triviale : aplats, puis carrousel |
+| 17/11/2026 | Logotype intégré en composant (tracé seul, `currentColor`), sans les métadonnées C2PA du fichier d'export | Poids divisé par trois ; pas d'informations d'export publiées |
+| 17/11/2026 | Libellés passés en props, liens natifs `<a href>` | i18n et routeur décidés en phase 7, sans réécrire les composants |
+| 17/11/2026 | Vitrine du design system en page HTML de développement (`/design-system.html`), hors build | Pas encore de routeur ; rien à exclure de la production |
+| 17/11/2026 | Carrousel construit sur sa propre branche (`feat/dev/carrousel`) | Volume : gestes, clavier, boucle, annonces, tests |
