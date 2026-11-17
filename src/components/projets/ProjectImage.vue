@@ -24,7 +24,7 @@ const erreur = ref(false)
     :class="{ remplir }"
     :style="{
       backgroundColor: couleur,
-      aspectRatio: !remplir && largeur && hauteur ? `${largeur} / ${hauteur}` : undefined,
+      '--ratio': !remplir && largeur && hauteur ? largeur / hauteur : undefined,
     }"
     :role="erreur ? 'img' : undefined"
     :aria-label="erreur ? alt : undefined"
@@ -43,8 +43,12 @@ const erreur = ref(false)
 </template>
 
 <style scoped>
+/* Entière : pleine largeur, mais jamais plus haute que l'écran sous le header (une image en portrait reste visible en entier) */
 .image {
   width: 100%;
+  aspect-ratio: var(--ratio);
+  max-width: calc((100svh - var(--hauteur-header)) * var(--ratio, 100));
+  margin-inline: auto;
 }
 
 .image img {
