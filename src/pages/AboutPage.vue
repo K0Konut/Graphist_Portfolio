@@ -23,7 +23,8 @@ defineProps<{
       <a :href="`mailto:${email}`">{{ email }}</a>
     </p>
     <p v-if="book">
-      <a :href="book.href" download>{{ t.book }}</a>
+      <!-- data-dashility-cv : compté comme téléchargement par la mesure d'audience -->
+      <a :href="book.href" download data-dashility-cv>{{ t.book }}</a>
       <span class="poids">(PDF, {{ book.poids }})</span>
     </p>
   </article>

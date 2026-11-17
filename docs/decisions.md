@@ -68,3 +68,4 @@
 | 17/11/2026 | Balises par page (`useSeo`) : canonical, hreflang vers les seules langues où la page existe + x-default, Open Graph avec la couverture du projet ; mentions légales et 404 en `noindex` | UX §8 ; un projet non traduit ne doit pas pointer vers une page anglaise absente |
 | 17/11/2026 | Domaine dans `.env.production` (`VITE_SITE_URL`), versionné | Domaine public ; le changer ne demande qu'une ligne |
 | 17/11/2026 | Favicon : le « M » du logotype, noir sur fond blanc ; pas d'apple-touch-icon pour l'instant | Dérivé du logotype (architecture §2) ; lisible sur les onglets sombres |
+| 17/11/2026 | Mesure d'audience par `@dashility/client`, clé publique dans `.env.production` ; lien du book marqué `data-dashility-cv` ; CSP `connect-src` ouverte à Dashility | Architecture §7 ; sans clé, le code de mesure est retiré du build |

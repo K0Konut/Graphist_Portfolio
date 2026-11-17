@@ -1,3 +1,4 @@
+import { initAnalytics } from '@dashility/client'
 import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
 import { dernierProjet } from './composables/useDernierProjet'
@@ -10,6 +11,10 @@ export const createApp = ViteSSG(
   { routes, scrollBehavior: (_to, _from, saved) => saved ?? { top: 0 } },
   ({ router, isClient }) => {
     if (!isClient) return
+
+    // Vues de page et téléchargements du book, sans cookies (architecture technique §7) ; rien pendant le pré-rendu
+    const cle = import.meta.env.VITE_DASHILITY_ANALYTICS_KEY
+    if (cle) initAnalytics({ key: cle, endpoint: 'https://dashility.costamask.dev/api/e' })
 
     // Le carrousel retrouve le dernier projet vu au retour à l'accueil (UX §5)
     router.afterEach((to) => {
