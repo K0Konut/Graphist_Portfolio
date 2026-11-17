@@ -88,10 +88,9 @@ flowchart LR
 
 | Ordre | Élément | Rôle |
 |---|---|---|
-| 1 | Projets | Retour à l'accueil (seul chemin explicite vers le carrousel pour qui ne connaît pas le lien du logotype) |
-| 2 | À propos | Page À propos |
-| 3 | Mentions légales | Page Mentions légales |
-| 4 | FR / EN | Même page dans l'autre langue ; la langue courante est indiquée (`aria-current`) |
+| 1 | À propos | Page À propos |
+| 2 | Mentions légales | Page Mentions légales |
+| 3 | FR / EN | Même page dans l'autre langue ; la langue courante est indiquée (`aria-current`) |
 | — | Fermer | Bouton à la place de l'icône de menu ; `Échap` ferme aussi |
 
 Le focus reste dans le menu tant qu'il est ouvert, et revient sur le bouton menu à la fermeture.
@@ -195,9 +194,9 @@ MENU OUVERT                                       PROJET
 ┌────────────────────────────────────────────┐    ┌──────────────────────┐
 │ [LOGOTYPE]                            [×]  │    │ [LOGOTYPE]       [≡] │
 │                                            │    │                      │
-│  Projets                                   │    │ Nom du projet (h1)   │
-│  À propos                                  │    │ Discipline — Client  │
-│  Mentions légales                          │    │                      │
+│  À propos                                  │    │ Nom du projet (h1)   │
+│  Mentions légales                          │    │ Discipline — Client  │
+│                                            │    │                      │
 │                                            │    │ Présentation…        │
 │  FR / EN                                   │    │ (65 car. max)        │
 │                                            │    ├──────────────────────┤

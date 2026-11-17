@@ -37,6 +37,6 @@
 | 17/11/2026 | Calque de survol réservé à la carte centrale | Sur une voisine, il promettrait un lien alors que le clic recentre |
 | 17/11/2026 | Carrousel et projet précédent / suivant en boucle | Choix du propriétaire ; toujours deux voisines visibles |
 | 17/11/2026 | Page projet : nom, discipline et client, présentation, puis galerie (couverture en tête) | Choix du propriétaire |
-| 17/11/2026 | Lien « Projets » ajouté en tête du menu | Chemin explicite vers l'accueil, en plus du logotype |
 | 17/11/2026 | Modèle Dashility : Projet (nom, discipline, client, présentation, couverture, galerie, couleur, ordre), À propos, Mentions légales | Champs déduits du PRD et de la fiche projets de la cliente |
 | 17/11/2026 | Image en chargement remplacée par l'aplat du projet ; retour à l'accueil recentré sur le dernier projet vu | Continuité visuelle de la DA ; ne pas perdre sa place |
+| 17/11/2026 | Pas de lien « Projets » dans le menu : le logotype seul ramène à l'accueil | Choix du propriétaire |
