@@ -16,6 +16,7 @@
     "check-content": "node scripts/check-content.ts"
   },
   "dependencies": {
+    "@dashility/client": "^0.2.0",
     "@fontsource-variable/chivo": "^5.3.0",
     "vite-ssg": "^28.3.0",
     "vue": "^3.5.44",
