@@ -5,10 +5,11 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { decalage, faitLeTour, modulo } from '../../utils/carrousel'
 import ProjectCard from './ProjectCard.vue'
+import type { ImageProjet } from './ProjectImage.vue'
 
 export interface ProjetCarte {
   href: string
-  image: { src: string; alt: string; largeur?: number; hauteur?: number }
+  image: ImageProjet
   discipline: string
   client: string
   couleur: string

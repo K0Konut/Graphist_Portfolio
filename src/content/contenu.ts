@@ -42,6 +42,7 @@ const image = (i: ImageDashility) => ({
   alt: i.alt,
   largeur: i.width,
   hauteur: i.height,
+  srcset: i.srcset,
 })
 
 export interface ProjetPublie extends Projet {

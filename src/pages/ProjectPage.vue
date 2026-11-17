@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Page projet (UX §3) : nom, discipline et client, présentation, puis la galerie en pleine largeur, puis précédent / suivant.
-import ProjectImage from '../components/projets/ProjectImage.vue'
+import ProjectImage, { type ImageProjet } from '../components/projets/ProjectImage.vue'
 import ProjectPager from '../components/projets/ProjectPager.vue'
 import type { Textes } from '../content/textes'
 import { aplat } from '../utils/aplat'
@@ -11,7 +11,7 @@ export interface Projet {
   client: string
   couleur: string
   presentation?: string // HTML du texte riche de Dashility
-  images: { src: string; alt: string; largeur?: number; hauteur?: number }[] // couverture en premier
+  images: ImageProjet[] // couverture en premier
 }
 
 interface Cible {
