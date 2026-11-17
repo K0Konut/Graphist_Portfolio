@@ -23,3 +23,11 @@
 | 17/11/2026 | Personnalité épurée et éditoriale ; archétype « la Créatrice, en retrait » | Choix du propriétaire ; cohérent avec la vision du PRD (le travail d'abord) |
 | 17/11/2026 | Ton : « je » + vouvoiement, sans superlatifs | Elle parle en son nom ; politesse rassurante pour le client freelance |
 | 17/11/2026 | Pas de référence nommée : positionnement face aux profils Behance/Instagram, aux portfolios sur modèle et aux sites de studios | Aucune référence fournie ; références visuelles éventuelles en phase 3 |
+| 17/11/2026 | Direction « Aplats » : site noir et blanc, la couleur n'arrive qu'avec les projets (aplat au survol) | Territoire (retenue) et maquette de la cliente |
+| 17/11/2026 | Carrousel à carte centrale conservé, malgré les 3 colonnes égales de la maquette | Choix du propriétaire, conforme au PRD |
+| 17/11/2026 | Pas de bouton « Voir le projet » : toute la carte est le lien ; calque = discipline (titre) + client (sous-titre) | Fidèle à la maquette de la cliente ; remplace le bouton et le « nom du projet » du PRD v0.2 (PRD à ajuster) |
+| 17/11/2026 | Texte du calque noir, blanc seulement sur #727272, choisi au build par contraste ; calque à 85 %, opaque si le pire cas passe sous 4,5:1 | WCAG AA ; le blanc de la maquette tombait à 1,9:1 |
+| 17/11/2026 | Chivo seule, auto-hébergée ; logotype en SVG fourni par la cliente | Police imposée ; RGPD et CSP ; le logotype est un dessin |
+| 17/11/2026 | Navigation par menu (icône à droite du header) : À propos, Mentions légales, FR / EN | Maquette de la cliente |
+| 17/11/2026 | Motion posée : 150 / 250 / 500 ms, courbe signature cubic-bezier(0.2, 0, 0, 1), pas de couche d'ambiance ni de défilement automatique | Retenue du territoire de marque |
+| 17/11/2026 | 17 projets fournis au lancement (au lieu de 5 à 10) | Liste transmise par la cliente |
