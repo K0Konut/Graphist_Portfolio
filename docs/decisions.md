@@ -65,3 +65,6 @@
 | 17/11/2026 | Type d'image partagé `ImageProjet` (`ProjectImage`), avec les variantes AVIF/WebP de Dashility | Une seule définition au lieu de trois |
 | 17/11/2026 | Couleur de survol acceptée avec ou sans « # » (`RRGGBB`) | La cliente note ses couleurs sans « # » ; le premier projet publié l'a saisie ainsi |
 | 17/11/2026 | Documents validés alignés sur le contenu réel : couleur `RRGGBB` avec ou sans « # » (PRD, DA, UX, design system, architecture), type `book` à champ `fichier` | Constaté au branchement de Dashility (PR #16) |
+| 17/11/2026 | Balises par page (`useSeo`) : canonical, hreflang vers les seules langues où la page existe + x-default, Open Graph avec la couverture du projet ; mentions légales et 404 en `noindex` | UX §8 ; un projet non traduit ne doit pas pointer vers une page anglaise absente |
+| 17/11/2026 | Domaine dans `.env.production` (`VITE_SITE_URL`), versionné | Domaine public ; le changer ne demande qu'une ligne |
+| 17/11/2026 | Favicon : le « M » du logotype, noir sur fond blanc ; pas d'apple-touch-icon pour l'instant | Dérivé du logotype (architecture §2) ; lisible sur les onglets sombres |
