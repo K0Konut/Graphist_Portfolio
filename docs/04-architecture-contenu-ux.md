@@ -146,7 +146,7 @@ Types créés par le développeur dans l'espace de Mandolina. « Trad. » : sais
 | Présentation | Texte riche | oui | non | Texte de la page projet |
 | Couverture | Image (texte alternatif obligatoire) | alt : oui | oui | Carte du carrousel, première image de la page, aperçu de partage |
 | Galerie | Groupe répétable : Image | alt : oui | non | Images suivantes de la page projet |
-| Couleur | Texte court (`#RRGGBB`) | non | oui | Aplat du calque ; vérifiée au build |
+| Couleur | Texte court (`RRGGBB`, avec ou sans `#`) | non | oui | Aplat du calque ; vérifiée au build |
 | Ordre | Nombre | non | oui | Position dans le carrousel (croissant) ; à égalité, le plus récent d'abord |
 
 **À propos** (page unique) : accroche (texte court, trad.), présentation (texte riche, trad.), adresse mail (texte court), book (fichier PDF par langue, fonction CV de Dashility).

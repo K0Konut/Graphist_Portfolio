@@ -64,3 +64,4 @@
 | 17/11/2026 | `check-content` refuse le contenu provisoire ou de démonstration (marques « Texte provisoire », « Placeholder text », « à compléter », images `data:`) ; une couleur invalide n'est qu'un avertissement | Le contenu de démonstration ne doit jamais partir en ligne ; une couleur fausse ne mérite pas de bloquer une publication |
 | 17/11/2026 | Type d'image partagé `ImageProjet` (`ProjectImage`), avec les variantes AVIF/WebP de Dashility | Une seule définition au lieu de trois |
 | 17/11/2026 | Couleur de survol acceptée avec ou sans « # » (`RRGGBB`) | La cliente note ses couleurs sans « # » ; le premier projet publié l'a saisie ainsi |
+| 17/11/2026 | Documents validés alignés sur le contenu réel : couleur `RRGGBB` avec ou sans « # » (PRD, DA, UX, design system, architecture), type `book` à champ `fichier` | Constaté au branchement de Dashility (PR #16) |

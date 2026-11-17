@@ -63,7 +63,7 @@ Pas de composant pour le texte riche ni pour les titres de page : une classe ou 
 ### `aplat(couleur)` — `src/utils/aplat.ts`
 
 Règle de la DA §3, testée sur les 17 couleurs de la cliente (`tests/unit/aplat.test.ts`).
-- Entrée : la valeur saisie dans Dashility. Une valeur qui n'est pas `#RRGGBB` donne `#727272`.
+- Entrée : la valeur saisie dans Dashility. Une valeur qui n'est pas `RRGGBB` (avec ou sans `#`) donne `#727272`.
 - Sortie : `couleur`, `texte` (noir ou blanc, le plus contrasté), `opacite` (0,85, ou 1 si le pire cas — image toute noire ou toute blanche sous le calque — passe sous 4,5:1).
 
 ### `SiteLogo`
