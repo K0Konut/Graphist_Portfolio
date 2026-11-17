@@ -1,7 +1,7 @@
 /* Lecture du contenu copié de Dashility dans content/<langue>/<type>.json (architecture technique §4),
    au format de l'API publique. Écrit par `npm run contenu` (réel) ou `npm run contenu:demo`. */
 import type { Projet } from '../pages/ProjectPage.vue'
-import type { Langue } from '../router/pages'
+import type { ContenuPublie, Langue } from '../router/pages'
 
 interface ImageDashility {
   alt: string
@@ -86,4 +86,10 @@ export function book(langue: Langue) {
     'book',
   )?.fields.fichier
   return fichier ? { href: fichier.url, poids: poids(fichier.bytes, langue) } : undefined
+}
+
+/** Le contenu publié tel que la table des pages le lit (changement de langue, hreflang) */
+export const contenuPublie: ContenuPublie = {
+  slugs: (l) => projets(l).map((p) => p.slug),
+  existe: (l, type) => (type === 'a-propos' ? !!aPropos(l) : !!mentions(l)),
 }
