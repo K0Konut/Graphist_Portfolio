@@ -1,0 +1,78 @@
+/* Styles de base communs à toutes les pages (docs/05-design-system.md §3) */
+@import '@fontsource-variable/chivo';
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  font-family: var(--police);
+  font-size: var(--taille-texte);
+  font-weight: var(--graisse-texte);
+  line-height: var(--interligne-texte);
+  color: var(--noir);
+  background: var(--blanc);
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: var(--soulignement);
+  text-underline-offset: var(--soulignement-decalage);
+}
+
+:focus-visible {
+  outline: var(--contour-focus) solid var(--noir);
+  outline-offset: var(--espace-1);
+}
+
+/* Présent pour les lecteurs d'écran et les moteurs, invisible à l'écran (ex. h1 de l'accueil) */
+.visuellement-masque {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Texte riche venu de Dashility (présentation, À propos, mentions légales) */
+.texte-riche {
+  max-width: var(--mesure);
+}
+.texte-riche > * + * {
+  margin-top: var(--espace-3);
+}
+.texte-riche h2,
+.texte-riche h3 {
+  font-size: var(--taille-intertitre);
+  font-weight: var(--graisse-intertitre);
+  line-height: var(--interligne-titre);
+  margin-top: var(--espace-5);
+}
+.texte-riche ul,
+.texte-riche ol {
+  padding-left: var(--espace-4);
+}
