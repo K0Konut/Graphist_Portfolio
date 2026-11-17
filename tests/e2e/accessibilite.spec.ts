@@ -28,8 +28,13 @@ test("le menu ouvert n'a aucune violation WCAG AA détectée", async ({ page }) 
   await page.goto('/fr')
   await page.getByRole('button', { name: 'Ouvrir le menu' }).click()
   await expect(page.getByRole('link', { name: 'À propos' })).toBeVisible()
-  // Après l'entrée en cascade des liens : pendant l'animation, leur opacité partielle fausse le contraste
-  await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'))
+  // Après l'entrée en cascade des liens : pendant l'animation, leur opacité partielle fausse le contraste.
+  // Attendre l'état final, pas la fin des animations (elles peuvent ne pas avoir encore démarré)
+  await page.waitForFunction(() =>
+    [...document.querySelectorAll('#menu-principal li, #menu-principal .langues')].every(
+      (e) => getComputedStyle(e).opacity === '1' && getComputedStyle(e).transform === 'none',
+    ),
+  )
   expect((await analyser(page)).violations).toEqual([])
 })
 
