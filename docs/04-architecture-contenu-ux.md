@@ -172,7 +172,7 @@ Types créés par le développeur dans l'espace de Mandolina. « Trad. » : sais
 | Bout de la liste | Boucle : le premier projet suit le dernier | Idem |
 | Défilement automatique | Jamais | Jamais |
 
-**Accessibilité** : le carrousel est une liste de liens (« Projets, 17 éléments »). Chaque carte est un lien vers son projet, au nom accessible « Identité visuelle, Lutèce Destroyeuses — voir le projet ». Sans JavaScript, la liste reste une suite de liens qui fonctionnent. Le recentrage est annoncé (« Projet 3 sur 17 »).
+**Accessibilité** : le carrousel est une liste de liens (« Projets, 17 éléments »). Chaque carte est un lien vers son projet, au nom accessible tiré du texte du calque, complété par « voir le projet » masqué (« Identité visuelle Lutèce Destroyeuses — voir le projet ») ; l'image de la carte est décorative. Sans JavaScript, la liste reste une suite de liens qui fonctionnent. Le recentrage est annoncé (« Projet 3 sur 17 »).
 
 **Retour à l'accueil** : depuis une page projet, le carrousel revient centré sur le dernier projet vu.
 

@@ -38,7 +38,7 @@ src/
 content/<langue>/*.json           contenu copié de Dashility (non versionné, §4)
 public/medias/<id>/               images copiées de Dashility (non versionnées)
 public/book/book-<langue>.pdf     book copié de Dashility (non versionné)
-scripts/                          contenu.ts (copie), contenu-demo.ts, check-content.ts, csp.ts, sitemap.ts
+scripts/                          contenu.ts (copie), contenu-demo.ts, check-content.ts, medias.ts ; le sitemap est généré par src/router/pages.ts
 tests/unit/ tests/e2e/            Vitest, Playwright
 docker/                           nginx.conf, compose.yml (en place)
 ```
@@ -124,7 +124,7 @@ Le cron du serveur peut passer de 5 minutes à 1 minute si « en ligne moins de 
 ## 6. Sécurité
 
 - **Aucune authentification sur le site** : statique, aucune donnée saisie par le visiteur (pas de formulaire en V1).
-- **CSP** (Nginx) : `script-src 'self'` + l'empreinte SHA-256 de chaque script en ligne du pré-rendu, calculée après le build (`scripts/csp.ts`, repris de Portfolio) ; `img-src 'self' data:` (images copiées dans le site) ; `connect-src 'self' https://dashility.costamask.dev` (mesure d'audience) ; `frame-ancestors 'none'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`.
+- **CSP** (Nginx) : `script-src 'self'` : le site pré-rendu n'a aucun script en ligne (vérifié au build) ; si un script en ligne apparaît, reprendre le calcul d'empreintes de Portfolio (`scripts/csp.ts`) ; `img-src 'self' data:` (images copiées dans le site) ; `connect-src 'self' https://dashility.costamask.dev` (mesure d'audience) ; `frame-ancestors 'none'`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`.
 - **Secrets** : `DASHILITY_KEY` (lecture seule) en secret GitHub, jamais dans l'image Docker (copie faite dans le job, avant le build de l'image) ; jeton de `repository_dispatch` limité au dépôt. Clé publique de mesure d'audience dans le code (identifiant public, pas un secret).
 - **GitHub n'a aucun accès au serveur** (le serveur va chercher l'image).
 
@@ -183,7 +183,7 @@ Une branche, une PR vers `dev` :
 3. `feat/dev/contenu_dashility` : espace et types créés dans Dashility (super-admin), `contenu`, `check-content`, `<picture>` dans `ProjectImage`.
 4. `feat/dev/seo_et_partage` : balises par page, `hreflang`, `sitemap.xml`, `robots.txt`, favicon.
 5. `feat/dev/mesure_audience` : `@dashility/client`.
-6. `chore/dev/deploiement_contenu` : Nginx (redirection de `/`, 404 par langue, CSP par empreintes), `deploiement.yml` (`repository_dispatch`, copie du contenu), secrets.
+6. `chore/dev/deploiement_contenu` : Nginx (redirection de `/`, 404 par langue, CSP), `deploiement.yml` (`repository_dispatch`, copie du contenu), secrets.
 7. `test/dev/parcours_e2e` : Playwright (carrousel → projet → précédent / suivant → retour, menu, changement de langue) et axe sur chaque page.
 
 Puis la release (PR `dev` → `main`) à la demande du propriétaire, avec le vrai contenu publié par Mandolina.
