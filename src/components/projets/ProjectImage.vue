@@ -2,7 +2,7 @@
 // Image de projet (UX §7) : l'aplat du projet occupe la place pendant le chargement et reste si l'image manque.
 import { ref } from 'vue'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     src: string
     alt: string
@@ -12,7 +12,7 @@ const props = withDefaults(
     remplir?: boolean // true : recadrée pour remplir son parent (carte) ; false : entière, pleine largeur (page projet)
     chargement?: 'lazy' | 'eager'
   }>(),
-  { remplir: false, chargement: 'lazy', largeur: undefined, hauteur: undefined },
+  { remplir: false, chargement: 'lazy' },
 )
 
 const erreur = ref(false)
@@ -21,7 +21,7 @@ const erreur = ref(false)
 <template>
   <div
     class="image"
-    :class="{ remplir: props.remplir }"
+    :class="{ remplir }"
     :style="{
       backgroundColor: couleur,
       aspectRatio: !remplir && largeur && hauteur ? `${largeur} / ${hauteur}` : undefined,

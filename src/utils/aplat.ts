@@ -16,7 +16,7 @@ const lineaire = (v: number) => {
   const c = v / 255
   return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
 }
-const luminance = ([r, g, b]: Rgb) => 0.2126 * lineaire(r) + 0.7152 * lineaire(g) + 0.0722 * lineaire(b)
+export const luminance = ([r, g, b]: Rgb) => 0.2126 * lineaire(r) + 0.7152 * lineaire(g) + 0.0722 * lineaire(b)
 export const contraste = (a: number, b: number) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 
 export const estCouleurValide = (valeur: string) => /^#[0-9a-f]{6}$/i.test(valeur.trim())

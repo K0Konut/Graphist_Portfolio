@@ -6,8 +6,6 @@
   --blanc: #ffffff;
   --noir: #000000;
   --gris: #595959; /* texte secondaire, 7:1 sur blanc */
-  --aplat-defaut: #727272; /* couleur invalide ou absente dans Dashility (UX §7) */
-  --opacite-calque: 0.85;
 
   /* Typographie (DA §4) : Chivo seule, la graisse fait la hiérarchie */
   --police: 'Chivo Variable', system-ui, sans-serif;

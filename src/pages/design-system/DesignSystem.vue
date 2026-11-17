@@ -11,6 +11,7 @@ import imageDemo from './image-demo.svg'
 import { projets } from './projets'
 
 const menuOuvert = ref(false)
+const aplats = projets.map((p) => ({ ...p, ...aplat(p.couleur) }))
 const image = { src: imageDemo, alt: 'Image de démonstration à rayures', largeur: 1200, hauteur: 1500 }
 const icones = ['menu', 'fermer', 'precedent', 'suivant'] as const
 const durees = [
@@ -57,10 +58,10 @@ const durees = [
       <h2>Aplats des 17 projets</h2>
       <p class="note">Couleur du texte et opacité du calque calculées par <code>aplat()</code>, comme sur le site.</p>
       <ul class="aplats">
-        <li v-for="p in projets" :key="p.nom" :style="{ background: aplat(p.couleur).couleur, color: aplat(p.couleur).texte }">
+        <li v-for="p in aplats" :key="p.nom" :style="{ background: p.couleur, color: p.texte }">
           <strong>{{ p.discipline }}</strong>
           <span>{{ p.client }}</span>
-          <small>{{ p.couleur }} · calque {{ aplat(p.couleur).opacite * 100 }} %</small>
+          <small>{{ p.couleur }} · calque {{ p.opacite * 100 }} %</small>
         </li>
       </ul>
     </section>

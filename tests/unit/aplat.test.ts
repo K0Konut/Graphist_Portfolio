@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { aplat, contraste, estCouleurValide } from '../../src/utils/aplat'
+import { aplat, contraste, estCouleurValide, luminance } from '../../src/utils/aplat'
 
 // Les 17 couleurs fournies par la cliente (DA §3)
 const couleurs = [
@@ -27,10 +27,8 @@ describe('aplat', () => {
       const { texte, opacite } = aplat(c)
       const rgb = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16))
       for (const fond of [0, 255]) {
-        const melange = rgb.map((v) => opacite * v + (1 - opacite) * fond)
-        const lin = melange.map((v) => (v / 255 <= 0.03928 ? v / 255 / 12.92 : ((v / 255 + 0.055) / 1.055) ** 2.4))
-        const l = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2]
-        expect(contraste(l, texte === '#000000' ? 0 : 1), `${c} sur fond ${fond}`).toBeGreaterThanOrEqual(4.5)
+        const melange = rgb.map((v) => opacite * v + (1 - opacite) * fond) as [number, number, number]
+        expect(contraste(luminance(melange), texte === '#000000' ? 0 : 1), `${c} sur fond ${fond}`).toBeGreaterThanOrEqual(4.5)
       }
     }
   })

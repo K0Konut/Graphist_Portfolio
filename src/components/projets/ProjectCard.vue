@@ -19,10 +19,8 @@ const props = withDefaults(
   { centrale: false, chargement: 'lazy' },
 )
 
-const style = computed(() => {
-  const a = aplat(props.couleur)
-  return { '--aplat': a.couleur, '--aplat-texte': a.texte, '--aplat-opacite': a.opacite }
-})
+const a = computed(() => aplat(props.couleur))
+const style = computed(() => ({ '--aplat': a.value.couleur, '--aplat-texte': a.value.texte, '--aplat-opacite': a.value.opacite }))
 </script>
 
 <template>
@@ -36,7 +34,7 @@ const style = computed(() => {
     <ProjectImage
       :src="image.src"
       :alt="image.alt"
-      :couleur="style['--aplat']"
+      :couleur="a.couleur"
       :largeur="image.largeur"
       :hauteur="image.hauteur"
       :chargement="chargement"

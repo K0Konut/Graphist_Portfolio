@@ -19,7 +19,7 @@ S'appuie sur la DA v0.1 (« Aplats » : tokens de couleur, typographie, motion) 
 
 | Famille | Jetons | Source |
 |---|---|---|
-| Couleurs | `--blanc`, `--noir`, `--gris`, `--aplat-defaut` (`#727272`), `--opacite-calque` (0,85) | DA §3, UX §7 |
+| Couleurs | `--blanc`, `--noir`, `--gris` ; l'aplat de chaque projet, son texte et son opacité viennent de `aplat()` (seule source de l'opacité 0,85 et du gris par défaut) | DA §3, UX §7 |
 | Police et graisses | `--police` (Chivo Variable), `--graisse-texte` 400, `--graisse-intertitre` 700, `--graisse-titre` 800 | DA §4 |
 | Tailles | `--taille-legende`, `--taille-texte`, `--taille-intertitre`, `--taille-titre-calque`, `--taille-menu`, `--taille-titre-projet` | DA §4 |
 | Interlignes | `--interligne-serre`, `--interligne-titre`, `--interligne-legende`, `--interligne-texte` | DA §4 |
