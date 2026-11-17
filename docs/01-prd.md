@@ -1,6 +1,6 @@
 # PRD — Portfolio de Mandolina, graphiste
 
-Version 0.2 — 17/11/2026 — **statut : à valider** (v0.2 : réponses aux questions ouvertes de la v0.1 ; pas de pied de page, mentions légales dans le header ; carte du carrousel avec survol coloré)
+Version 0.3 — 17/11/2026 — **statut : validé** (v0.3 : alignement sur la DA v0.1 et la maquette de la cliente : carte entièrement cliquable sans bouton, calque discipline + client, navigation par menu, 17 projets au lancement ; v0.2 : réponses aux questions ouvertes de la v0.1 ; pas de pied de page, mentions légales dans le header ; carte du carrousel avec survol coloré)
 
 ---
 
@@ -14,6 +14,7 @@ Mandolina est graphiste. Ce site est une **commande client** : elle veut un port
 
 - Brief de la cliente : un **site simple**, une page d'accueil avec un **carrousel plein écran** et un header, une **page par projet** ouverte depuis le carrousel.
 - Éléments d'identité imposés par la cliente : la police **Chivo** et une palette de couleurs déjà définie (transmises en phase 3, direction artistique).
+- **17 projets** fournis pour le lancement (identité visuelle, packaging, édition, textile, illustration, fichiers techniques, scénographie).
 - **Pas d'échéance ferme.**
 
 ---
@@ -66,8 +67,8 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 **Visiteur (P1, P2)**
 - En tant que visiteur, je veux voir les projets en grand dès l'arrivée, afin de saisir son style immédiatement.
 - En tant que visiteur, je veux faire défiler le carrousel (souris, clavier, toucher), afin de parcourir les projets.
-- En tant que visiteur, je veux voir le nom et le client d'un projet en survolant sa carte, afin de choisir quoi ouvrir.
-- En tant que visiteur, je veux ouvrir un projet depuis sa carte (bouton « Voir le projet »), afin de découvrir son contenu en détail.
+- En tant que visiteur, je veux voir la discipline et le client d'un projet en survolant sa carte, afin de choisir quoi ouvrir.
+- En tant que visiteur, je veux ouvrir un projet en cliquant sur sa carte, afin de découvrir son contenu en détail.
 - En tant que visiteur, je veux passer au projet suivant ou précédent depuis une page projet, afin de continuer sans revenir à l'accueil.
 - En tant que visiteur, je veux choisir entre le français et l'anglais, afin de lire le site dans ma langue.
 
@@ -76,7 +77,7 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 - En tant que client potentiel, je veux un lien mail et son book en PDF, afin de la contacter ou de garder une trace de son travail.
 
 **Mandolina (P3)**
-- En tant que graphiste, je veux créer un projet (titre, client, texte, images, couleur de survol) en FR et en EN dans Dashility, afin de le publier sans le développeur.
+- En tant que graphiste, je veux créer un projet (nom, discipline, client, texte, images, couleur de survol) en FR et en EN dans Dashility, afin de le publier sans le développeur.
 - En tant que graphiste, je veux fixer l'ordre des projets dans Dashility, afin de mettre en avant mes meilleurs travaux dans le carrousel.
 - En tant que graphiste, je veux que le site se mette à jour quelques minutes après « Publier », afin de voir mon travail en ligne tout de suite.
 
@@ -85,15 +86,15 @@ Mesure par les analytics de Dashility : sans cookies ni données personnelles, d
 ## 6. Périmètre
 
 ### MVP (V1)
-- **Header** sur toutes les pages : nom de Mandolina (retour à l'accueil), liens vers À propos et Mentions légales, choix de la langue. **Pas de pied de page.**
+- **Header** sur toutes les pages : logotype de Mandolina (retour à l'accueil) et icône de menu. Le **menu** donne accès à À propos, Mentions légales et au choix de la langue. **Pas de pied de page.**
 - **Accueil** : carrousel plein écran sous le header ; une carte centrale mise en avant, les cartes voisines visibles sur les côtés ; pas de défilement automatique.
-- **Carte du carrousel** : l'image du projet seule. Au survol, un calque de la couleur propre au projet recouvre l'image et affiche le nom du projet, le client et un bouton « Voir le projet » → page du projet. Au clavier, le calque apparaît aussi au focus.
+- **Carte du carrousel** : l'image du projet seule. Au survol, un calque de la couleur propre au projet recouvre l'image et affiche la discipline (ex. « Identité visuelle ») et le client. Toute la carte est le lien vers la page du projet, sans bouton ; son nom accessible annonce « voir le projet ». Au clavier, le calque apparaît aussi au focus.
 - **Carrousel sur mobile** (pas de survol au toucher) : même principe, une carte centrale et les voisines qui dépassent sur les côtés, défilement au doigt. La carte centrale affiche son calque en permanence ; toucher une carte voisine la ramène au centre.
 - **Page projet** : titre, texte de présentation, galerie d'images, liens projet précédent / suivant.
 - **Page À propos** : présentation, lien mail, téléchargement du book PDF (un fichier par langue).
 - **Bilingue FR/EN** dès la V1, traduction manuelle saisie dans Dashility.
 - **Contenu géré dans Dashility**, tous les projets compris : projets (collection), À propos (page unique), book PDF ; mise en ligne automatique à chaque publication.
-- **Mentions légales** (obligation légale en France), version basique : éditrice, contact, hébergeur, propriété intellectuelle des visuels. Lien dans le header.
+- **Mentions légales** (obligation légale en France), version basique : éditrice, contact, hébergeur, propriété intellectuelle des visuels. Lien dans le menu du header.
 - Partage : chaque projet a sa propre adresse, avec titre et image d'aperçu (Open Graph) pour les réseaux.
 - Analytics Dashility (sans cookies).
 
