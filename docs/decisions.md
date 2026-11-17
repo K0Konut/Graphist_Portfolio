@@ -46,3 +46,6 @@
 | 17/11/2026 | Libellés passés en props, liens natifs `<a href>` | i18n et routeur décidés en phase 7, sans réécrire les composants |
 | 17/11/2026 | Vitrine du design system en page HTML de développement (`/design-system.html`), hors build | Pas encore de routeur ; rien à exclure de la production |
 | 17/11/2026 | Carrousel construit sur sa propre branche (`feat/dev/carrousel`) | Volume : gestes, clavier, boucle, annonces, tests |
+| 17/11/2026 | Carrousel : toutes les cartes dans le DOM, placées par transform selon leur écart circulaire ; la carte qui fait le tour change de place sans transition | Liste de liens complète pour le clavier et les lecteurs d'écran ; pas de carte qui traverse l'écran |
+| 17/11/2026 | Recentrage au focus seulement au clavier (`:focus-visible`), au clic pour la souris | Sinon le focus de la souris recentre la voisine avant le clic, qui ouvrirait le projet |
+| 17/11/2026 | Contour de focus de la carte dessiné au-dessus du calque | L'outline était recouvert par le calque : focus invisible (WCAG 2.4.7) |

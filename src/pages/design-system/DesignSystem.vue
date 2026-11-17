@@ -2,7 +2,7 @@
 // Vitrine du design system (docs/05-design-system.md) : chaque composant et ses états, avec les vraies données de la cliente.
 import { ref } from 'vue'
 import AppHeader from '../../components/site/AppHeader.vue'
-import ProjectCard from '../../components/projets/ProjectCard.vue'
+import ProjectCarousel from '../../components/projets/ProjectCarousel.vue'
 import ProjectImage from '../../components/projets/ProjectImage.vue'
 import ProjectPager from '../../components/projets/ProjectPager.vue'
 import BaseIcon from '../../components/ui/BaseIcon.vue'
@@ -11,8 +11,10 @@ import imageDemo from './image-demo.svg'
 import { projets } from './projets'
 
 const menuOuvert = ref(false)
+const actif = ref(1)
 const aplats = projets.map((p) => ({ ...p, ...aplat(p.couleur) }))
 const image = { src: imageDemo, alt: 'Image de démonstration à rayures', largeur: 1200, hauteur: 1500 }
+const cartes = projets.map((p, i) => ({ ...p, href: `#projet-${i + 1}`, image }))
 const icones = ['menu', 'fermer', 'precedent', 'suivant'] as const
 const durees = [
   ['Rapide', '--duree-rapide', '150 ms'],
@@ -47,10 +49,19 @@ const durees = [
     </div>
 
     <section>
-      <h2>Cartes de projet</h2>
-      <p class="note">Voisine, centrale (calque au survol et au focus, permanent au toucher), voisine.</p>
+      <h2>Carrousel</h2>
+      <p class="note">
+        Les 17 projets en boucle. Clic sur une voisine : elle vient au centre ; survol de la carte centrale : calque.
+        Molette, flèches du clavier, Tab, glisser au doigt. Projet {{ actif + 1 }} sur {{ projets.length }}.
+      </p>
       <div class="cartes">
-        <ProjectCard v-for="(p, i) in projets.slice(0, 3)" :key="p.nom" href="#" :image="image" v-bind="p" voir-label="voir le projet" :centrale="i === 1" />
+        <ProjectCarousel
+          v-model:actif="actif"
+          :projets="cartes"
+          label="Projets"
+          voir-label="voir le projet"
+          :annonce="(position, total) => `Projet ${position} sur ${total}`"
+        />
       </div>
     </section>
 
@@ -167,9 +178,6 @@ section > .note {
 
 .cartes {
   display: grid;
-  grid-template-columns: var(--largeur-voisine) var(--largeur-centrale) var(--largeur-voisine);
-  justify-content: center;
-  overflow: hidden; /* largeurs en vw : la barre de défilement de la vitrine les dépasserait */
   height: 70vh;
   margin: 0 calc(var(--marge) * -1);
 }

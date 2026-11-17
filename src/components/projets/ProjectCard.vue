@@ -57,8 +57,15 @@ const style = computed(() => ({ '--aplat': a.value.couleur, '--aplat-texte': a.v
   text-decoration: none;
 }
 
+/* Contour de focus dessiné au-dessus du calque, qui recouvrirait l'outline */
 .carte:focus-visible {
-  outline-offset: calc(var(--contour-focus) * -1);
+  outline: none;
+}
+.carte:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: var(--contour-focus) solid var(--noir);
 }
 
 .calque {
