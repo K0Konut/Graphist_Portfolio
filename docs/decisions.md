@@ -69,3 +69,6 @@
 | 17/11/2026 | Domaine dans `.env.production` (`VITE_SITE_URL`), versionné | Domaine public ; le changer ne demande qu'une ligne |
 | 17/11/2026 | Favicon : le « M » du logotype, noir sur fond blanc ; pas d'apple-touch-icon pour l'instant | Dérivé du logotype (architecture §2) ; lisible sur les onglets sombres |
 | 17/11/2026 | Mesure d'audience par `@dashility/client`, clé publique dans `.env.production` ; lien du book marqué `data-dashility-cv` ; CSP `connect-src` ouverte à Dashility | Architecture §7 ; sans clé, le code de mesure est retiré du build |
+| 17/11/2026 | Nginx : `/` redirigé selon la langue du navigateur, pages servies depuis leurs dossiers pré-rendus, vraie 404 par langue, cache long pour `/assets` et `/medias`, revalidation du HTML, du book et du sitemap | Architecture §3 et §8 ; vérifié dans un conteneur temporaire sur `vm-web` |
+| 17/11/2026 | CSP sans empreintes de scripts : le site pré-rendu n'a aucun script en ligne, `script-src 'self'` suffit | Écart avec l'architecture §6 (`csp.ts` de Portfolio) ; à ajouter si un script en ligne apparaît |
+| 17/11/2026 | Mise en ligne aussi à chaque publication dans Dashility (`repository_dispatch`), sans relancer les tests ; contenu copié dans le job, avant l'image | Architecture §5 ; la clé de lecture n'entre jamais dans l'image |
