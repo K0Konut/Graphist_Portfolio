@@ -1,6 +1,6 @@
 # Design system — Mandolina, graphiste
 
-Version 0.1 — 17/11/2026 — **statut : à valider**
+Version 0.2 — 17/11/2026 — **statut : à valider** (v0.2 : carrousel ; contour de focus de la carte au-dessus du calque)
 
 S'appuie sur la DA v0.1 (« Aplats » : tokens de couleur, typographie, motion) et l'architecture UX v0.1 (pages, carrousel, états). Vitrine : `npm run dev`, puis `/design-system.html` (développement seulement, absente du build).
 
@@ -50,8 +50,9 @@ Remise à zéro, police et couleurs du `body`, liens soulignés au trait des tok
 | `ProjectCard` | projets | accueil | fait |
 | `ProjectImage` | projets | accueil (dans la carte), projet | fait |
 | `ProjectPager` | projets | projet | fait |
-| `ProjectCarousel` | projets | accueil | **branche suivante** `feat/dev/carrousel` |
+| `ProjectCarousel` | projets | accueil | fait |
 | `aplat()` | utils | carte, image | fait, testé |
+| `decalage()`, `faitLeTour()`, `modulo()` | utils | carrousel | fait, testé |
 
 Pas de composant pour le texte riche ni pour les titres de page : une classe ou les tokens suffisent.
 
@@ -118,7 +119,7 @@ Règle de la DA §3, testée sur les 17 couleurs de la cliente (`tests/unit/apla
 | Centrale, au repos | Image seule |
 | Centrale, survol ou focus | Calque à la couleur du projet (opacité de `aplat()`), discipline soulignée en 800, client en 400 |
 | Centrale, écran tactile | Calque visible en permanence |
-| Focus | Contour noir à l'intérieur de la carte |
+| Focus | Cadre noir de 3 px à l'intérieur de la carte, dessiné au-dessus du calque |
 
 - Motion : calque en 250 ms (`--ease-signature`), texte qui monte de 8 px, client décalé de 40 ms ; disparition en 150 ms (`--ease-sortie`). Mouvement réduit : fondu de 150 ms, sans déplacement.
 - La carte remplit son parent : c'est le carrousel qui fixe sa largeur et décide du clic (recentrer ou ouvrir).
@@ -129,9 +130,28 @@ Règle de la DA §3, testée sur les 17 couleurs de la cliente (`tests/unit/apla
 - Rendu : flèche + « Projet précédent » en gris et le nom en gras ; idem à droite pour le suivant. `rel="prev"` / `rel="next"`.
 - Survol : le nom se souligne. Sans cible (un seul projet), le composant ne rend rien.
 
-### `ProjectCarousel` (branche suivante)
+### `ProjectCarousel`
 
-Spécifié par l'UX §5 ; construit sur `feat/dev/carrousel` à cause de son volume (gestes, clavier, boucle, annonces, tests). Il assemblera des `ProjectCard` et fixera leurs largeurs avec `--largeur-centrale` et `--largeur-voisine`.
+- Rôle : carrousel de l'accueil, en boucle (UX §5). Remplit son parent : la page lui donne la hauteur de l'écran moins le header.
+- Props : `projets` (`{ href, image, discipline, client, couleur }[]`, déjà triés par « Ordre »), `label` (« Projets »), `voirLabel`, `annonce(position, total)` (« Projet 3 sur 17 »). `v-model:actif` (index de la carte centrale) : la page s'en sert pour revenir sur le dernier projet vu.
+- Structure : une `section` (`aria-roledescription="carrousel"`) contenant une liste `ul` de **toutes** les cartes, dans l'ordre ; chacune est placée par `transform` selon son écart à la carte active (`decalage()`, de -8 à 8 pour 17 projets). Une région `aria-live` annonce la position.
+- Gestes :
+
+| Geste | Effet |
+|---|---|
+| Clic sur une voisine | Elle vient au centre, le lien ne s'ouvre pas |
+| Clic sur la carte centrale | Le lien s'ouvre |
+| `Tab` / `Maj+Tab` | Carte suivante / précédente dans l'ordre de la liste ; celle qui reçoit le focus vient au centre. Après la dernière, le focus sort du carrousel (pas de piège) |
+| `←` `→` | Projet précédent / suivant, en boucle ; le focus suit la carte centrale |
+| Molette, pavé tactile | Un projet par geste : l'inertie est ignorée jusqu'à 200 ms sans événement |
+| Glisser au doigt (≥ 40 px) | Un projet ; le défilement vertical de la page reste libre (`touch-action: pan-y`) |
+
+- Motion : les cartes glissent et changent de largeur en 500 ms (`--ease-signature`). La carte qui passe d'un bord à l'autre en faisant le tour (`faitLeTour()`) change de place sans transition, pour ne pas traverser l'écran.
+- Mouvement réduit : aucun glissement (mouvement de grande ampleur) ; la liste fait un fondu de 150 ms à chaque changement.
+- Chargement : images immédiates pour la carte centrale et ses voisines, différées pour les autres.
+- Sans JavaScript : la liste s'affiche centrée sur la carte active et tous les liens fonctionnent.
+- Petites listes : 1 projet, pas de voisine ni de geste ; 2 projets, l'autre carte à droite.
+- Vérifié dans la vitrine (Playwright) : clic voisine / centrale, flèches, Tab, molette (10 événements = 1 projet), boucle, glisser au doigt, mouvement réduit.
 
 ---
 
