@@ -52,3 +52,8 @@
 | 17/11/2026 | Maquettes faites avec des images et textes provisoires ; captures à refaire avec les images de la cliente | Images pas encore disponibles ; valider la structure sans attendre |
 | 17/11/2026 | Libellés de l'interface dans un dictionnaire FR/EN typé (`src/content/textes.ts`), sans vue-i18n | ~20 chaînes, ni pluriel ni format ; à confirmer en phase 7 |
 | 17/11/2026 | Images de galerie limitées à la hauteur de l'écran, centrées ; 8 px entre elles | Une image en portrait en pleine largeur n'était jamais visible en entier ; images collées confondues |
+| 17/11/2026 | Vue Router + vite-ssg (pré-rendu), @unhead/vue pour les balises ; pas de Pinia ni de vue-i18n | Adresses FR/EN pré-rendues pour le SEO et le partage ; état et libellés trop simples pour une librairie ; même socle que Portfolio |
+| 17/11/2026 | Contenu de Dashility copié au build, non versionné ; contenu de démonstration (`contenu:demo`) pour la CI et le développement | Dépôt public, images de la cliente, historique léger ; même chemin de code qu'en production |
+| 17/11/2026 | Mise en ligne à la publication dans Dashility par `repository_dispatch`, sans relancer les tests ; pas de build nocturne | Autonomie de la cliente (PRD) ; rien ne change sans publication |
+| 17/11/2026 | Mesure d'audience Dashility : vues de page et téléchargements du book ; clics mail non mesurés | Limite de Dashility ; écart avec le PRD §3 accepté |
+| 17/11/2026 | ESLint + Prettier, Playwright + axe ajoutés | Stack par défaut ; parcours critiques et accessibilité vérifiés en CI |
