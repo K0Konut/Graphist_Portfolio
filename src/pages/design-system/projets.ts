@@ -1,0 +1,20 @@
+// Fiche projets fournie par la cliente (17/11/2026) : discipline, client, couleur. Données de démonstration de la vitrine.
+export const projets = [
+  { nom: 'Lutèce — Logo', discipline: 'Identité visuelle', client: 'Lutèce Destroyeuses', couleur: '#85c4f9' },
+  { nom: 'PSWC', discipline: 'Identité visuelle et événementiel', client: 'PSWC', couleur: '#ef6f96' },
+  { nom: 'FR Skates — Mise en page', discipline: 'Communication', client: 'FR Skates', couleur: '#9df7dd' },
+  { nom: 'Luminous — Catalogues', discipline: 'Édition', client: 'Luminous', couleur: '#c1cddd' },
+  { nom: 'Lutèce — Maillots', discipline: 'Textile', client: 'Lutèce Destroyeuses', couleur: '#ffd975' },
+  { nom: 'FR Skates — Packaging', discipline: 'Packaging', client: 'FR Skates', couleur: '#c3aefc' },
+  { nom: 'Universkate — Logos', discipline: 'Identité visuelle', client: 'Universkate', couleur: '#efcf8f' },
+  { nom: 'FR Skates — Illustration', discipline: 'Illustrations', client: 'FR Skates', couleur: '#dbf4d3' },
+  { nom: 'Luminous — Packaging', discipline: 'Packaging', client: 'Luminous', couleur: '#ffdeeb' },
+  { nom: 'Lutèce — Merchandising', discipline: 'Communication', client: 'Lutèce Destroyeuses', couleur: '#c3e2fc' },
+  { nom: 'Luminous — Fichiers techniques', discipline: 'Fichiers techniques', client: 'Luminous', couleur: '#727272' },
+  { nom: 'FR Skates — Fichiers techniques', discipline: 'Fichiers techniques', client: 'FR Skates', couleur: '#d2b3e2' },
+  { nom: 'Blé Noir', discipline: 'Identité visuelle et communication', client: 'Blé Noir', couleur: '#34b772' },
+  { nom: 'Psycom', discipline: 'Édition et événementiel', client: 'Psycom', couleur: '#f7e751' },
+  { nom: 'Studio Mustard', discipline: 'Identité visuelle', client: 'Studio Mustard', couleur: '#c79b7f' },
+  { nom: 'Scénographie de diplôme', discipline: 'Scénographie', client: 'Diplôme Supcréa', couleur: '#b9efed' },
+  { nom: 'Jenlain', discipline: 'Identité visuelle et packaging', client: 'Jenlain', couleur: '#ffc885' },
+]
