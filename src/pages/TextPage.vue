@@ -6,9 +6,11 @@ defineProps<{ titre: string; contenu?: string; lien?: { href: string; label: str
 <template>
   <article class="page">
     <h1 class="titre">{{ titre }}</h1>
-    <!-- Texte riche saisi par la cliente dans Dashility -->
+    <!-- eslint-disable-next-line vue/no-v-html -- texte riche de Dashility : HTML de tiptap, balises limitées, texte échappé (architecture §4) -->
     <div v-if="contenu" class="texte-riche" v-html="contenu" />
-    <p v-if="lien" class="lien"><a :href="lien.href">{{ lien.label }}</a></p>
+    <p v-if="lien" class="lien">
+      <a :href="lien.href">{{ lien.label }}</a>
+    </p>
   </article>
 </template>
 

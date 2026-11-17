@@ -12,7 +12,7 @@ withDefaults(
     remplir?: boolean // true : recadrée pour remplir son parent (carte) ; false : entière, pleine largeur (page projet)
     chargement?: 'lazy' | 'eager'
   }>(),
-  { remplir: false, chargement: 'lazy' },
+  { remplir: false, chargement: 'lazy', largeur: undefined, hauteur: undefined },
 )
 
 const erreur = ref(false)

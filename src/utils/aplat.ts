@@ -16,7 +16,8 @@ const lineaire = (v: number) => {
   const c = v / 255
   return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
 }
-export const luminance = ([r, g, b]: Rgb) => 0.2126 * lineaire(r) + 0.7152 * lineaire(g) + 0.0722 * lineaire(b)
+export const luminance = ([r, g, b]: Rgb) =>
+  0.2126 * lineaire(r) + 0.7152 * lineaire(g) + 0.0722 * lineaire(b)
 export const contraste = (a: number, b: number) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 
 export const estCouleurValide = (valeur: string) => /^#[0-9a-f]{6}$/i.test(valeur.trim())
@@ -31,7 +32,10 @@ export function aplat(valeur: string): Aplat {
   // Pire cas : image toute noire ou toute blanche sous le calque semi-transparent
   const pire = Math.min(
     ...[0, 255].map((fond) =>
-      contraste(luminance(rgb.map((v) => OPACITE_CALQUE * v + (1 - OPACITE_CALQUE) * fond) as Rgb), lTexte),
+      contraste(
+        luminance(rgb.map((v) => OPACITE_CALQUE * v + (1 - OPACITE_CALQUE) * fond) as Rgb),
+        lTexte,
+      ),
     ),
   )
 

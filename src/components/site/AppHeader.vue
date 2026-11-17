@@ -63,7 +63,12 @@ function fermerSurEchap(e: KeyboardEvent) {
         </ul>
         <ul class="langues" :aria-label="languesLabel" :style="{ '--rang': liens.length }">
           <li v-for="langue in langues" :key="langue.code">
-            <a :href="langue.href" :hreflang="langue.code" :lang="langue.code" :aria-current="langue.courante ? 'page' : undefined">
+            <a
+              :href="langue.href"
+              :hreflang="langue.code"
+              :lang="langue.code"
+              :aria-current="langue.courante ? 'page' : undefined"
+            >
               {{ langue.label }}
             </a>
           </li>

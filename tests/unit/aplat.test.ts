@@ -3,8 +3,23 @@ import { aplat, contraste, estCouleurValide, luminance } from '../../src/utils/a
 
 // Les 17 couleurs fournies par la cliente (DA §3)
 const couleurs = [
-  '#85c4f9', '#ef6f96', '#9df7dd', '#c1cddd', '#ffd975', '#c3aefc', '#efcf8f', '#dbf4d3', '#ffdeeb',
-  '#c3e2fc', '#727272', '#d2b3e2', '#34b772', '#f7e751', '#c79b7f', '#b9efed', '#ffc885',
+  '#85c4f9',
+  '#ef6f96',
+  '#9df7dd',
+  '#c1cddd',
+  '#ffd975',
+  '#c3aefc',
+  '#efcf8f',
+  '#dbf4d3',
+  '#ffdeeb',
+  '#c3e2fc',
+  '#727272',
+  '#d2b3e2',
+  '#34b772',
+  '#f7e751',
+  '#c79b7f',
+  '#b9efed',
+  '#ffc885',
 ]
 
 describe('aplat', () => {
@@ -27,8 +42,15 @@ describe('aplat', () => {
       const { texte, opacite } = aplat(c)
       const rgb = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16))
       for (const fond of [0, 255]) {
-        const melange = rgb.map((v) => opacite * v + (1 - opacite) * fond) as [number, number, number]
-        expect(contraste(luminance(melange), texte === '#000000' ? 0 : 1), `${c} sur fond ${fond}`).toBeGreaterThanOrEqual(4.5)
+        const melange = rgb.map((v) => opacite * v + (1 - opacite) * fond) as [
+          number,
+          number,
+          number,
+        ]
+        expect(
+          contraste(luminance(melange), texte === '#000000' ? 0 : 1),
+          `${c} sur fond ${fond}`,
+        ).toBeGreaterThanOrEqual(4.5)
       }
     }
   })

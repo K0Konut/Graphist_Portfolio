@@ -10,7 +10,13 @@ const actif = defineModel<number>('actif', { default: 0 })
 <template>
   <h1 class="visuellement-masque">{{ t.titreAccueil }}</h1>
   <div v-if="projets.length" class="accueil">
-    <ProjectCarousel v-model:actif="actif" :projets="projets" :label="t.projets" :voir-label="t.voir" :annonce="t.annonce" />
+    <ProjectCarousel
+      v-model:actif="actif"
+      :projets="projets"
+      :label="t.projets"
+      :voir-label="t.voir"
+      :annonce="t.annonce"
+    />
   </div>
   <p v-else class="vide">
     {{ t.aucunProjet }} <a :href="aProposHref">{{ t.aPropos }}</a>

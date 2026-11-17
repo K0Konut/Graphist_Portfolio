@@ -29,8 +29,12 @@ const couleur = aplat(props.projet.couleur).couleur
       <h1 class="nom">{{ projet.nom }}</h1>
       <p class="discipline">{{ projet.discipline }}</p>
       <p class="client">{{ projet.client }}</p>
-      <!-- Texte riche saisi par la cliente dans Dashility -->
-      <div v-if="projet.presentation" class="texte-riche presentation" v-html="projet.presentation" />
+      <!-- eslint-disable-next-line vue/no-v-html -- texte riche de Dashility : HTML de tiptap, balises limitées, texte échappé (architecture §4) -->
+      <div
+        v-if="projet.presentation"
+        class="texte-riche presentation"
+        v-html="projet.presentation"
+      />
     </header>
 
     <div class="galerie">

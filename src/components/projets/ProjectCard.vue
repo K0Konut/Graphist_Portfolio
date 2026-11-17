@@ -20,7 +20,11 @@ const props = withDefaults(
 )
 
 const a = computed(() => aplat(props.couleur))
-const style = computed(() => ({ '--aplat': a.value.couleur, '--aplat-texte': a.value.texte, '--aplat-opacite': a.value.opacite }))
+const style = computed(() => ({
+  '--aplat': a.value.couleur,
+  '--aplat-texte': a.value.texte,
+  '--aplat-opacite': a.value.opacite,
+}))
 </script>
 
 <template>
