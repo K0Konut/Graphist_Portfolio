@@ -11,6 +11,9 @@ const fr = {
   mentions: 'Mentions légales',
   projets: 'Projets',
   titreAccueil: 'Mandolina, graphiste — projets',
+  site: 'Mandolina, graphiste',
+  descriptionAccueil:
+    'Identité visuelle, packaging, édition : une sélection de projets de Mandolina, graphiste.',
   voir: 'voir le projet',
   annonce: (position: number, total: number) => `Projet ${position} sur ${total}`,
   autresProjets: 'Autres projets',
@@ -35,6 +38,9 @@ const en: Textes = {
   mentions: 'Legal notice',
   projets: 'Projects',
   titreAccueil: 'Mandolina, graphic designer — projects',
+  site: 'Mandolina, graphic designer',
+  descriptionAccueil:
+    'Visual identity, packaging, publishing: a selection of projects by Mandolina, graphic designer.',
   voir: 'view project',
   annonce: (position, total) => `Project ${position} of ${total}`,
   autresProjets: 'Other projects',
