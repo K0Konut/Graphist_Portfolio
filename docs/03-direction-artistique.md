@@ -47,7 +47,7 @@ Pas de couleur d'état : la V1 n'a ni formulaire ni message d'erreur hormis la p
 
 ### Aplats des projets
 
-Saisis dans Dashility (champ texte `#RRGGBB`, PRD §7). Couleur du texte choisie automatiquement au build par contraste : noir si le noir contraste mieux, sinon blanc.
+Saisis dans Dashility (champ texte `RRGGBB`, avec ou sans `#`, PRD §7). Couleur du texte choisie automatiquement au build par contraste : noir si le noir contraste mieux, sinon blanc.
 
 | Projet | Aplat | Texte | Contraste (aplat plein) |
 |---|---|---|---|
