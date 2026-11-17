@@ -15,7 +15,7 @@ defineProps<{
   <article class="page">
     <h1 class="titre">{{ t.aPropos }}</h1>
     <p class="accroche">{{ accroche }}</p>
-    <!-- Texte riche saisi par la cliente dans Dashility -->
+    <!-- eslint-disable-next-line vue/no-v-html -- texte riche de Dashility : HTML de tiptap, balises limitées, texte échappé (architecture §4) -->
     <div class="texte-riche" v-html="presentation" />
 
     <p class="contact">
@@ -23,7 +23,8 @@ defineProps<{
       <a :href="`mailto:${email}`">{{ email }}</a>
     </p>
     <p v-if="book">
-      <a :href="book.href" download>{{ t.book }}</a> <span class="poids">(PDF, {{ book.poids }})</span>
+      <a :href="book.href" download>{{ t.book }}</a>
+      <span class="poids">(PDF, {{ book.poids }})</span>
     </p>
   </article>
 </template>

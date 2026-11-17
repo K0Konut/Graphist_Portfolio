@@ -13,7 +13,12 @@ import { projets } from './projets'
 const menuOuvert = ref(false)
 const actif = ref(1)
 const aplats = projets.map((p) => ({ ...p, ...aplat(p.couleur) }))
-const image = { src: imageDemo, alt: 'Image de démonstration à rayures', largeur: 1200, hauteur: 1500 }
+const image = {
+  src: imageDemo,
+  alt: 'Image de démonstration à rayures',
+  largeur: 1200,
+  hauteur: 1500,
+}
 const cartes = projets.map((p, i) => ({ ...p, href: `#projet-${i + 1}`, image }))
 const icones = ['menu', 'fermer', 'precedent', 'suivant'] as const
 const durees = [
@@ -45,14 +50,18 @@ const durees = [
   <main class="vitrine">
     <div>
       <h1 class="titre-vitrine">Design system</h1>
-      <p class="note">Header ci-dessus : logotype et menu (ouvrez-le). Survolez la carte centrale, ou atteignez-la avec Tab.</p>
+      <p class="note">
+        Header ci-dessus : logotype et menu (ouvrez-le). Survolez la carte centrale, ou atteignez-la
+        avec Tab.
+      </p>
     </div>
 
     <section>
       <h2>Carrousel</h2>
       <p class="note">
-        Les 17 projets en boucle. Clic sur une voisine : elle vient au centre ; survol de la carte centrale : calque.
-        Molette, flèches du clavier, Tab, glisser au doigt. Projet {{ actif + 1 }} sur {{ projets.length }}.
+        Les 17 projets en boucle. Clic sur une voisine : elle vient au centre ; survol de la carte
+        centrale : calque. Molette, flèches du clavier, Tab, glisser au doigt. Projet
+        {{ actif + 1 }} sur {{ projets.length }}.
       </p>
       <div class="cartes">
         <ProjectCarousel
@@ -67,7 +76,9 @@ const durees = [
 
     <section>
       <h2>Aplats des 17 projets</h2>
-      <p class="note">Couleur du texte et opacité du calque calculées par <code>aplat()</code>, comme sur le site.</p>
+      <p class="note">
+        Couleur du texte et opacité du calque calculées par <code>aplat()</code>, comme sur le site.
+      </p>
       <ul class="aplats">
         <li v-for="p in aplats" :key="p.nom" :style="{ background: p.couleur, color: p.texte }">
           <strong>{{ p.discipline }}</strong>
@@ -95,18 +106,31 @@ const durees = [
       <p class="t-intertitre">Intertitre</p>
       <p class="legende">Intertitre · 700</p>
       <div class="texte-riche">
-        <p>Je suis Mandolina, graphiste. Voici une sélection de mes projets : identités visuelles, packaging, édition et scénographie, pour des clubs sportifs, des marques et des studios.</p>
-        <p>Pour un projet, écrivez-moi : <a href="mailto:adresse@exemple.fr">adresse@exemple.fr</a></p>
+        <p>
+          Je suis Mandolina, graphiste. Voici une sélection de mes projets : identités visuelles,
+          packaging, édition et scénographie, pour des clubs sportifs, des marques et des studios.
+        </p>
+        <p>
+          Pour un projet, écrivez-moi : <a href="mailto:adresse@exemple.fr">adresse@exemple.fr</a>
+        </p>
       </div>
       <p class="legende">Texte riche · 400, 65 caractères au plus</p>
     </section>
 
     <section>
       <h2>Image de projet</h2>
-      <p class="note">Entière, à son format ; puis absente ou en chargement : l'aplat du projet tient sa place.</p>
+      <p class="note">
+        Entière, à son format ; puis absente ou en chargement : l'aplat du projet tient sa place.
+      </p>
       <div class="images">
         <ProjectImage v-bind="image" couleur="#ef6f96" />
-        <ProjectImage src="/introuvable.jpg" alt="Image introuvable" couleur="#ef6f96" :largeur="1200" :hauteur="1500" />
+        <ProjectImage
+          src="/introuvable.jpg"
+          alt="Image introuvable"
+          couleur="#ef6f96"
+          :largeur="1200"
+          :hauteur="1500"
+        />
       </div>
     </section>
 
@@ -130,7 +154,10 @@ const durees = [
 
     <section>
       <h2>Mouvement</h2>
-      <p class="note">Survolez : même distance, trois durées, courbe signature. Réduites à 150 ms sans déplacement si le système demande moins d'animations.</p>
+      <p class="note">
+        Survolez : même distance, trois durées, courbe signature. Réduites à 150 ms sans déplacement
+        si le système demande moins d'animations.
+      </p>
       <div v-for="[nom, jeton, valeur] in durees" :key="jeton" class="duree">
         <span>{{ nom }} · {{ valeur }}</span>
         <span class="rail"><i :style="{ transitionDuration: `var(${jeton})` }" /></span>

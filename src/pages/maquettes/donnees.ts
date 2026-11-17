@@ -30,7 +30,12 @@ const slug = (texte: string) =>
 function imageProvisoire(nom: string, largeur: number, hauteur: number, langue: Langue) {
   const legende = langue === 'fr' ? 'Image à venir' : 'Image to come'
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${largeur} ${hauteur}"><rect width="100%" height="100%" fill="#e6e6e6"/><text x="50%" y="50%" text-anchor="middle" font-family="sans-serif" font-size="${largeur / 28}" fill="#595959">${legende} — ${nom}</text></svg>`
-  return { src: `data:image/svg+xml,${encodeURIComponent(svg)}`, alt: `${legende} : ${nom}`, largeur, hauteur }
+  return {
+    src: `data:image/svg+xml,${encodeURIComponent(svg)}`,
+    alt: `${legende} : ${nom}`,
+    largeur,
+    hauteur,
+  }
 }
 
 function presentation(client: string, langue: Langue) {
@@ -57,7 +62,7 @@ export const aPropos = {
   fr: {
     accroche: 'Je suis Mandolina, graphiste.',
     presentation:
-      "<p><strong>Texte provisoire.</strong> Je conçois des identités visuelles, des packagings, des éditions, des illustrations et des scénographies, pour des clubs sportifs, des marques et des studios.</p><p>Ce site rassemble une sélection de mes projets.</p>",
+      '<p><strong>Texte provisoire.</strong> Je conçois des identités visuelles, des packagings, des éditions, des illustrations et des scénographies, pour des clubs sportifs, des marques et des studios.</p><p>Ce site rassemble une sélection de mes projets.</p>',
   },
   en: {
     accroche: "I'm Mandolina, a graphic designer.",

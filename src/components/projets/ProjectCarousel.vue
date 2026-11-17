@@ -51,7 +51,10 @@ function position(i: number) {
       : k > 0
         ? `calc(50cqw + var(--largeur-centrale) / 2 + ${k - 1} * var(--largeur-voisine))`
         : `calc(50cqw - var(--largeur-centrale) / 2 + ${k} * var(--largeur-voisine))`
-  return { transform: `translateX(${x})`, width: k === 0 ? 'var(--largeur-centrale)' : 'var(--largeur-voisine)' }
+  return {
+    transform: `translateX(${x})`,
+    width: k === 0 ? 'var(--largeur-centrale)' : 'var(--largeur-voisine)',
+  }
 }
 
 function cliquer(e: MouseEvent, i: number) {

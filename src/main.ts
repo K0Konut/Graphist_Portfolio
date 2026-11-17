@@ -1,5 +1,6 @@
+// shortcut: en attendant le routeur (feat/dev/routeur_et_prerendu), le site sert le banc des maquettes
 import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import './styles/base.css'
+import MaquettesApp from './pages/maquettes/MaquettesApp.vue'
 
-createApp(App).mount('#app')
+createApp(MaquettesApp).mount('#app')
