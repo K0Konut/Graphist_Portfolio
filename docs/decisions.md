@@ -57,3 +57,7 @@
 | 17/11/2026 | Mise en ligne à la publication dans Dashility par `repository_dispatch`, sans relancer les tests ; pas de build nocturne | Autonomie de la cliente (PRD) ; rien ne change sans publication |
 | 17/11/2026 | Mesure d'audience Dashility : vues de page et téléchargements du book ; clics mail non mesurés | Limite de Dashility ; écart avec le PRD §3 accepté |
 | 17/11/2026 | ESLint + Prettier, Playwright + axe ajoutés | Stack par défaut ; parcours critiques et accessibilité vérifiés en CI |
+| 17/11/2026 | Routes construites depuis une table des pages (`src/router/pages.ts`) lue par le routeur, le changement de langue et le pré-rendu ; pages alimentées en props | Une seule source pour les adresses ; pages indépendantes du routeur et de Dashility |
+| 17/11/2026 | Liens natifs des composants pris en charge par le routeur via un écouteur de clic global (liens internes `/fr`, `/en` seulement) | Navigation sans rechargement sans réécrire les composants ; la voisine du carrousel garde son comportement |
+| 17/11/2026 | Banc `/maquettes.html` retiré ; ses données deviennent `npm run contenu:demo` | Le routeur sert les vraies pages |
+| 17/11/2026 | vue-router 5 (dernière version, compatible avec vite-ssg) | Même version majeure que Portfolio |

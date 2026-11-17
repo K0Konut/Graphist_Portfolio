@@ -2,7 +2,7 @@
 
 Version 0.1 — 17/11/2026 — **statut : à valider (structure)** ; à reprendre avec les images de la cliente.
 
-Maquettes en code : les vraies pages (`src/pages/`) assemblées avec les composants du design system, servies par `npm run dev` puis `/maquettes.html` (hors build). Navigation à l'ancre selon les adresses de l'UX §1 : `#/fr`, `#/fr/projets/lutece-logo`, `#/fr/a-propos`, `#/fr/mentions-legales`, `#/en/…`.
+Maquettes en code : les vraies pages (`src/pages/`) assemblées avec les composants du design system. Faites sur un banc `/maquettes.html`, retiré depuis que le routeur sert les pages (phase 7) : pour les revoir, `npm run contenu:demo && npm run dev`, puis `/fr`. Le contenu de démonstration reprend les données des maquettes.
 
 ## Contenu
 

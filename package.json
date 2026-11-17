@@ -5,16 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vue-tsc -b && vite-ssg build",
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "contenu:demo": "node scripts/contenu-demo.ts"
   },
   "dependencies": {
     "@fontsource-variable/chivo": "^5.3.0",
-    "vue": "^3.5.44"
+    "vite-ssg": "^28.3.0",
+    "vue": "^3.5.44",
+    "vue-router": "^5.5.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

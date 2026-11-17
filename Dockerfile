@@ -4,8 +4,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-# Types déjà vérifiés par le CI avant l'image : build Vite direct
-RUN npx vite build
+# Types déjà vérifiés par le CI avant l'image : pré-rendu direct. content/ est copié de Dashility par le job, avant l'image
+RUN npx vite-ssg build
 
 FROM nginx:1.29-alpine
 # Relie l'image au dépôt sur GHCR (visibilité et page du paquet)

@@ -28,5 +28,7 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm test
-      # build = vue-tsc (type-check) + vite build
+      # Contenu de démonstration : même chemin de code que le contenu réel (architecture technique §4)
+      - run: npm run contenu:demo
+      # build = vue-tsc (type-check) + pré-rendu vite-ssg
       - run: npm run build
