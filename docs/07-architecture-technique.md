@@ -74,7 +74,7 @@ Un espace **Mandolina** dans Dashility, créé par le super-admin ; Mandolina y 
 |---|---|---|
 | `projets` | Collection | `nom` (texte court, trad.), `discipline` (texte court, trad.), `client` (texte court), `presentation` (texte riche, trad., facultatif), `couverture` (image), `galerie` (groupe répétable : `image`), `couleur` (texte court `#RRGGBB`), `ordre` (nombre) |
 | `a-propos` | Page unique | `accroche` (texte court, trad.), `presentation` (texte riche, trad.), `email` (texte court) |
-| `book` | Fichier PDF par langue (fonction CV de Dashility) | — |
+| `book` | Page unique | `fichier` (fichier PDF, un par langue : fonction CV de Dashility) |
 | `mentions-legales` | Page unique | `contenu` (texte riche, trad.) |
 
 Tri des projets : `ordre` croissant ; à égalité, l'ordre de l'API (dernier publié d'abord) est conservé.

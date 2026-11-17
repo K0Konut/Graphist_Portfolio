@@ -61,3 +61,5 @@
 | 17/11/2026 | Liens natifs des composants pris en charge par le routeur via un écouteur de clic global (liens internes `/fr`, `/en` seulement) | Navigation sans rechargement sans réécrire les composants ; la voisine du carrousel garde son comportement |
 | 17/11/2026 | Banc `/maquettes.html` retiré ; ses données deviennent `npm run contenu:demo` | Le routeur sert les vraies pages |
 | 17/11/2026 | vue-router 5 (dernière version, compatible avec vite-ssg) | Même version majeure que Portfolio |
+| 17/11/2026 | `check-content` refuse le contenu provisoire ou de démonstration (marques « Texte provisoire », « Placeholder text », « à compléter », images `data:`) ; une couleur invalide n'est qu'un avertissement | Le contenu de démonstration ne doit jamais partir en ligne ; une couleur fausse ne mérite pas de bloquer une publication |
+| 17/11/2026 | Type d'image partagé `ImageProjet` (`ProjectImage`), avec les variantes AVIF/WebP de Dashility | Une seule définition au lieu de trois |
