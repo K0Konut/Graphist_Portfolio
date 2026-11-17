@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Contenu copié de Dashility (npm run contenu) ou de démonstration (npm run contenu:demo) : jamais dans Git
+/content/
+public/medias/
+public/book/
+
+# Tests de bout en bout
+playwright-report/
+test-results/

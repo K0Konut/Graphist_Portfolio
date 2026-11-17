@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planche de tendance — Aplats</title>
+<!-- Planche de travail seulement : en production, Chivo est auto-hébergée (DA §4) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blanc: #fff;
+    --noir: #000;
+    --gris: #595959;
+    --duree-rapide: 150ms;
+    --duree-standard: 250ms;
+    --duree-lente: 500ms;
+    --ease-signature: cubic-bezier(0.2, 0, 0, 1);
+    --ease-sortie: cubic-bezier(0.3, 0, 1, 1);
+    --marge: clamp(24px, 4vw, 48px);
+    --header: 96px;
+    --centre: 56vw;
+    --voisine: 22vw;
+  }
+  @media (max-width: 700px) {
+    :root { --header: 72px; --centre: 80vw; --voisine: 10vw; }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Chivo, sans-serif; font-size: 1.0625rem; line-height: 1.55; color: var(--noir); background: var(--blanc); }
+
+  header { height: var(--header); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--marge); }
+  .logo { font-weight: 900; font-size: clamp(1.75rem, 4vw, 3rem); letter-spacing: -0.02em; line-height: 1; }
+  .logo small { display: block; font-size: 0.75rem; font-weight: 400; letter-spacing: 0; color: var(--gris); margin-top: 4px; }
+  .menu { width: 48px; height: 36px; display: grid; gap: 6px; background: none; border: 0; padding: 0; cursor: pointer; }
+  .menu span { display: block; height: 8px; background: var(--noir); }
+
+  /* Carrousel */
+  .carrousel { height: calc(100svh - var(--header)); min-height: 420px; overflow: hidden; position: relative; }
+  .piste { display: flex; height: 100%; transition: transform var(--duree-lente) var(--ease-signature); }
+  .carte { flex: 0 0 var(--voisine); height: 100%; position: relative; overflow: hidden; color: inherit; text-decoration: none;
+    transition: flex-basis var(--duree-lente) var(--ease-signature); }
+  .carte[aria-current="true"] { flex-basis: var(--centre); }
+  .image { position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #2b2b2b 0 28px, #e9e9e9 28px 56px); }
+  .image::after { content: attr(data-nom); position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 6px 12px;
+    background: var(--blanc); font-size: 0.875rem; white-space: nowrap; }
+  .calque { position: absolute; inset: 0; padding: clamp(16px, 2vw, 28px); background: var(--c); color: var(--t); opacity: 0;
+    transition: opacity var(--duree-rapide) var(--ease-sortie); }
+  .calque * { transform: translateY(8px); transition: transform var(--duree-rapide) var(--ease-sortie); }
+  .titre { font-weight: 800; font-size: clamp(1.25rem, 1.6vw, 1.5rem); line-height: 1.15; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .client { font-size: 0.875rem; line-height: 1.3; margin-top: 6px; }
+  .carte:hover .calque, .carte:focus-visible .calque { opacity: var(--o); transition-duration: var(--duree-standard); transition-timing-function: var(--ease-signature); }
+  .carte:hover .calque *, .carte:focus-visible .calque * { transform: none; transition-duration: var(--duree-standard); transition-timing-function: var(--ease-signature); }
+  .carte:hover .client, .carte:focus-visible .client { transition-delay: 40ms; }
+  .carte:focus-visible { outline: 3px solid var(--noir); outline-offset: -3px; }
+  /* Toucher : pas de survol, la carte centrale garde son calque */
+  @media (hover: none) {
+    .carte[aria-current="true"] .calque { opacity: var(--o); }
+    .carte[aria-current="true"] .calque * { transform: none; }
+  }
+
+  /* Planche */
+  main { padding: 96px var(--marge); display: grid; gap: 96px; max-width: 1280px; }
+  h2 { font-weight: 700; font-size: 1.5rem; line-height: 1.2; margin-bottom: 24px; }
+  .note { color: var(--gris); font-size: 0.875rem; line-height: 1.4; max-width: 65ch; margin-bottom: 24px; }
+  .aplats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0; }
+  .aplat { aspect-ratio: 4 / 5; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; background: var(--c); color: var(--t); }
+  .aplat b { font-weight: 800; line-height: 1.15; }
+  .aplat span { font-size: 0.875rem; }
+  .neutres { display: flex; gap: 0; }
+  .neutres div { flex: 1; padding: 16px; min-height: 120px; font-size: 0.875rem; }
+  .specimen > * + * { margin-top: 32px; }
+  .specimen small { display: block; color: var(--gris); font-size: 0.875rem; font-weight: 400; letter-spacing: 0; text-decoration: none; }
+  .s-projet { font-weight: 800; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.05; }
+  .s-menu { font-weight: 700; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; }
+  .s-texte { max-width: 65ch; }
+  .durees { display: grid; gap: 16px; }
+  .duree { display: grid; grid-template-columns: 200px 1fr; align-items: center; gap: 16px; font-size: 0.875rem; }
+  .rail { height: 32px; position: relative; background: #f2f2f2; }
+  .rail i { position: absolute; left: 0; top: 0; width: 32px; height: 32px; background: var(--noir); }
+  .durees:hover .rail i { left: calc(100% - 32px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .piste, .carte { transition: none; }
+    .calque * { transform: none !important; transition: none !important; }
+    .carte:hover .calque, .carte:focus-visible .calque { transition-duration: var(--duree-rapide); }
+    .rail i { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">MANDOLINA<small>emplacement du logotype SVG de la cliente</small></div>
+  <button class="menu" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+</header>
+
+<section class="carrousel" aria-roledescription="carrousel" aria-label="Projets">
+  <div class="piste" id="piste"></div>
+</section>
+
+<main>
+  <section>
+    <h2>Aplats des projets</h2>
+    <p class="note">Couleur du texte et opacité du calque calculées comme au build : noir ou blanc selon le meilleur contraste ; calque opaque si le pire cas (image toute noire ou toute blanche dessous, calque à 85 %) passe sous 4,5:1.</p>
+    <div class="aplats" id="aplats"></div>
+  </section>
+
+  <section>
+    <h2>Neutres du site</h2>
+    <div class="neutres">
+      <div style="background:#fff;outline:1px solid #ddd">Blanc #FFFFFF<br>fond</div>
+      <div style="background:#000;color:#fff">Noir #000000<br>texte, logotype</div>
+      <div style="background:#595959;color:#fff">Gris #595959<br>texte secondaire, 7:1</div>
+    </div>
+  </section>
+
+  <section class="specimen">
+    <h2>Chivo</h2>
+    <p class="s-projet">Identité visuelle et événementiel<small>Titre de projet, 800</small></p>
+    <p class="s-menu">À propos<small>Lien du menu, 700</small></p>
+    <div><p class="titre">Identité visuelle</p><small>Titre du calque, 800 souligné</small></div>
+    <p class="s-texte">Je suis Mandolina, graphiste. Voici une sélection de mes projets : identités visuelles, packaging, édition et scénographie, pour des clubs sportifs, des marques et des studios.<small>Texte courant, 400, 17 px, 65 caractères maximum</small></p>
+  </section>
+
+  <section>
+    <h2>Mouvement</h2>
+    <p class="note">Survolez les rails : même distance, trois durées, courbe signature.</p>
+    <div class="durees">
+      <div class="duree">Rapide · 150 ms<div class="rail"><i style="transition:left 150ms var(--ease-signature)"></i></div></div>
+      <div class="duree">Standard · 250 ms<div class="rail"><i style="transition:left 250ms var(--ease-signature)"></i></div></div>
+      <div class="duree">Lente · 500 ms<div class="rail"><i style="transition:left 500ms var(--ease-signature)"></i></div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const projets = [
+    ['Identité visuelle', 'Lutèce Destroyeuses', '85c4f9'],
+    ['Identité visuelle et événementiel', 'PSWC', 'ef6f96'],
+    ['Communication', 'FR Skates', '9df7dd'],
+    ['Édition', 'Luminous', 'c1cddd'],
+    ['Textile', 'Lutèce Destroyeuses', 'ffd975'],
+    ['Packaging', 'FR Skates', 'c3aefc'],
+    ['Identité visuelle', 'Universkate', 'efcf8f'],
+    ['Illustrations', 'FR Skates', 'dbf4d3'],
+    ['Packaging', 'Luminous', 'ffdeeb'],
+    ['Communication', 'Lutèce Destroyeuses', 'c3e2fc'],
+    ['Fichiers techniques', 'Luminous', '727272'],
+    ['Fichiers techniques', 'FR Skates', 'd2b3e2'],
+    ['Identité visuelle et communication', 'Blé Noir', '34b772'],
+    ['Édition et événementiel', 'Psycom', 'f7e751'],
+    ['Identité visuelle', 'Studio Mustard', 'c79b7f'],
+    ['Scénographie', 'Diplôme Supcréa', 'b9efed'],
+    ['Identité visuelle et packaging', 'Jenlain', 'ffc885'],
+  ];
+
+  // Même règle qu'au build (DA §3)
+  const lin = (v) => (v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  const lum = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  const contraste = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  function style(hex) {
+    const rgb = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const noir = contraste(lum(rgb), 0) >= contraste(lum(rgb), 1);
+    const texte = noir ? 0 : 1;
+    const pire = Math.min(...[0, 255].map((fond) => contraste(lum(rgb.map((v) => 0.85 * v + 0.15 * fond)), texte)));
+    return { c: '#' + hex, t: noir ? '#000' : '#fff', o: pire < 4.5 ? 1 : 0.85, ratio: contraste(lum(rgb), texte) };
+  }
+
+  const piste = document.getElementById('piste');
+  let actif = 1;
+  projets.forEach(([titre, client, hex], i) => {
+    const s = style(hex);
+    const a = document.createElement('a');
+    a.className = 'carte';
+    a.href = '#';
+    a.style.cssText = `--c:${s.c};--t:${s.t};--o:${s.o}`;
+    a.setAttribute('aria-label', `${titre}, ${client} — voir le projet`);
+    a.innerHTML = `<div class="image" data-nom="image du projet"></div><div class="calque"><p class="titre">${titre}</p><p class="client">${client}</p></div>`;
+    a.addEventListener('click', (e) => { e.preventDefault(); if (i !== actif) centrer(i); });
+    piste.append(a);
+
+    const aplat = document.createElement('div');
+    aplat.className = 'aplat';
+    aplat.style.cssText = `--c:${s.c};--t:${s.t}`;
+    aplat.innerHTML = `<b>${titre}<br>${client}</b><span>#${hex.toUpperCase()} · ${s.ratio.toFixed(1)}:1${s.o === 1 ? ' · opaque' : ''}</span>`;
+    document.getElementById('aplats').append(aplat);
+  });
+
+  function centrer(i) {
+    actif = Math.max(0, Math.min(projets.length - 1, i));
+    [...piste.children].forEach((c, j) => c.setAttribute('aria-current', j === actif));
+    // Décale la piste pour que la carte active soit au centre : (actif − 1) voisines avant elle
+    piste.style.transform = `translateX(calc(${actif - 1} * var(--voisine) * -1))`;
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') centrer(actif + 1);
+    if (e.key === 'ArrowLeft') centrer(actif - 1);
+  });
+  centrer(1);
+</script>
+</body>
+</html>

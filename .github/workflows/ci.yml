@@ -25,5 +25,33 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      # build = vue-tsc (type-check) + vite build
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm test
+      # Contenu de démonstration : même chemin de code que le contenu réel (architecture technique §4)
+      - run: npm run contenu:demo
+      # build = vue-tsc (type-check) + pré-rendu vite-ssg
       - run: npm run build
+      - name: Version de Playwright
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Cache du navigateur de test
+        id: pw-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Navigateur de test
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Dépendances système du navigateur
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      - name: Parcours et accessibilité
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: rapport-playwright
+          path: playwright-report/
+          retention-days: 7
