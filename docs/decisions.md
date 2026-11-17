@@ -49,3 +49,6 @@
 | 17/11/2026 | Carrousel : toutes les cartes dans le DOM, placées par transform selon leur écart circulaire ; la carte qui fait le tour change de place sans transition | Liste de liens complète pour le clavier et les lecteurs d'écran ; pas de carte qui traverse l'écran |
 | 17/11/2026 | Recentrage au focus seulement au clavier (`:focus-visible`), au clic pour la souris | Sinon le focus de la souris recentre la voisine avant le clic, qui ouvrirait le projet |
 | 17/11/2026 | Contour de focus de la carte dessiné au-dessus du calque | L'outline était recouvert par le calque : focus invisible (WCAG 2.4.7) |
+| 17/11/2026 | Maquettes faites avec des images et textes provisoires ; captures à refaire avec les images de la cliente | Images pas encore disponibles ; valider la structure sans attendre |
+| 17/11/2026 | Libellés de l'interface dans un dictionnaire FR/EN typé (`src/content/textes.ts`), sans vue-i18n | ~20 chaînes, ni pluriel ni format ; à confirmer en phase 7 |
+| 17/11/2026 | Images de galerie limitées à la hauteur de l'écran, centrées ; 8 px entre elles | Une image en portrait en pleine largeur n'était jamais visible en entier ; images collées confondues |
