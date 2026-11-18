@@ -23,12 +23,12 @@ test.describe('ordinateur', () => {
     // Clic sur la carte centrale : le projet s'ouvre
     await centrale(page).click()
     await expect(page).toHaveURL('/fr/projets/pswc')
-    await expect(page.locator('h1')).toHaveText('PSWC')
+    await expect(page.locator('h1')).toHaveText('PSWC — Identité visuelle et événementiel')
     await expect(page).toHaveTitle('PSWC · Mandolina, graphiste')
 
     // Projet suivant, puis retour à l'accueil par le logotype : recentré sur le dernier projet vu
     await page.getByRole('link', { name: /Projet suivant/ }).click()
-    await expect(page.locator('h1')).toHaveText('FR Skates — Mise en page')
+    await expect(page.locator('h1')).toHaveText('FR Skates — Communication')
     await page.getByRole('link', { name: "Mandolina, retour à l'accueil" }).click()
     await expect(page).toHaveURL('/fr')
     await expect(centrale(page)).toHaveAttribute('href', '/fr/projets/fr-skates-mise-en-page')
@@ -91,4 +91,18 @@ test('sur mobile, glisser change de projet et la carte centrale garde son calque
     [300, 100, y],
   )
   await expect(centrale(page)).toHaveAttribute('href', '/fr/projets/pswc')
+})
+
+test('la mosaïque aligne les images de chaque rangée sur une même hauteur', async ({ page }) => {
+  await page.goto('/fr/projets/jenlain')
+  const hauteurs = await page
+    .locator('.rangee')
+    .evaluateAll((rangees) =>
+      rangees.map((r) =>
+        [...r.querySelectorAll('.image')].map((i) => Math.round(i.getBoundingClientRect().height)),
+      ),
+    )
+  // Contenu de démonstration : 1, 1, 2 et 3 images
+  expect(hauteurs.map((r) => r.length)).toEqual([1, 1, 2, 3])
+  for (const rangee of hauteurs) expect(new Set(rangee).size).toBe(1)
 })

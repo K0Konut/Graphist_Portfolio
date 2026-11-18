@@ -38,9 +38,9 @@ function routesDe(l: Langue): RouteRecordRaw[] {
         t,
         aProposHref: chemin('aPropos', l),
         // Seulement les champs de la carte : le reste finirait en attributs dans le HTML
-        projets: projets(l).map(({ slug, discipline, client, couleur, images }) => ({
+        projets: projets(l).map(({ slug, discipline, client, couleur, couverture }) => ({
           href: chemin('projet', l, slug),
-          image: images[0]!,
+          image: couverture,
           discipline,
           client,
           couleur,
