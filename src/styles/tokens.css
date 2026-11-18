@@ -6,6 +6,8 @@
   --blanc: #ffffff;
   --noir: #000000;
   --gris: #595959; /* texte secondaire, 7:1 sur blanc */
+  --gris-sur-noir: #8c8c8c; /* langue non sélectionnée dans l'île, 6:1 sur noir */
+  --gris-sur-noir-fond: #262626; /* survol du bouton de l'île */
 
   /* Typographie (DA §4) : Chivo seule, la graisse fait la hiérarchie */
   --police: 'Chivo Variable', system-ui, sans-serif;
@@ -17,7 +19,7 @@
   --taille-texte: 1.0625rem;
   --taille-intertitre: 1.5rem;
   --taille-titre-calque: clamp(1.25rem, 1.6vw, 1.5rem);
-  --taille-menu: clamp(2rem, 5vw, 3.5rem);
+  --taille-lien-ile: 1.25rem;
   --taille-titre-projet: clamp(2.5rem, 6vw, 4.5rem);
   --taille-titre-bandeau: clamp(1.5rem, 2.6vw, 2.25rem);
 
@@ -41,8 +43,16 @@
   --marge-calque: clamp(16px, 2vw, 28px);
 
   /* Mise en page */
-  --hauteur-header: 96px;
   --hauteur-logo: clamp(28px, 3.4vw, 44px);
+  /* Île de navigation (DA §5) */
+  --ile-epaule: 20px; /* raccord concave entre l'île et le bord haut de l'écran */
+  --ile-hauteur: 48px;
+  --ile-largeur: 216px;
+  --ile-largeur-ouverte: 300px;
+  --ile-logo: 18px;
+  --ile-bouton: 36px;
+  /* Le contenu qui commence en haut de page laisse passer l'île */
+  --degagement-ile: calc(var(--ile-hauteur) + var(--espace-4));
   --largeur-centrale: 56vw;
   --largeur-voisine: 22vw;
   --largeur-contenu: 1100px; /* texte et galerie de la page projet */
@@ -54,6 +64,7 @@
   --duree-standard: 250ms;
   --duree-lente: 500ms;
   --decalage-cascade: 40ms;
+  --decalage-ile: 150ms; /* les liens apparaissent quand l'île a presque fini de s'agrandir */
   --deplacement-texte: 8px;
   --ease-signature: cubic-bezier(0.2, 0, 0, 1);
   --ease-sortie: cubic-bezier(0.3, 0, 1, 1);
@@ -61,7 +72,6 @@
 
 @media (max-width: 700px) {
   :root {
-    --hauteur-header: 72px;
     --largeur-centrale: 80vw;
     --largeur-voisine: 10vw;
   }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// Mise en page de toutes les pages : header + contenu. Le contenu devient inerte tant que le menu est ouvert (DS §5, AppHeader),
-// et le menu se referme quand la page change.
+// Mise en page de toutes les pages : l'île de navigation + le contenu. L'île se referme quand la page change.
 import { ref, watch } from 'vue'
 import type { Textes } from '../../content/textes'
 import AppHeader, { type Langue, type LienMenu } from './AppHeader.vue'
@@ -32,7 +31,7 @@ watch(
     :menu-label="t.menu"
     :langues-label="t.langue"
   />
-  <main :inert="menuOuvert">
+  <main>
     <slot />
   </main>
 </template>

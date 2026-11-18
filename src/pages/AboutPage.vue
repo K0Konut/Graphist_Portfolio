@@ -32,7 +32,7 @@ defineProps<{
 
 <style scoped>
 .page {
-  padding: var(--espace-5) var(--marge) var(--espace-6);
+  padding: var(--degagement-ile) var(--marge) var(--espace-6);
 }
 
 .page > * + * {
