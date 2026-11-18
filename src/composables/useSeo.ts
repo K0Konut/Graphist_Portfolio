@@ -65,7 +65,7 @@ export function useSeo() {
   )
   // Couverture du projet ; ailleurs, celle du premier projet. Une image de démonstration (data:) n'est pas partageable
   const image = computed(() => {
-    const i = (projet.value ?? projets(langue.value)[0])?.images[0]
+    const i = (projet.value ?? projets(langue.value)[0])?.couverture
     return i && !i.src.startsWith('data:') ? i : undefined
   })
   const indexee = computed(() => !NON_INDEXEES.includes(page.value))

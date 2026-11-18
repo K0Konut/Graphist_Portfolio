@@ -111,7 +111,7 @@ Règle de la DA §3, testée sur les 17 couleurs de la cliente (`tests/unit/apla
 ### `ProjectCard`
 
 - Props : `href`, `image` (`{ src, alt, largeur?, hauteur? }`), `discipline`, `client`, `couleur`, `voirLabel`, `centrale`, `chargement`.
-- Nom accessible : « {discipline}, {client} — {voirLabel} » (ex. « Identité visuelle, Lutèce Destroyeuses — voir le projet ») ; le calque est `aria-hidden` (doublon).
+- Nom accessible : le texte du calque, complété par « — {voirLabel} » masqué (ex. « Identité visuelle Lutèce Destroyeuses — voir le projet ») : il contient ce qui est affiché (WCAG 2.5.3). L'image de la carte est décorative (`alt` vide), la discipline et le client la décrivent.
 - États :
 
 | État | Rendu |

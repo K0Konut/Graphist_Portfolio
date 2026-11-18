@@ -19,6 +19,7 @@
   --taille-titre-calque: clamp(1.25rem, 1.6vw, 1.5rem);
   --taille-menu: clamp(2rem, 5vw, 3.5rem);
   --taille-titre-projet: clamp(2.5rem, 6vw, 4.5rem);
+  --taille-titre-bandeau: clamp(1.5rem, 2.6vw, 2.25rem);
 
   --interligne-serre: 1.05;
   --interligne-titre: 1.15;
@@ -44,6 +45,8 @@
   --hauteur-logo: clamp(28px, 3.4vw, 44px);
   --largeur-centrale: 56vw;
   --largeur-voisine: 22vw;
+  --largeur-contenu: 1100px; /* texte et galerie de la page projet */
+  --teinte-fond: 6%; /* part de la couleur du projet dans le fond de sa page */
   --contour-focus: 3px;
 
   /* Mouvement (DA §7) */

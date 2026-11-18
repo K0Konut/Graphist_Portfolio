@@ -18,13 +18,13 @@ const pages = [
     chemin: '/fr/projets/jenlain/',
     lang: 'fr',
     titre: 'Jenlain · Mandolina, graphiste',
-    h1: 'Jenlain',
+    h1: 'Jenlain — Identité visuelle et packaging',
   },
   {
     chemin: '/en/projects/pswc/',
     lang: 'en',
     titre: 'PSWC · Mandolina, graphic designer',
-    h1: 'PSWC',
+    h1: 'PSWC — Visual identity and events',
   },
   { chemin: '/fr/a-propos/', lang: 'fr', titre: 'À propos · Mandolina, graphiste', h1: 'À propos' },
 ]

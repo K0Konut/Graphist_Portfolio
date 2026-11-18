@@ -1,6 +1,6 @@
 # Architecture de contenu & UX — Mandolina, graphiste
 
-Version 0.1 — 17/11/2026 — **statut : à valider**
+Version 0.2 — 17/11/2026 — **statut : à valider** (v0.2 : page projet d'après la maquette de la cliente : bandeau, présentation sur deux colonnes, galerie en mosaïque)
 
 S'appuie sur le PRD v0.3 (pages, carrousel, bilingue, Dashility), le territoire de marque v0.1 (ton : « je » + vouvoiement) et la DA v0.1 (« Aplats » : calque coloré, menu plein écran, motion posée). Aucune décision visuelle ici : les wireframes ne montrent que la structure.
 
@@ -108,10 +108,12 @@ Titre de page `h1` présent mais masqué visuellement : « Mandolina, graphiste 
 
 | Ordre | Section | Contenu |
 |---|---|---|
-| 1 | En-tête | Nom du projet (`h1`), puis discipline et client |
-| 2 | Présentation | Texte de présentation (texte riche, 65 caractères par ligne au plus) |
-| 3 | Galerie | Couverture, puis les images de la galerie, en pleine largeur, empilées ; chaque image a son texte alternatif |
+| 1 | Bandeau | Pleine largeur, à la couleur du projet : « Client — Discipline » (`h1`, ex. « Lutèce Destroyeuses — Identité visuelle ») |
+| 2 | Présentation | Texte de présentation (texte riche) sur deux colonnes sur ordinateur, une sur mobile |
+| 3 | Galerie | Les images de la galerie en mosaïque : chacune en pleine largeur, en moitié ou en tiers de la largeur de contenu, selon son champ « Largeur » ; chaque image a son texte alternatif. Galerie vide : la couverture seule |
 | 4 | Navigation | « Projet précédent » et « Projet suivant », avec le nom du projet visé ; en boucle |
+
+La couverture sert au carrousel et à l'aperçu de partage ; la page projet montre la galerie. Le nom du projet (ex. « Lutèce — Logo ») reste le titre de l'onglet et le libellé de la navigation précédent / suivant.
 
 ### À propos
 
@@ -145,7 +147,7 @@ Types créés par le développeur dans l'espace de Mandolina. « Trad. » : sais
 | Client | Texte court | non | oui | Sous-titre du calque (ex. « Lutèce Destroyeuses ») |
 | Présentation | Texte riche | oui | non | Texte de la page projet |
 | Couverture | Image (texte alternatif obligatoire) | alt : oui | oui | Carte du carrousel, première image de la page, aperçu de partage |
-| Galerie | Groupe répétable : Image | alt : oui | non | Images suivantes de la page projet |
+| Galerie | Groupe répétable : Image + Largeur (liste de choix : `pleine`, `moitie`, `tiers` ; `pleine` si vide) | alt : oui | non | Mosaïque de la page projet |
 | Couleur | Texte court (`RRGGBB`, avec ou sans `#`) | non | oui | Aplat du calque ; vérifiée au build |
 | Ordre | Nombre | non | oui | Position dans le carrousel (croissant) ; à égalité, le plus récent d'abord |
 
@@ -170,7 +172,7 @@ Types créés par le développeur dans l'espace de Mandolina. « Trad. » : sais
 | Bout de la liste | Boucle : le premier projet suit le dernier | Idem |
 | Défilement automatique | Jamais | Jamais |
 
-**Accessibilité** : le carrousel est une liste de liens (« Projets, 17 éléments »). Chaque carte est un lien vers son projet, au nom accessible « Identité visuelle, Lutèce Destroyeuses — voir le projet ». Sans JavaScript, la liste reste une suite de liens qui fonctionnent. Le recentrage est annoncé (« Projet 3 sur 17 »).
+**Accessibilité** : le carrousel est une liste de liens (« Projets, 17 éléments »). Chaque carte est un lien vers son projet, au nom accessible tiré du texte du calque, complété par « voir le projet » masqué (« Identité visuelle Lutèce Destroyeuses — voir le projet ») ; l'image de la carte est décorative. Sans JavaScript, la liste reste une suite de liens qui fonctionnent. Le recentrage est annoncé (« Projet 3 sur 17 »).
 
 **Retour à l'accueil** : depuis une page projet, le carrousel revient centré sur le dernier projet vu.
 
@@ -190,35 +192,31 @@ ACCUEIL — ordinateur                              ACCUEIL — mobile
 │        │                          │        │    │ │                  │ │
 └────────┴──────────────────────────┴────────┘    └─┴──────────────────┴─┘
 
-MENU OUVERT                                       PROJET
+MENU OUVERT                                       PROJET (ordinateur)
 ┌────────────────────────────────────────────┐    ┌──────────────────────┐
 │ [LOGOTYPE]                            [×]  │    │ [LOGOTYPE]       [≡] │
-│                                            │    │                      │
-│  À propos                                  │    │ Nom du projet (h1)   │
-│  Mentions légales                          │    │ Discipline — Client  │
-│                                            │    │                      │
-│                                            │    │ Présentation…        │
-│  FR / EN                                   │    │ (65 car. max)        │
 │                                            │    ├──────────────────────┤
-└────────────────────────────────────────────┘    │ couverture           │
-                                                  ├──────────────────────┤
-À PROPOS                                          │ image 2              │
-┌────────────────────────────────────────────┐    ├──────────────────────┤
-│ [LOGOTYPE]                            [≡]  │    │ image 3 …            │
-│                                            │    ├──────────────────────┤
-│ À propos (h1)                              │    │ ‹ Projet précédent   │
-│ Je suis Mandolina, graphiste.              │    │   Nom                │
-│ Présentation…                              │    │     Projet suivant › │
-│                                            │    │     Nom              │
-│ Pour un projet, écrivez-moi :              │    └──────────────────────┘
-│ adresse@mail                               │
-│                                            │    INTROUVABLE
-│ Télécharger mon book (PDF, 4 Mo)           │    ┌──────────────────────┐
-└────────────────────────────────────────────┘    │ [LOGOTYPE]       [≡] │
-                                                  │ Cette page n'existe  │
-                                                  │ pas.                 │
-                                                  │ Retour aux projets   │
-                                                  └──────────────────────┘
+│  À propos                                  │    │ Client — Discipline  │  bandeau couleur
+│  Mentions légales                          │    ├──────────────────────┤
+│                                            │    │  Présen-   │ tation…  │  2 colonnes
+│                                            │    │ ┌──────────────────┐ │
+│  FR / EN                                   │    │ │  image pleine    │ │
+│                                            │    │ ├────────┬─────────┤ │
+└────────────────────────────────────────────┘    │ │ moitié │ moitié  │ │
+                                                  │ ├─────┬──┴──┬──────┤ │
+À PROPOS                                          │ │tiers│tiers│tiers │ │
+┌────────────────────────────────────────────┐    │ └─────┴─────┴──────┘ │
+│ [LOGOTYPE]                            [≡]  │    │ ‹ Projet précédent   │
+│                                            │    │     Projet suivant › │
+│ À propos (h1)                              │    └──────────────────────┘
+│ Je suis Mandolina, graphiste.              │
+│ Présentation…                              │    INTROUVABLE
+│                                            │    ┌──────────────────────┐
+│ Pour un projet, écrivez-moi :              │    │ [LOGOTYPE]       [≡] │
+│ adresse@mail                               │    │ Cette page n'existe  │
+│                                            │    │ pas.                 │
+│ Télécharger mon book (PDF, 4 Mo)           │    │ Retour aux projets   │
+└────────────────────────────────────────────┘    └──────────────────────┘
 ```
 
 ---
