@@ -80,3 +80,4 @@
 | 17/11/2026 | Présentation sur deux colonnes alignées à gauche, pas justifiée | Le justifié en colonnes étroites crée des trous, gênants à la lecture |
 | 17/11/2026 | La couverture sert au carrousel et au partage ; la page projet montre la galerie (la couverture seule si la galerie est vide) | La maquette commence la page par la galerie, pas par la photo du carrousel |
 | 17/11/2026 | Documents alignés sur l'intégration : nom accessible des cartes (UX §5, design system §5), CSP sans empreintes et scripts réels (architecture §2, §6, §11) | Écarts constatés pendant la phase 7 |
+| 18/11/2026 | Mosaïque : rangées d'images de même hauteur sans recadrage (largeur proportionnelle au format) plutôt que recadrées | Aucun travail de la cliente n'est coupé ; précise la DA §5 (« recadrées à la hauteur de leur rangée ») |
