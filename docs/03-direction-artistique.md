@@ -134,10 +134,10 @@ Mobile — accueil
   - **galerie en mosaïque** : grille de six colonnes, chaque image en pleine largeur (6), moitié (3) ou tiers (2) ; images recadrées à la hauteur de leur rangée ; 8 px entre les images ;
   - liens projet précédent / suivant en bas.
 - **Île de navigation** (choix du propriétaire, 18/11/2026, sur le modèle de la Dynamic Island) : remplace le header pleine largeur et le menu plein écran.
-  - Pastille **noire**, fixée en haut au centre (12 px du bord), **par-dessus le contenu** : l'accueil prend toute la hauteur de l'écran.
-  - Fermée : le logotype en blanc (lien vers l'accueil) et un bouton « ••• ». Environ 216 × 48 px, coins entièrement arrondis.
+  - Encoche **noire rattachée au bord haut de l'écran**, au centre, **par-dessus le contenu** : l'accueil prend toute la hauteur de l'écran. Coins du bas arrondis ; de part et d'autre, une épaule concave de 20 px la raccorde au bord haut (dessin du propriétaire, 18/11/2026).
+  - Fermée : le logotype en blanc (lien vers l'accueil) et un bouton « ••• ». Environ 216 × 48 px.
   - Ouverte : l'île **s'agrandit** (environ 300 px de large, coins de 24 px) et montre À propos, Mentions légales et FR / EN en blanc ; « ••• » devient « × ».
-  - Le contenu qui commence en haut (bandeau de la page projet, pages de texte, texte du calque de la carte centrale) laisse un dégagement d'environ 84 px pour ne pas passer sous l'île.
+  - Le contenu qui commence en haut (bandeau de la page projet, pages de texte, texte du calque de la carte centrale) laisse un dégagement d'environ 72 px pour ne pas passer sous l'île.
 
 ---
 

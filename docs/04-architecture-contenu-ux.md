@@ -79,7 +79,7 @@ flowchart LR
 
 ### Île de navigation (toutes les pages)
 
-Fixée en haut au centre, par-dessus le contenu (DA §5).
+Rattachée au bord haut de l'écran, au centre, par-dessus le contenu (DA §5).
 
 | Élément | Rôle |
 |---|---|

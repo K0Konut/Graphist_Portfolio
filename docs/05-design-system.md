@@ -88,7 +88,7 @@ Règle de la DA §3, testée sur les 17 couleurs de la cliente (`tests/unit/apla
 
 - Clavier : à l'ouverture, le focus va au premier lien ; `Échap` ferme et rend le focus au bouton. Menu déroulant non modal : clic hors de l'île ou focus qui la quitte la referment ; la mise en page la referme à chaque changement de page.
 - Motion : largeur, hauteur et arrondi de l'île en 500 ms (`--ease-signature`), contenu en fondu ; fermeture en 250 ms (`--ease-sortie`). Mouvement réduit : pas de changement de forme progressif.
-- Dégagement : `--degagement-ile` (≈ 84 px) pour le contenu qui commence en haut de page.
+- Dégagement : `--degagement-ile` (≈ 72 px) pour le contenu qui commence en haut de page. Épaules concaves : `--ile-epaule` (20 px).
 
 ### `BaseIcon`
 
