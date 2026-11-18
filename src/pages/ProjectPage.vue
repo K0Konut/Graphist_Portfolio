@@ -6,7 +6,7 @@ import ProjectImage, { type ImageProjet } from '../components/projets/ProjectIma
 import ProjectPager from '../components/projets/ProjectPager.vue'
 import type { Textes } from '../content/textes'
 import { aplat } from '../utils/aplat'
-import { rangees, type Largeur } from '../utils/mosaique'
+import { LARGEURS, rangees, type Largeur } from '../utils/mosaique'
 
 export interface ImageGalerie {
   image: ImageProjet
@@ -64,7 +64,12 @@ const format = (i: ImageProjet) => (i.largeur && i.hauteur ? i.largeur / i.haute
         <!-- eslint-enable vue/no-v-html -->
 
         <div class="galerie">
-          <div v-for="(rangee, r) in mosaique" :key="r" class="rangee">
+          <div
+            v-for="(rangee, r) in mosaique"
+            :key="r"
+            class="rangee"
+            :style="{ '--remplissage': rangee.length / LARGEURS[rangee[0]!.largeur] }"
+          >
             <div
               v-for="{ image } in rangee"
               :key="image.src"
@@ -140,6 +145,12 @@ const format = (i: ImageProjet) => (i.largeur && i.hauteur ? i.largeur / i.haute
 
 .galerie {
   flex-direction: column;
+}
+
+/* Rangée incomplète : elle garde la largeur choisie (une moitié seule = la moitié de la largeur), centrée */
+.rangee {
+  width: calc((100% + var(--espace-2)) * var(--remplissage) - var(--espace-2));
+  margin-inline: auto;
 }
 
 /* Largeur de base nulle et croissance proportionnelle au format : toutes les images d'une rangée ont la même hauteur */
