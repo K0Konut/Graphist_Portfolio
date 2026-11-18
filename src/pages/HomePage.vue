@@ -25,7 +25,7 @@ defineProps<{ t: Textes; projets: ProjetCarte[]; aProposHref: string }>()
 
 <style scoped>
 .accueil {
-  height: calc(100svh - var(--hauteur-header));
+  height: 100svh;
   min-height: 420px;
 }
 
