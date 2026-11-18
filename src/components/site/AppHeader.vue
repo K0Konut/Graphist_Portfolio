@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Île de navigation (DA §5, UX §3) : pastille noire flottante en haut au centre, logotype et « ••• ».
+// Île de navigation (DA §5, UX §3) : encoche noire rattachée au bord haut de l'écran, logotype et « ••• ».
 // Ouverte, elle s'agrandit et montre les liens et les langues. Menu déroulant non modal : la page reste utilisable,
 // l'île se referme avec « × », Échap, un clic ou le focus hors d'elle (et à chaque page, par la mise en page).
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
@@ -104,19 +104,49 @@ onBeforeUnmount(() => document.removeEventListener('pointerdown', clic))
 .ile {
   position: fixed;
   z-index: 20;
-  top: var(--ile-haut);
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: var(--ile-largeur);
-  max-width: calc(100vw - 2 * var(--ile-haut));
+  max-width: calc(100vw - 4 * var(--ile-epaule));
   display: grid;
   grid-template-rows: auto 0fr;
-  border-radius: calc(var(--ile-hauteur) / 2);
+  /* Rattachée au bord haut : seuls les coins du bas sont arrondis */
+  border-radius: 0 0 calc(var(--ile-hauteur) / 2) calc(var(--ile-hauteur) / 2);
   background: var(--noir);
   color: var(--blanc);
   transition:
     width var(--duree-standard) var(--ease-sortie),
     grid-template-rows var(--duree-standard) var(--ease-sortie);
+}
+
+/* Épaules : de part et d'autre, un arrondi concave raccorde l'île au bord haut de l'écran */
+.ile::before,
+.ile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: var(--ile-epaule);
+  height: var(--ile-epaule);
+  pointer-events: none;
+}
+
+.ile::before {
+  right: 100%;
+  background: radial-gradient(
+    circle at 0 100%,
+    transparent calc(var(--ile-epaule) - 0.5px),
+    var(--noir) var(--ile-epaule)
+  );
+}
+
+.ile::after {
+  left: 100%;
+  background: radial-gradient(
+    circle at 100% 100%,
+    transparent calc(var(--ile-epaule) - 0.5px),
+    var(--noir) var(--ile-epaule)
+  );
 }
 
 .ouverte {

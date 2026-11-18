@@ -45,14 +45,14 @@
   /* Mise en page */
   --hauteur-logo: clamp(28px, 3.4vw, 44px);
   /* Île de navigation (DA §5) */
-  --ile-haut: 12px;
+  --ile-epaule: 20px; /* raccord concave entre l'île et le bord haut de l'écran */
   --ile-hauteur: 48px;
   --ile-largeur: 216px;
   --ile-largeur-ouverte: 300px;
   --ile-logo: 18px;
   --ile-bouton: 36px;
   /* Le contenu qui commence en haut de page laisse passer l'île */
-  --degagement-ile: calc(var(--ile-haut) + var(--ile-hauteur) + var(--espace-4));
+  --degagement-ile: calc(var(--ile-hauteur) + var(--espace-4));
   --largeur-centrale: 56vw;
   --largeur-voisine: 22vw;
   --largeur-contenu: 1100px; /* texte et galerie de la page projet */
