@@ -74,22 +74,21 @@ Règle de la DA §3, testée sur les 17 couleurs de la cliente (`tests/unit/apla
 
 ### `AppHeader`
 
-- Rôle : logotype vers l'accueil, bouton menu, menu plein écran.
+- Rôle : l'île de navigation (DA §5) : logotype vers l'accueil, bouton « ••• », liens et langues dans l'île agrandie.
 - Props : `accueilHref`, `logoLabel`, `liens` (`{ href, label }[]`), `langues` (`{ href, label, code, courante }[]`), `ouvrirLabel`, `fermerLabel`, `menuLabel`, `languesLabel`. `v-model:ouvert`.
 - États :
 
 | État | Rendu |
 |---|---|
-| Fermé | Icône menu ; `aria-expanded="false"` |
-| Ouvert | Icône fermer ; panneau blanc plein écran sous le logotype et le bouton ; liens en `--taille-menu`, langues en bas |
+| Fermée | Pastille noire : logotype blanc et « ••• » ; `aria-expanded="false"` |
+| Ouverte | L'île s'agrandit ; liens en blanc, langues en dessous ; « × » à la place de « ••• » |
 | Survol d'un lien | Souligné |
-| Focus | Contour noir (base) |
-| Langue courante | Noire et soulignée, `aria-current="page"` ; l'autre en gris |
+| Focus | Contour blanc dans l'île |
+| Langue courante | Blanche et soulignée, `aria-current="page"` ; l'autre en `--gris-sur-noir` |
 
-- Clavier : à l'ouverture, le focus va au premier lien ; `Échap` ferme ; à la fermeture, le focus revient au bouton.
-- **À faire par la mise en page (phase 7)** : mettre `inert` sur le contenu de la page tant que le menu est ouvert, et fermer le menu à chaque changement de page.
-- Motion : le panneau se dévoile du haut (`clip-path`, 500 ms, `--ease-signature`), les liens montent en cascade (40 ms) ; fermeture en 250 ms, `--ease-sortie`.
-- Responsive : header de 96 px, 72 px sous 700 px.
+- Clavier : à l'ouverture, le focus va au premier lien ; `Échap` ferme et rend le focus au bouton. Menu déroulant non modal : clic hors de l'île ou focus qui la quitte la referment ; la mise en page la referme à chaque changement de page.
+- Motion : largeur, hauteur et arrondi de l'île en 500 ms (`--ease-signature`), contenu en fondu ; fermeture en 250 ms (`--ease-sortie`). Mouvement réduit : pas de changement de forme progressif.
+- Dégagement : `--degagement-ile` (≈ 84 px) pour le contenu qui commence en haut de page.
 
 ### `BaseIcon`
 

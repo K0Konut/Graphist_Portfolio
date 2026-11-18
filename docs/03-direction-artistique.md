@@ -1,6 +1,6 @@
 # Direction artistique — Mandolina, graphiste
 
-Version 0.2 — 17/11/2026 — **statut : à valider** (v0.2 : page projet d'après la maquette de la cliente)
+Version 0.3 — 18/11/2026 — **statut : à valider** (v0.3 : l'île de navigation remplace le header et le menu plein écran ; v0.2 : page projet d'après la maquette de la cliente)
 
 S'appuie sur le PRD v0.2 (carrousel à carte centrale, survol coloré par projet, WCAG 2.2 AA) et le territoire de marque v0.1 (retenue, clarté, soin du détail ; « le site s'efface derrière les images »). Planche de tendance : `docs/06-maquettes/moodboard.html`.
 
@@ -37,8 +37,9 @@ Une seule, fournie par la cliente : sa maquette de l'accueil (header blanc, logo
 
 | Jeton | Valeur | Rôle | Contraste |
 |---|---|---|---|
-| `--blanc` | `#FFFFFF` | Fond de toutes les pages, header | — |
-| `--noir` | `#000000` | Texte, logotype, icône de menu, focus | 21:1 sur blanc |
+| `--blanc` | `#FFFFFF` | Fond de toutes les pages ; logotype et liens dans l'île | 21:1 sur noir |
+| `--noir` | `#000000` | Texte, fond de l'île, focus | 21:1 sur blanc |
+| `--gris-sur-noir` | `#8C8C8C` | Langue non sélectionnée dans l'île | 6:1 sur noir |
 | `--gris` | `#595959` | Texte secondaire (légendes, mentions) | 7:1 sur blanc |
 
 Noir pur, comme le logotype de la maquette : pas de noir teinté.
@@ -87,7 +88,7 @@ Chivo est une grotesque au dessin ferme, avec des graisses très lourdes : c'est
 | Intertitre (À propos, mentions) | 700 | 1,5rem | 1,2 |
 | Texte courant | 400 | 1,0625rem (17 px) | 1,55 |
 | Légende, mentions | 400 | 0,875rem | 1,4 |
-| Liens du menu | 700 | `clamp(2rem, 5vw, 3.5rem)` | 1,1 |
+| Liens de l'île | 700 | 1,25rem | 1,2 |
 
 - Échelle de rapport 1,25 autour de 17 px, avec les titres en `clamp()` pour suivre l'écran.
 - **Soulignement** du titre de calque : 2 px d'épaisseur, décalé de 0,2em, comme la maquette. C'est le seul ornement typographique du site.
@@ -132,14 +133,18 @@ Mobile — accueil
   - **présentation** sur deux colonnes alignées à gauche sur ordinateur (pas de justification), une sur mobile ;
   - **galerie en mosaïque** : grille de six colonnes, chaque image en pleine largeur (6), moitié (3) ou tiers (2) ; images recadrées à la hauteur de leur rangée ; 8 px entre les images ;
   - liens projet précédent / suivant en bas.
-- **Menu** (icône à droite du header, trois barres épaisses comme la maquette) : panneau blanc plein écran, liens À propos et Mentions légales en grand, choix FR / EN.
+- **Île de navigation** (choix du propriétaire, 18/11/2026, sur le modèle de la Dynamic Island) : remplace le header pleine largeur et le menu plein écran.
+  - Pastille **noire**, fixée en haut au centre (12 px du bord), **par-dessus le contenu** : l'accueil prend toute la hauteur de l'écran.
+  - Fermée : le logotype en blanc (lien vers l'accueil) et un bouton « ••• ». Environ 216 × 48 px, coins entièrement arrondis.
+  - Ouverte : l'île **s'agrandit** (environ 300 px de large, coins de 24 px) et montre À propos, Mentions légales et FR / EN en blanc ; « ••• » devient « × ».
+  - Le contenu qui commence en haut (bandeau de la page projet, pages de texte, texte du calque de la carte centrale) laisse un dégagement d'environ 84 px pour ne pas passer sous l'île.
 
 ---
 
 ## 6. Imagerie et icônes
 
 - **Images** : celles des projets, telles que fournies, recadrées en `object-fit: cover` dans les cartes, entières sur la page projet. Aucun filtre, aucun effet (pas de zoom au survol, pas de noir et blanc).
-- **Icônes** : trois seulement, dessinées en SVG au même trait épais que l'icône de menu : menu, fermer, flèches précédent / suivant. Noir pur.
+- **Icônes** : quatre, dessinées en SVG au trait épais : plus (« ••• »), fermer, flèches précédent / suivant. Couleur héritée (blanc dans l'île, noir ailleurs).
 
 ---
 
@@ -151,14 +156,14 @@ Mobile — accueil
 |---|---|---|
 | `--duree-rapide` | 150 ms | Disparition du calque, changement de focus |
 | `--duree-standard` | 250 ms | Apparition du calque |
-| `--duree-lente` | 500 ms | Recentrage du carrousel, ouverture du menu |
+| `--duree-lente` | 500 ms | Recentrage du carrousel, ouverture de l'île |
 | `--ease-signature` | `cubic-bezier(0.2, 0, 0, 1)` | 80 % des mouvements : départ net, arrivée douce |
-| `--ease-sortie` | `cubic-bezier(0.3, 0, 1, 1)` | Disparitions (calque, menu) |
+| `--ease-sortie` | `cubic-bezier(0.3, 0, 1, 1)` | Disparitions (calque, fermeture de l'île) |
 
 **Ce qui s'anime**
 - **Calque de survol** (le moment mémorable) : l'aplat apparaît en opacité (250 ms) ; le titre puis le client montent de 8 px, décalés de 40 ms. Il disparaît plus vite qu'il n'apparaît (150 ms).
 - **Carrousel** : la carte choisie glisse au centre et s'élargit, ses voisines se resserrent (500 ms, `--ease-signature`), par transformations (`transform`) pour rester fluide.
-- **Menu** : le panneau se dévoile depuis le haut (500 ms), les liens suivent avec un décalage de 50 ms.
+- **Île** : elle s'élargit et s'allonge en douceur (500 ms, `--ease-signature`), les liens apparaissent en fondu une fois la forme presque atteinte ; fermeture en 250 ms (`--ease-sortie`).
 
 **Ce qui ne s'anime jamais** : le défilement automatique du carrousel, les images (ni zoom, ni parallaxe), les apparitions au défilement de la page, le texte courant, les chargements (pas d'écran de chargement).
 
@@ -167,7 +172,7 @@ Mobile — accueil
 **`prefers-reduced-motion: reduce`**
 - Le calque apparaît en fondu court (150 ms), sans déplacement du texte.
 - Le carrousel change de carte sans glissement (fondu de 150 ms).
-- Le menu s'ouvre sans glissement.
+- L'île s'ouvre sans changer de forme progressivement : fondu court de son contenu.
 
 ---
 

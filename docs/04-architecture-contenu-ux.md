@@ -1,6 +1,6 @@
 # Architecture de contenu & UX — Mandolina, graphiste
 
-Version 0.2 — 17/11/2026 — **statut : à valider** (v0.2 : page projet d'après la maquette de la cliente : bandeau, présentation sur deux colonnes, galerie en mosaïque)
+Version 0.3 — 18/11/2026 — **statut : à valider** (v0.3 : île de navigation ; v0.2 : page projet d'après la maquette de la cliente : bandeau, présentation sur deux colonnes, galerie en mosaïque)
 
 S'appuie sur le PRD v0.3 (pages, carrousel, bilingue, Dashility), le territoire de marque v0.1 (ton : « je » + vouvoiement) et la DA v0.1 (« Aplats » : calque coloré, menu plein écran, motion posée). Aucune décision visuelle ici : les wireframes ne montrent que la structure.
 
@@ -77,23 +77,24 @@ flowchart LR
 
 ## 3. Contenu par page
 
-### Header (toutes les pages)
+### Île de navigation (toutes les pages)
+
+Fixée en haut au centre, par-dessus le contenu (DA §5).
 
 | Élément | Rôle |
 |---|---|
 | Logotype « MANDOLINA » | Lien vers l'accueil de la langue courante ; texte alternatif « Mandolina, retour à l'accueil » |
-| Bouton menu | Ouvre le menu ; nom accessible « Ouvrir le menu » / « Fermer le menu » |
+| Bouton « ••• » | Ouvre l'île ; nom accessible « Ouvrir le menu » / « Fermer le menu », `aria-expanded` |
 
-### Menu (panneau plein écran)
+Une fois ouverte, l'île montre :
 
 | Ordre | Élément | Rôle |
 |---|---|---|
 | 1 | À propos | Page À propos |
 | 2 | Mentions légales | Page Mentions légales |
 | 3 | FR / EN | Même page dans l'autre langue ; la langue courante est indiquée (`aria-current`) |
-| — | Fermer | Bouton à la place de l'icône de menu ; `Échap` ferme aussi |
 
-Le focus reste dans le menu tant qu'il est ouvert, et revient sur le bouton menu à la fermeture.
+C'est un menu déroulant, pas une fenêtre : la page reste utilisable. À l'ouverture, le focus va au premier lien ; l'île se referme avec « × », `Échap` (le focus revient au bouton), un clic hors de l'île, quand le focus la quitte, et à chaque changement de page.
 
 ### Accueil
 
@@ -181,10 +182,9 @@ Types créés par le développeur dans l'espace de Mandolina. « Trad. » : sais
 ## 6. Wireframes
 
 ```
-ACCUEIL — ordinateur                              ACCUEIL — mobile
+ACCUEIL — ordinateur (île par-dessus)             ACCUEIL — mobile
 ┌────────────────────────────────────────────┐    ┌──────────────────────┐
-│ [LOGOTYPE]                            [≡]  │    │ [LOGOTYPE]       [≡] │
-├────────┬──────────────────────────┬────────┤    ├─┬──────────────────┬─┤
+├────────┬──╭─[LOGOTYPE]  •••─╮─────┬────────┤    ├─┬─╭[LOGO] •••╮─────┬─┤
 │        │ Discipline (survol)      │        │    │ │ Discipline       │ │
 │ voisine│ Client                   │ voisine│    │v│ Client           │v│
 │        │                          │        │    │ │  (calque         │ │
