@@ -20,7 +20,7 @@ const image = {
   hauteur: 1500,
 }
 const cartes = projets.map((p, i) => ({ ...p, href: `#projet-${i + 1}`, image }))
-const icones = ['menu', 'fermer', 'precedent', 'suivant'] as const
+const icones = ['plus', 'fermer', 'precedent', 'suivant'] as const
 const durees = [
   ['Rapide', '--duree-rapide', '150 ms'],
   ['Standard', '--duree-standard', '250 ms'],
@@ -168,7 +168,7 @@ const durees = [
 
 <style scoped>
 .vitrine {
-  padding: var(--espace-5) var(--marge) var(--espace-6);
+  padding: var(--degagement-ile) var(--marge) var(--espace-6);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--espace-6);
@@ -277,7 +277,7 @@ section > .note {
   line-height: var(--interligne-serre);
 }
 .t-menu {
-  font-size: var(--taille-menu);
+  font-size: var(--taille-lien-ile);
   font-weight: var(--graisse-intertitre);
   line-height: var(--interligne-titre);
 }

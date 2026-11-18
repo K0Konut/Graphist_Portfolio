@@ -96,12 +96,12 @@ const format = (i: ImageProjet) => (i.largeur && i.hauteur ? i.largeur / i.haute
 <style scoped>
 /* Fond teinté de la couleur du projet : la page lui appartient sans gêner la lecture */
 .page {
-  min-height: calc(100svh - var(--hauteur-header));
+  min-height: 100svh;
   background: color-mix(in srgb, var(--aplat) var(--teinte-fond), var(--blanc));
 }
 
 .bandeau {
-  padding: var(--espace-5) var(--marge);
+  padding: var(--degagement-ile) var(--marge) var(--espace-5);
   background: var(--aplat);
   color: var(--aplat-texte);
   text-align: center;

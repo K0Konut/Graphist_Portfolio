@@ -78,7 +78,8 @@ const style = computed(() => ({
   display: flex;
   flex-direction: column;
   gap: var(--espace-2);
-  padding: var(--marge-calque);
+  /* Le carrousel est en plein écran sous l'île : le texte commence sous elle */
+  padding: var(--degagement-ile) var(--marge-calque) var(--marge-calque);
   background: var(--aplat);
   opacity: 0;
   transition: opacity var(--duree-rapide) var(--ease-sortie);

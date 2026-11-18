@@ -68,7 +68,7 @@ const erreur = ref(false)
 .image {
   width: 100%;
   aspect-ratio: var(--ratio);
-  max-width: calc((100svh - var(--hauteur-header)) * var(--ratio, 100));
+  max-width: calc((100svh - var(--degagement-ile)) * var(--ratio, 100));
   margin-inline: auto;
 }
 

@@ -30,10 +30,8 @@ test("le menu ouvert n'a aucune violation WCAG AA détectée", async ({ page }) 
   await expect(page.getByRole('link', { name: 'À propos' })).toBeVisible()
   // Après l'entrée en cascade des liens : pendant l'animation, leur opacité partielle fausse le contraste.
   // Attendre l'état final, pas la fin des animations (elles peuvent ne pas avoir encore démarré)
-  await page.waitForFunction(() =>
-    [...document.querySelectorAll('#menu-principal li, #menu-principal .langues')].every(
-      (e) => getComputedStyle(e).opacity === '1' && getComputedStyle(e).transform === 'none',
-    ),
+  await page.waitForFunction(
+    () => getComputedStyle(document.querySelector('#menu-principal')!).opacity === '1',
   )
   expect((await analyser(page)).violations).toEqual([])
 })

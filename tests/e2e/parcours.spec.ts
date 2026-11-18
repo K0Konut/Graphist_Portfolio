@@ -106,3 +106,21 @@ test('la mosaïque aligne les images de chaque rangée sur une même hauteur', a
   expect(hauteurs.map((r) => r.length)).toEqual([1, 1, 2, 3])
   for (const rangee of hauteurs) expect(new Set(rangee).size).toBe(1)
 })
+
+test('l’île se referme sur un clic ailleurs, et la page reste utilisable pendant qu’elle est ouverte', async ({
+  page,
+}) => {
+  await page.goto('/fr/projets/jenlain')
+  await page.getByRole('button', { name: 'Ouvrir le menu' }).click()
+  await expect(page.getByRole('button', { name: 'Fermer le menu' })).toHaveAttribute(
+    'aria-expanded',
+    'true',
+  )
+  await page.locator('.presentation').click()
+  await expect(page.getByRole('button', { name: 'Ouvrir le menu' })).toHaveAttribute(
+    'aria-expanded',
+    'false',
+  )
+  // Fermée, l'île garde ses liens hors d'atteinte du clavier
+  await expect(page.locator('.tiroir')).toHaveAttribute('inert', '')
+})

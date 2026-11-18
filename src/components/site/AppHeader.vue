@@ -1,7 +1,8 @@
 <script setup lang="ts">
-// Header de toutes les pages (UX §3) : logotype vers l'accueil, bouton menu, et le menu plein écran qu'il ouvre.
-// La page derrière le menu ouvert doit recevoir `inert` : c'est la mise en page qui s'en charge (phase 7).
-import { nextTick, ref, watch } from 'vue'
+// Île de navigation (DA §5, UX §3) : encoche noire rattachée au bord haut de l'écran, logotype et « ••• ».
+// Ouverte, elle s'agrandit et montre les liens et les langues. Menu déroulant non modal : la page reste utilisable,
+// l'île se referme avec « × », Échap, un clic ou le focus hors d'elle (et à chaque page, par la mise en page).
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BaseIcon from '../ui/BaseIcon.vue'
 import SiteLogo from './SiteLogo.vue'
 
@@ -26,42 +27,63 @@ defineProps<{
 }>()
 
 const ouvert = defineModel<boolean>('ouvert', { default: false })
+const ile = ref<HTMLElement>()
 const bouton = ref<HTMLButtonElement>()
 const premierLien = ref<HTMLAnchorElement[]>([])
 
 watch(ouvert, async (estOuvert) => {
   await nextTick()
   if (estOuvert) premierLien.value[0]?.focus()
-  else bouton.value?.focus()
 })
 
-function fermerSurEchap(e: KeyboardEvent) {
-  if (e.key === 'Escape' && ouvert.value) ouvert.value = false
+function fermer(rendreLeFocus = false) {
+  ouvert.value = false
+  if (rendreLeFocus) bouton.value?.focus()
 }
+
+// Le focus ou un clic qui quitte l'île la referme
+const dehors = (cible: EventTarget | null) => !ile.value?.contains(cible as Node | null)
+const perteDeFocus = (e: FocusEvent) => {
+  if (ouvert.value && e.relatedTarget && dehors(e.relatedTarget)) fermer()
+}
+const clic = (e: PointerEvent) => {
+  if (ouvert.value && dehors(e.target)) fermer()
+}
+onMounted(() => document.addEventListener('pointerdown', clic))
+onBeforeUnmount(() => document.removeEventListener('pointerdown', clic))
 </script>
 
 <template>
-  <header class="header" @keydown="fermerSurEchap">
-    <a class="logo" :href="accueilHref"><SiteLogo :label="logoLabel" /></a>
-    <button
-      ref="bouton"
-      class="bouton-menu"
-      :aria-expanded="ouvert"
-      aria-controls="menu-principal"
-      :aria-label="ouvert ? fermerLabel : ouvrirLabel"
-      @click="ouvert = !ouvert"
-    >
-      <BaseIcon :nom="ouvert ? 'fermer' : 'menu'" />
-    </button>
+  <header
+    ref="ile"
+    class="ile"
+    :class="{ ouverte: ouvert }"
+    @keydown.esc="ouvert && fermer(true)"
+    @focusout="perteDeFocus"
+  >
+    <div class="barre">
+      <a class="logo" :href="accueilHref"><SiteLogo :label="logoLabel" /></a>
+      <button
+        ref="bouton"
+        class="bouton"
+        :aria-expanded="ouvert"
+        aria-controls="menu-principal"
+        :aria-label="ouvert ? fermerLabel : ouvrirLabel"
+        @click="ouvert = !ouvert"
+      >
+        <BaseIcon :nom="ouvert ? 'fermer' : 'plus'" />
+      </button>
+    </div>
 
-    <Transition name="menu">
-      <nav v-show="ouvert" id="menu-principal" class="menu" :aria-label="menuLabel">
+    <!-- Fermé, le tiroir reste dans la page pour s'animer, mais inerte : ses liens ne sont pas atteignables -->
+    <div class="tiroir" :inert="!ouvert">
+      <nav id="menu-principal" class="menu" :aria-label="menuLabel">
         <ul class="liens">
-          <li v-for="(lien, i) in liens" :key="lien.href" :style="{ '--rang': i }">
+          <li v-for="lien in liens" :key="lien.href">
             <a ref="premierLien" :href="lien.href">{{ lien.label }}</a>
           </li>
         </ul>
-        <ul class="langues" :aria-label="languesLabel" :style="{ '--rang': liens.length }">
+        <ul class="langues" :aria-label="languesLabel">
           <li v-for="langue in langues" :key="langue.code">
             <a
               :href="langue.href"
@@ -74,49 +96,114 @@ function fermerSurEchap(e: KeyboardEvent) {
           </li>
         </ul>
       </nav>
-    </Transition>
+    </div>
   </header>
 </template>
 
 <style scoped>
-.header {
-  position: relative;
-  z-index: 10;
-  height: var(--hauteur-header);
+.ile {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--ile-largeur);
+  max-width: calc(100vw - 4 * var(--ile-epaule));
+  display: grid;
+  grid-template-rows: auto 0fr;
+  /* Rattachée au bord haut : seuls les coins du bas sont arrondis */
+  border-radius: 0 0 calc(var(--ile-hauteur) / 2) calc(var(--ile-hauteur) / 2);
+  background: var(--noir);
+  color: var(--blanc);
+  transition:
+    width var(--duree-standard) var(--ease-sortie),
+    grid-template-rows var(--duree-standard) var(--ease-sortie);
+}
+
+/* Épaules : de part et d'autre, un arrondi concave raccorde l'île au bord haut de l'écran */
+.ile::before,
+.ile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: var(--ile-epaule);
+  height: var(--ile-epaule);
+  pointer-events: none;
+}
+
+.ile::before {
+  right: 100%;
+  background: radial-gradient(
+    circle at 0 100%,
+    transparent calc(var(--ile-epaule) - 0.5px),
+    var(--noir) var(--ile-epaule)
+  );
+}
+
+.ile::after {
+  left: 100%;
+  background: radial-gradient(
+    circle at 100% 100%,
+    transparent calc(var(--ile-epaule) - 0.5px),
+    var(--noir) var(--ile-epaule)
+  );
+}
+
+.ouverte {
+  width: var(--ile-largeur-ouverte);
+  grid-template-rows: auto 1fr;
+  transition-duration: var(--duree-lente);
+  transition-timing-function: var(--ease-signature);
+}
+
+.barre {
+  height: var(--ile-hauteur);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--marge);
-  background: var(--blanc);
+  gap: var(--espace-3);
+  padding: 0 var(--espace-2) 0 var(--espace-4);
 }
 
 .logo {
-  position: relative;
-  z-index: 1;
-  color: var(--noir);
+  --hauteur-logo: var(--ile-logo);
+  color: var(--blanc);
 }
 
-.bouton-menu {
-  position: relative;
-  z-index: 1;
+.bouton {
   display: grid;
   place-items: center;
-  width: var(--espace-5);
-  height: var(--espace-5);
-  font-size: 40px;
-  margin-right: calc(var(--espace-1) * -1);
+  width: var(--ile-bouton);
+  height: var(--ile-bouton);
+  border-radius: 50%;
+  font-size: var(--espace-3);
 }
 
-/* Panneau plein écran sous le header (DA §5) */
+.bouton:hover {
+  background: var(--gris-sur-noir-fond);
+}
+
+/* Contour de focus en blanc sur l'île noire */
+.ile :focus-visible {
+  outline-color: var(--blanc);
+}
+
+.tiroir {
+  overflow: hidden;
+  min-height: 0;
+}
+
 .menu {
-  position: fixed;
-  inset: 0;
-  padding: calc(var(--hauteur-header) + var(--espace-5)) var(--marge) var(--espace-5);
-  background: var(--blanc);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow-y: auto;
+  display: grid;
+  gap: var(--espace-4);
+  padding: var(--espace-3) var(--espace-4) var(--espace-4);
+  opacity: 0;
+  transition: opacity var(--duree-rapide) var(--ease-sortie);
+}
+
+.ouverte .menu {
+  opacity: 1;
+  transition: opacity var(--duree-standard) var(--ease-signature) var(--decalage-ile);
 }
 
 .liens,
@@ -125,8 +212,13 @@ function fermerSurEchap(e: KeyboardEvent) {
   padding: 0;
 }
 
+.liens {
+  display: grid;
+  gap: var(--espace-2);
+}
+
 .liens a {
-  font-size: var(--taille-menu);
+  font-size: var(--taille-lien-ile);
   font-weight: var(--graisse-intertitre);
   line-height: var(--interligne-titre);
   text-decoration: none;
@@ -134,10 +226,6 @@ function fermerSurEchap(e: KeyboardEvent) {
 
 .liens a:hover {
   text-decoration: underline;
-}
-
-.liens li + li {
-  margin-top: var(--espace-3);
 }
 
 .langues {
@@ -148,40 +236,19 @@ function fermerSurEchap(e: KeyboardEvent) {
 
 .langues a {
   text-decoration: none;
-  color: var(--gris);
+  color: var(--gris-sur-noir);
 }
 
 .langues a[aria-current='page'] {
-  color: var(--noir);
+  color: var(--blanc);
   text-decoration: underline;
 }
 
-/* Le panneau se dévoile depuis le haut, les liens suivent en cascade (DA §7) */
-.menu-enter-active {
-  transition: clip-path var(--duree-lente) var(--ease-signature);
-}
-.menu-leave-active {
-  transition: clip-path var(--duree-standard) var(--ease-sortie);
-}
-.menu-enter-from,
-.menu-leave-to {
-  clip-path: inset(0 0 100% 0);
-}
-.menu-enter-to,
-.menu-leave-from {
-  clip-path: inset(0);
-}
-
-.menu-enter-active .liens li,
-.menu-enter-active .langues {
-  transition:
-    opacity var(--duree-lente) var(--ease-signature),
-    transform var(--duree-lente) var(--ease-signature);
-  transition-delay: calc(var(--decalage-cascade) * (var(--rang, 0) + 1));
-}
-.menu-enter-from .liens li,
-.menu-enter-from .langues {
-  opacity: 0;
-  transform: translateY(calc(var(--deplacement-texte) * 2));
+/* Mouvement réduit : pas de changement de forme progressif, seulement le fondu du contenu */
+@media (prefers-reduced-motion: reduce) {
+  .ile,
+  .ouverte {
+    transition: none;
+  }
 }
 </style>
