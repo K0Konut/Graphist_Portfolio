@@ -81,3 +81,7 @@
 | 17/11/2026 | La couverture sert au carrousel et au partage ; la page projet montre la galerie (la couverture seule si la galerie est vide) | La maquette commence la page par la galerie, pas par la photo du carrousel |
 | 17/11/2026 | Documents alignés sur l'intégration : nom accessible des cartes (UX §5, design system §5), CSP sans empreintes et scripts réels (architecture §2, §6, §11) | Écarts constatés pendant la phase 7 |
 | 18/11/2026 | Mosaïque : rangées d'images de même hauteur sans recadrage (largeur proportionnelle au format) plutôt que recadrées | Aucun travail de la cliente n'est coupé ; précise la DA §5 (« recadrées à la hauteur de leur rangée ») |
+| 18/11/2026 | Île de navigation (sur le modèle de la Dynamic Island) à la place du header pleine largeur et du menu plein écran : encoche noire rattachée au bord haut, au centre, avec des épaules concaves, logotype blanc et « ••• » ; elle s'agrandit pour montrer À propos, Mentions légales et FR / EN | Header jugé trop haut par le propriétaire ; plus de place pour les images |
+| 18/11/2026 | Accueil en plein écran sous l'île ; dégagement d'environ 72 px pour le bandeau, les pages de texte et le texte du calque | L'île recouvrirait sinon le début du contenu |
+| 18/11/2026 | Menu déroulant non modal (plus de contenu inerte) ; fermeture par « × », Échap, clic ou focus hors de l'île | Le menu ne couvre plus la page |
+| 18/11/2026 | Langue non sélectionnée en `#8C8C8C` sur l'île noire | Le gris `#595959` n'aurait que 3:1 sur noir |
