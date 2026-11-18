@@ -2,6 +2,7 @@
    au format de l'API publique. Écrit par `npm run contenu` (réel) ou `npm run contenu:demo`. */
 import type { Projet } from '../pages/ProjectPage.vue'
 import type { ContenuPublie, Langue } from '../router/pages'
+import { largeur } from '../utils/mosaique'
 
 interface ImageDashility {
   alt: string
@@ -28,7 +29,7 @@ interface ChampsProjet {
   client: string
   presentation?: TexteRiche
   couverture: ImageDashility
-  galerie?: { image: ImageDashility }[] | null
+  galerie?: { image: ImageDashility; largeur?: { key: string } | null }[] | null
   couleur: string
   ordre: number
 }
@@ -60,7 +61,11 @@ export function projets(langue: Langue): ProjetPublie[] {
       client: f.client,
       couleur: f.couleur,
       presentation: f.presentation?.html,
-      images: [f.couverture, ...(f.galerie ?? []).map((g) => g.image)].map(image),
+      couverture: image(f.couverture),
+      galerie: (f.galerie ?? []).map((g) => ({
+        image: image(g.image),
+        largeur: largeur(g.largeur?.key),
+      })),
     }))
 }
 

@@ -49,6 +49,8 @@ const presentation = (client: string, l: Langue) => ({
 })
 
 const publishedAt = '2026-11-17T00:00:00.000Z'
+// Une liste de choix de Dashility renvoie { key, label }
+const choix = (key: string) => ({ key, label: key })
 
 const contenu = (l: Langue) => ({
   projets: fiche.map((p, i) => ({
@@ -60,7 +62,15 @@ const contenu = (l: Langue) => ({
       client: p.client,
       presentation: presentation(p.client, l),
       couverture: image(p.nom, 1200, 1500, l),
-      galerie: [{ image: image(p.nom, 2400, 1600, l) }, { image: image(p.nom, 1200, 1500, l) }],
+      galerie: [
+        { image: image(p.nom, 2400, 1200, l), largeur: choix('pleine') },
+        { image: image(p.nom, 2400, 1600, l), largeur: choix('pleine') },
+        { image: image(p.nom, 1200, 1200, l), largeur: choix('moitie') },
+        { image: image(p.nom, 1200, 1200, l), largeur: choix('moitie') },
+        { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+        { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+        { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+      ],
       couleur: p.couleur,
       ordre: i + 1,
     },
