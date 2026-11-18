@@ -62,15 +62,24 @@ const contenu = (l: Langue) => ({
       client: p.client,
       presentation: presentation(p.client, l),
       couverture: image(p.nom, 1200, 1500, l),
-      galerie: [
-        { image: image(p.nom, 2400, 1200, l), largeur: choix('pleine') },
-        { image: image(p.nom, 2400, 1600, l), largeur: choix('pleine') },
-        { image: image(p.nom, 1200, 1200, l), largeur: choix('moitie') },
-        { image: image(p.nom, 1200, 1200, l), largeur: choix('moitie') },
-        { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
-        { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
-        { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
-      ],
+      galerie:
+        i === 1
+          ? // PSWC : rangées incomplètes (une moitié seule, deux tiers), pour les tests de la mosaïque
+            [
+              { image: image(p.nom, 2400, 1200, l), largeur: choix('pleine') },
+              { image: image(p.nom, 1200, 1200, l), largeur: choix('moitie') },
+              { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+              { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+            ]
+          : [
+              { image: image(p.nom, 2400, 1200, l), largeur: choix('pleine') },
+              { image: image(p.nom, 2400, 1600, l), largeur: choix('pleine') },
+              { image: image(p.nom, 1200, 1200, l), largeur: choix('moitie') },
+              { image: image(p.nom, 1200, 1200, l), largeur: choix('moitie') },
+              { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+              { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+              { image: image(p.nom, 1200, 800, l), largeur: choix('tiers') },
+            ],
       couleur: p.couleur,
       ordre: i + 1,
     },

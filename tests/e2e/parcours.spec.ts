@@ -124,3 +124,15 @@ test('l’île se referme sur un clic ailleurs, et la page reste utilisable pend
   // Fermée, l'île garde ses liens hors d'atteinte du clavier
   await expect(page.locator('.tiroir')).toHaveAttribute('inert', '')
 })
+
+test('une rangée incomplète garde la largeur choisie : une moitié seule, deux tiers', async ({
+  page,
+}) => {
+  await page.goto('/fr/projets/pswc')
+  const largeurs = await page
+    .locator('.rangee')
+    .evaluateAll((rangees) => rangees.map((r) => r.getBoundingClientRect().width))
+  const [pleine, moitie, tiers] = largeurs as [number, number, number]
+  expect(moitie / pleine).toBeCloseTo(0.5, 1)
+  expect(tiers / pleine).toBeCloseTo(2 / 3, 1)
+})

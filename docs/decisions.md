@@ -85,3 +85,4 @@
 | 18/11/2026 | Accueil en plein écran sous l'île ; dégagement d'environ 72 px pour le bandeau, les pages de texte et le texte du calque | L'île recouvrirait sinon le début du contenu |
 | 18/11/2026 | Menu déroulant non modal (plus de contenu inerte) ; fermeture par « × », Échap, clic ou focus hors de l'île | Le menu ne couvre plus la page |
 | 18/11/2026 | Langue non sélectionnée en `#8C8C8C` sur l'île noire | Le gris `#595959` n'aurait que 3:1 sur noir |
+| 18/11/2026 | Une rangée incomplète de la mosaïque garde la largeur choisie (une moitié seule = la moitié de la largeur), centrée | Une moitié seule prenait toute la largeur : le choix « Largeur » ne se voyait pas (retour du propriétaire) |
