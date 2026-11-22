@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cylindre — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .scene {
+        height: 100svh;
+        display: grid;
+        place-content: center;
+        justify-items: center;
+        gap: var(--espace-5);
+        padding-top: var(--entete-hauteur);
+        perspective: 2000px;
+        overflow: hidden;
+        touch-action: pan-y;
+      }
+      .anneau {
+        position: relative;
+        width: var(--w);
+        height: calc(var(--w) * 1.25);
+        list-style: none;
+        padding: 0;
+        transform-style: preserve-3d;
+        transform: translateZ(calc(-1 * var(--r))) rotateY(var(--angle, 0deg));
+        transition: transform var(--duree-lente) var(--ease-signature);
+      }
+      .anneau li {
+        position: absolute;
+        inset: 0;
+        transform: rotateY(calc(var(--k) * 360deg / 17)) translateZ(var(--r));
+        backface-visibility: hidden;
+        transition: opacity var(--duree-lente) var(--ease-signature);
+      }
+      .anneau .carte {
+        height: 100%;
+      }
+      .legende {
+        display: grid;
+        text-align: center;
+        line-height: 1.3;
+      }
+      .legende b {
+        font-weight: 700;
+      }
+      .legende span {
+        font-size: var(--taille-legende);
+        color: var(--gris);
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu" class="scene">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="anneau" aria-label="Projets"></ul>
+      <p class="legende" aria-hidden="true"><b></b><span></span></p>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, carte, pilote, annonce, trace, modulo, decalage, reduit, fondu } = M
+      const n = projets.length
+      const anneau = document.querySelector('.anneau')
+      anneau.innerHTML = projets.map((p, k) => `<li style="--k:${k}">${carte(p)}</li>`).join('')
+      const items = [...anneau.children]
+      let pas = 0 // non borné, pour que l'anneau tourne toujours dans le sens du geste
+
+      function taille() {
+        const w = Math.min(innerWidth * (innerWidth <= 700 ? 0.56 : 0.2), innerHeight * 0.5 * 0.8)
+        anneau.style.setProperty('--w', w + 'px')
+        anneau.style.setProperty('--r', (w / 2 + 10) / Math.tan(Math.PI / n) + 'px')
+      }
+
+      function tourner(s) {
+        pas += s
+        const actif = modulo(pas, n)
+        if (reduit) (anneau.style.transition = 'none'), fondu(anneau)
+        anneau.style.setProperty('--angle', (-pas * 360) / n + 'deg')
+        items.forEach((li, i) => {
+          const d = Math.abs(decalage(i, actif, n))
+          li.style.opacity = d === 0 ? 1 : Math.max(0.25, 1 - d * 0.2)
+          const a = li.firstElementChild
+          a.classList.toggle('survolable', d === 0)
+          a.tabIndex = d === 0 ? 0 : -1
+        })
+        const p = projets[actif]
+        document.querySelector('.legende b').textContent = p.nom
+        document.querySelector('.legende span').textContent = `${p.discipline} — ${actif + 1} / ${n}`
+        annonce(`Projet ${actif + 1} sur ${n} : ${p.nom}`)
+        trace(p.couleur)
+      }
+
+      anneau.addEventListener('click', (e) => {
+        const a = e.target.closest('.carte')
+        if (!a) return
+        const d = decalage(+a.dataset.i, modulo(pas, n), n)
+        if (d !== 0) (e.preventDefault(), tourner(d))
+      })
+      pilote(document.querySelector('.scene'), tourner)
+      addEventListener('resize', taille)
+      taille()
+      tourner(0)
+    </script>
+  </body>
+</html>

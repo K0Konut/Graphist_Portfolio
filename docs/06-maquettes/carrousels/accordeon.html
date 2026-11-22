@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accordéon — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .accordeon {
+        --ouverte: 14;
+        list-style: none;
+        display: flex;
+        gap: 2px;
+        height: 100svh;
+        padding: 0;
+        touch-action: pan-y;
+      }
+      .accordeon li {
+        flex: 1 1 0;
+        min-width: 0;
+        transition: flex-grow var(--duree-lente) var(--ease-signature);
+      }
+      .accordeon li.ouverte {
+        flex-grow: var(--ouverte);
+      }
+      .lame {
+        height: 100%;
+        background: var(--aplat);
+      }
+      /* L'image a déjà sa taille finale : la lame la découvre au lieu de la redimensionner */
+      .lame img {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 47vw;
+        translate: -50% 0;
+        opacity: 0;
+        transition: opacity var(--duree-rapide) var(--ease-sortie);
+      }
+      .ouverte .lame img {
+        opacity: 1;
+        transition: opacity var(--duree-lente) var(--ease-signature);
+      }
+      .nom-lame {
+        position: absolute;
+        left: 50%;
+        bottom: var(--espace-4);
+        translate: -50% 0;
+        writing-mode: vertical-rl;
+        rotate: 180deg;
+        white-space: nowrap;
+        font-size: var(--taille-legende);
+        font-weight: 700;
+        color: var(--aplat-texte);
+        transition: opacity var(--duree-rapide) var(--ease-sortie);
+      }
+      .ouverte .nom-lame {
+        opacity: 0;
+      }
+      .lame .calque {
+        top: auto;
+        background: none;
+        padding: 0;
+        inset: auto auto var(--espace-4) var(--espace-4);
+      }
+      .lame .calque > span {
+        width: fit-content;
+        padding: var(--espace-2) var(--espace-3);
+        background: var(--aplat);
+      }
+      .lame .calque .client {
+        margin-top: calc(-1 * var(--espace-2));
+      }
+      .ouverte .lame .calque {
+        opacity: 1;
+        transition: opacity var(--duree-standard) var(--ease-signature) var(--duree-standard);
+      }
+      .ouverte .lame .calque :is(.discipline, .client) {
+        transform: none;
+        transition: transform var(--duree-standard) var(--ease-signature) var(--duree-standard);
+      }
+      @media (width <= 700px) {
+        .accordeon {
+          flex-direction: column;
+          padding-top: var(--entete-hauteur);
+          touch-action: pan-x;
+        }
+        .lame img {
+          top: 50%;
+          left: 0;
+          width: 100%;
+          height: 50svh;
+          translate: 0 -50%;
+        }
+        .nom-lame {
+          writing-mode: horizontal-tb;
+          rotate: none;
+          left: var(--espace-3);
+          bottom: 50%;
+          translate: 0 50%;
+          font-size: 0.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="accordeon" aria-label="Projets"></ul>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, carte, pilote, annonce, trace, modulo } = M
+      const n = projets.length
+      const liste = document.querySelector('.accordeon')
+      liste.innerHTML = projets
+        .map(
+          (p) =>
+            `<li>${carte(p, { classe: 'lame' }).replace('<span class="calque', `<span class="nom-lame" aria-hidden="true">${p.nom}</span><span class="calque`)}</li>`,
+        )
+        .join('')
+      const items = [...liste.children]
+      let actif = -1
+
+      function ouvrir(i) {
+        i = modulo(i, n)
+        if (i === actif) return
+        actif = i
+        items.forEach((li, k) => li.classList.toggle('ouverte', k === i))
+        annonce(`Projet ${i + 1} sur ${n} : ${projets[i].nom}`)
+        trace(projets[i].couleur)
+      }
+
+      const souris = matchMedia('(hover: hover)').matches
+      items.forEach((li, i) => {
+        if (souris) li.addEventListener('pointerenter', () => ouvrir(i))
+        li.addEventListener('focusin', () => ouvrir(i))
+      })
+      // Au doigt : le premier toucher ouvre la lame, le second ouvre le projet
+      liste.addEventListener('click', (e) => {
+        const a = e.target.closest('.carte')
+        if (a && +a.dataset.i !== actif) (e.preventDefault(), ouvrir(+a.dataset.i))
+      })
+      pilote(liste, (s) => ouvrir((actif < 0 ? 0 : actif) + s), {
+        axe: matchMedia('(width <= 700px)').matches ? 'y' : 'x',
+      })
+      ouvrir(0)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Index et image — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .index {
+        display: grid;
+        grid-template-columns: minmax(320px, 2fr) 3fr;
+        height: 100svh;
+      }
+      .liste {
+        list-style: none;
+        overflow-y: auto;
+        padding: var(--degagement) var(--marge) var(--espace-5);
+        scrollbar-width: thin;
+      }
+      .liste a {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: baseline;
+        gap: var(--espace-3);
+        padding: var(--espace-2) var(--espace-3);
+        margin-inline: calc(-1 * var(--espace-3));
+        color: var(--noir);
+        text-decoration: none;
+        background: linear-gradient(var(--aplat), var(--aplat)) no-repeat left / 0% 100%;
+        transition:
+          background-size var(--duree-rapide) var(--ease-sortie),
+          color var(--duree-rapide) var(--ease-sortie);
+      }
+      .liste a.actif {
+        background-size: 100% 100%;
+        color: var(--aplat-texte);
+        transition:
+          background-size var(--duree-standard) var(--ease-signature),
+          color var(--duree-standard) var(--ease-signature);
+      }
+      .liste b {
+        font-size: clamp(1.125rem, 1.7vw, 1.625rem);
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .liste small {
+        font-size: var(--taille-legende);
+        color: inherit;
+        opacity: 0.7;
+        text-align: right;
+      }
+      .cadre {
+        position: relative;
+        overflow: hidden;
+      }
+      /* La couverture entière, sans recadrage, dans l'espace laissé par le header */
+      .cadre img {
+        position: absolute;
+        inset: var(--degagement) var(--marge) var(--marge);
+        width: calc(100% - 2 * var(--marge));
+        height: calc(100% - var(--degagement) - var(--marge));
+        object-fit: contain;
+        opacity: 0;
+        transition: opacity var(--duree-standard) var(--ease-signature);
+      }
+      .cadre img.actif {
+        opacity: 1;
+      }
+      @media (width <= 800px) {
+        .index {
+          grid-template-columns: 1fr;
+          grid-template-rows: 46svh 1fr;
+        }
+        .cadre {
+          order: -1;
+        }
+        .cadre img {
+          inset: calc(var(--entete-hauteur) + var(--espace-3)) var(--marge) 0;
+          height: calc(100% - var(--entete-hauteur) - var(--espace-3));
+        }
+        .liste {
+          padding-top: var(--espace-3);
+          padding-bottom: 40svh;
+        }
+        .liste small {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu" class="index">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="liste" aria-label="Projets"></ul>
+      <div class="cadre" aria-hidden="true"></div>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, trace } = M
+      const liste = document.querySelector('.liste')
+      const cadre = document.querySelector('.cadre')
+      liste.innerHTML = projets
+        .map(
+          (p) =>
+            `<li><a href="#${p.slug}" style="${p.style}" data-i="${p.i}"><b>${p.nom}</b><small>${p.discipline}</small></a></li>`,
+        )
+        .join('')
+      cadre.innerHTML = projets.map((p) => `<img src="${p.couverture}" alt="">`).join('')
+      const liens = [...liste.querySelectorAll('a')]
+      const images = [...cadre.children]
+      let actif = -1
+
+      function montrer(i) {
+        if (i === actif) return
+        actif = i
+        liens.forEach((a, k) => a.classList.toggle('actif', k === i))
+        images.forEach((img, k) => img.classList.toggle('actif', k === i))
+        trace(projets[i].couleur)
+      }
+
+      liens.forEach((a, i) => {
+        a.addEventListener('pointerenter', () => montrer(i))
+        a.addEventListener('focus', () => montrer(i))
+      })
+      document.addEventListener('keydown', (e) => {
+        if (!['ArrowDown', 'ArrowUp'].includes(e.key) || document.getElementById('menu').open) return
+        e.preventDefault()
+        const i = Math.min(Math.max(actif + (e.key === 'ArrowDown' ? 1 : -1), 0), liens.length - 1)
+        liens[i].focus()
+      })
+
+      // Au doigt, pas de survol : le projet montré est celui qui passe en haut de la liste
+      if (matchMedia('(hover: none)').matches) {
+        const obs = new IntersectionObserver(
+          (entrees) => entrees.forEach((e) => e.isIntersecting && montrer(+e.target.dataset.i)),
+          { root: liste, rootMargin: '0px 0px -85% 0px' },
+        )
+        liens.forEach((a) => obs.observe(a))
+      }
+      montrer(0)
+    </script>
+  </body>
+</html>

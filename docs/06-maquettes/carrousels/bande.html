@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bande — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .rangee {
+        --hauteur: calc(100svh - var(--entete-hauteur) - 200px);
+        list-style: none;
+        display: flex;
+        gap: var(--espace-2);
+        height: 100svh;
+        padding: calc(var(--entete-hauteur) + var(--espace-5)) var(--marge) 0;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: var(--marge);
+        scrollbar-width: none;
+        cursor: grab;
+      }
+      .rangee.tire {
+        cursor: grabbing;
+        scroll-snap-type: none;
+      }
+      .rangee li {
+        flex: none;
+        width: calc(var(--hauteur) * 0.8);
+        scroll-snap-align: start;
+      }
+      .rangee li:last-child {
+        margin-right: var(--marge);
+      }
+      .rangee .carte {
+        height: var(--hauteur);
+      }
+      .legende {
+        display: grid;
+        padding-top: var(--espace-3);
+        font-size: var(--taille-legende);
+        line-height: 1.4;
+      }
+      .legende b {
+        font-weight: 700;
+      }
+      .legende span {
+        color: var(--gris);
+      }
+      .progres {
+        position: fixed;
+        left: var(--marge);
+        right: var(--marge);
+        bottom: var(--espace-5);
+        height: 2px;
+        background: var(--vide);
+      }
+      .progres span {
+        display: block;
+        height: 100%;
+        background: var(--noir);
+        transform-origin: 0;
+        transform: scaleX(var(--p, 0));
+      }
+      @media (width <= 700px) {
+        .rangee {
+          --hauteur: 62svh;
+        }
+        .rangee li {
+          width: min(calc(var(--hauteur) * 0.8), 78vw);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="rangee" aria-label="Projets"></ul>
+      <div class="progres" aria-hidden="true"><span></span></div>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, carte } = M
+      const rangee = document.querySelector('.rangee')
+      rangee.innerHTML = projets
+        .map(
+          (p) =>
+            `<li>${carte(p, { classe: 'survolable' })}<p class="legende" aria-hidden="true"><b>${p.nom}</b><span>${p.discipline}</span></p></li>`,
+        )
+        .join('')
+
+      const progres = document.querySelector('.progres')
+      const maj = () =>
+        progres.style.setProperty('--p', rangee.scrollLeft / (rangee.scrollWidth - rangee.clientWidth || 1))
+      rangee.addEventListener('scroll', maj, { passive: true })
+
+      // La molette verticale fait défiler la bande
+      rangee.addEventListener(
+        'wheel',
+        (e) => {
+          if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return
+          e.preventDefault()
+          rangee.scrollLeft += e.deltaY
+        },
+        { passive: false },
+      )
+
+      // Glisser à la souris (le doigt fait défiler nativement)
+      let depart = null
+      let bouge = false
+      rangee.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse') return
+        depart = [e.clientX, rangee.scrollLeft]
+        bouge = false
+      })
+      addEventListener('pointermove', (e) => {
+        if (!depart) return
+        const dx = e.clientX - depart[0]
+        if (Math.abs(dx) > 5) (bouge = true), rangee.classList.add('tire')
+        rangee.scrollLeft = depart[1] - dx
+      })
+      addEventListener('pointerup', () => {
+        depart = null
+        rangee.classList.remove('tire')
+      })
+      rangee.addEventListener('click', (e) => bouge && (e.preventDefault(), (bouge = false)), true)
+
+      // Flèches : une couverture à la fois
+      document.addEventListener('keydown', (e) => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(e.key) || document.getElementById('menu').open) return
+        e.preventDefault()
+        const pas = rangee.querySelector('li').offsetWidth + 8
+        rangee.scrollBy({ left: e.key === 'ArrowRight' ? pas : -pas, behavior: M.reduit ? 'auto' : 'smooth' })
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,413 @@
+/* Maquettes des carrousels : tokens du site (src/styles/tokens.css), header repris de costamask.dev, carte et calque. */
+
+@font-face {
+  font-family: 'Chivo Variable';
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('chivo.woff2')
+    format('woff2');
+}
+
+:root {
+  --blanc: #ffffff;
+  --noir: #000000;
+  --gris: #595959;
+  --gris-sur-noir: #8c8c8c;
+  --gris-sur-noir-fond: #262626;
+  --vide: #e6e6e6;
+
+  --police: 'Chivo Variable', system-ui, sans-serif;
+  --taille-legende: 0.875rem;
+  --taille-texte: 1.0625rem;
+  --taille-titre-calque: clamp(1.25rem, 1.6vw, 1.5rem);
+  --soulignement: 2px;
+  --soulignement-decalage: 0.2em;
+
+  --espace-1: 4px;
+  --espace-2: 8px;
+  --espace-3: 16px;
+  --espace-4: 24px;
+  --espace-5: 48px;
+  --marge: clamp(24px, 4vw, 48px);
+  --marge-calque: clamp(16px, 2vw, 28px);
+  --contour-focus: 3px;
+
+  /* Header de costamask.dev : barre suspendue au bord haut, coins du bas arrondis */
+  --entete-hauteur: 60px;
+  --entete-largeur: 1240px;
+  --entete-rayon: 28px;
+  --entete-fond: var(--noir);
+  --entete-texte: var(--blanc);
+  --gouttiere: clamp(1rem, 4vw, 3rem);
+  --degagement: calc(var(--entete-hauteur) + var(--espace-4));
+  /* Le trait sous le lien actif prend la couleur du projet affiché */
+  --trace: var(--blanc);
+
+  --duree-rapide: 150ms;
+  --duree-standard: 250ms;
+  --duree-lente: 500ms;
+  --decalage-cascade: 40ms;
+  --deplacement-texte: 8px;
+  --ease-signature: cubic-bezier(0.2, 0, 0, 1);
+  --ease-sortie: cubic-bezier(0.3, 0, 1, 1);
+  --ease-trace: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duree-standard: var(--duree-rapide);
+    --duree-lente: var(--duree-rapide);
+    --deplacement-texte: 0px;
+    --decalage-cascade: 0ms;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  font-family: var(--police);
+  font-size: var(--taille-texte);
+  line-height: 1.55;
+  color: var(--noir);
+  background: var(--blanc);
+  -webkit-font-smoothing: antialiased;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+:focus-visible {
+  outline: var(--contour-focus) solid var(--noir);
+  outline-offset: var(--espace-1);
+}
+.visuellement-masque {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Header ---------- */
+
+.evitement {
+  position: fixed;
+  z-index: 30;
+  top: var(--espace-2);
+  left: var(--espace-3);
+  padding: var(--espace-2) var(--espace-3);
+  background: var(--noir);
+  color: var(--blanc);
+  transform: translateY(-200%);
+}
+.evitement:focus {
+  transform: none;
+}
+
+.entete {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-inline: var(--gouttiere);
+  pointer-events: none;
+}
+.barre {
+  pointer-events: auto;
+  max-width: var(--entete-largeur);
+  min-height: var(--entete-hauteur);
+  margin: 0 auto;
+  padding: var(--espace-2) var(--gouttiere);
+  display: flex;
+  align-items: center;
+  gap: var(--espace-3);
+  border-radius: 0 0 var(--entete-rayon) var(--entete-rayon);
+  background: var(--entete-fond);
+  color: var(--entete-texte);
+}
+.entete :focus-visible,
+.menu :focus-visible {
+  outline-color: var(--blanc);
+}
+.nom {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
+}
+.logo {
+  height: 18px;
+  width: auto;
+}
+.entete nav {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-4);
+  margin-left: auto;
+}
+.entete nav a,
+.langues a {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+}
+.trace {
+  position: relative;
+}
+.trace::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(-1 * var(--espace-1));
+  height: var(--soulignement);
+  background: var(--trace);
+  transform: scaleX(0);
+  transform-origin: 0;
+  transition:
+    transform var(--duree-standard) var(--ease-trace),
+    background-color var(--duree-lente) var(--ease-signature);
+}
+:hover > .trace::after,
+[aria-current] > .trace::after {
+  transform: scaleX(1);
+}
+.langues {
+  display: flex;
+  align-items: center;
+}
+.langues .sep {
+  color: var(--gris-sur-noir);
+}
+.bouton-menu {
+  display: none;
+  margin-left: auto;
+  align-items: center;
+  gap: var(--espace-2);
+  min-height: 44px;
+  padding: 0 var(--espace-3);
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  font-size: var(--taille-legende);
+  font-weight: 700;
+  line-height: 1;
+  transition:
+    background-color var(--duree-standard) var(--ease-signature),
+    color var(--duree-standard) var(--ease-signature);
+}
+.bouton-menu:hover {
+  background: var(--entete-texte);
+  color: var(--entete-fond);
+}
+.bouton-menu svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+@media (width <= 767px) {
+  .entete nav,
+  .barre .langues {
+    display: none;
+  }
+  .bouton-menu {
+    display: inline-flex;
+  }
+}
+
+.menu {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  border: 0;
+  padding: var(--espace-2) var(--gouttiere) var(--espace-5);
+  background: var(--noir);
+  color: var(--blanc);
+}
+.menu[open] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espace-5);
+}
+.menu::backdrop {
+  background: transparent;
+}
+.menu .haut {
+  min-height: var(--entete-hauteur);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--gouttiere);
+}
+.menu ul {
+  list-style: none;
+  padding: 0 var(--gouttiere);
+  display: grid;
+  gap: var(--espace-1);
+}
+.menu ul a {
+  display: inline-flex;
+  min-height: 44px;
+  font-size: 3.25rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: inherit;
+  text-decoration: none;
+}
+.menu ul a[aria-current] {
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 0.12em;
+  text-decoration-color: var(--trace);
+}
+.menu .langues {
+  margin-top: auto;
+  padding-inline: var(--gouttiere);
+  gap: var(--espace-2);
+  font-weight: 700;
+}
+.menu .langues a:not([aria-current]) {
+  color: var(--gris-sur-noir);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .menu[open] {
+    animation: menu-entre var(--duree-lente) var(--ease-signature);
+  }
+}
+@keyframes menu-entre {
+  from {
+    clip-path: inset(0 0 100% 0 round 0 0 var(--entete-rayon) var(--entete-rayon));
+  }
+}
+
+/* ---------- Carte et calque (design system §5) ---------- */
+
+.carte {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  color: var(--aplat-texte);
+  background: var(--vide);
+  text-decoration: none;
+}
+.carte img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.carte:focus-visible {
+  outline: none;
+}
+.carte:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: var(--contour-focus) solid var(--noir);
+}
+.calque {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espace-2);
+  padding: var(--marge-calque);
+  background: var(--aplat);
+  opacity: 0;
+  transition: opacity var(--duree-rapide) var(--ease-sortie);
+  pointer-events: none;
+}
+.calque.haut-degage {
+  padding-top: var(--degagement);
+}
+.discipline {
+  font-size: var(--taille-titre-calque);
+  font-weight: 800;
+  line-height: 1.15;
+  text-decoration: underline;
+  text-decoration-thickness: var(--soulignement);
+  text-underline-offset: var(--soulignement-decalage);
+}
+.client {
+  font-size: var(--taille-legende);
+  line-height: 1.4;
+}
+.calque :is(.discipline, .client) {
+  transform: translateY(var(--deplacement-texte));
+  transition: transform var(--duree-rapide) var(--ease-sortie);
+}
+.survolable:is(:hover, :focus-visible) .calque,
+.calque-visible .calque {
+  opacity: var(--aplat-opacite);
+  transition: opacity var(--duree-standard) var(--ease-signature);
+}
+.survolable:is(:hover, :focus-visible) .calque :is(.discipline, .client),
+.calque-visible .calque :is(.discipline, .client) {
+  transform: none;
+  transition: transform var(--duree-standard) var(--ease-signature);
+}
+.survolable:is(:hover, :focus-visible) .calque .client,
+.calque-visible .calque .client {
+  transition-delay: var(--decalage-cascade);
+}
+
+/* ---------- Navigation entre maquettes (hors design) ---------- */
+
+.banc {
+  position: fixed;
+  z-index: 25;
+  right: var(--espace-3);
+  bottom: var(--espace-3);
+  display: flex;
+  align-items: center;
+  gap: var(--espace-1);
+  padding: var(--espace-1);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.92);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.15);
+  font-size: 0.8125rem;
+  line-height: 1;
+}
+.banc a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 var(--espace-2);
+  border-radius: 999px;
+  color: var(--noir);
+  text-decoration: none;
+}
+.banc a:hover {
+  background: var(--vide);
+}
+.banc .titre {
+  font-weight: 700;
+}

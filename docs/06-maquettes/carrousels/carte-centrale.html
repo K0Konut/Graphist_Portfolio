@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carte centrale — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .scene {
+        position: relative;
+        height: 100svh;
+        overflow: hidden;
+        touch-action: pan-y;
+      }
+      .scene ul {
+        list-style: none;
+        padding: 0;
+      }
+      .scene li {
+        position: absolute;
+        inset: 0 auto 0 0;
+        transition:
+          transform var(--duree-lente) var(--ease-signature),
+          clip-path var(--duree-lente) var(--ease-signature);
+      }
+      .scene .carte {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu" class="scene">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul aria-label="Projets"></ul>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, carte, decalage, pilote, annonce, trace, fondu, reduit, modulo } = M
+      const n = projets.length
+      const liste = document.querySelector('.scene ul')
+      liste.innerHTML = projets.map((p) => `<li>${carte(p, { degage: true })}</li>`).join('')
+      const items = [...liste.children]
+      const tactile = matchMedia('(hover: none)').matches
+      let actif = 0
+      let avant = items.map(() => 0)
+
+      function placer(anime) {
+        const vw = innerWidth
+        const mobile = vw <= 700
+        const lc = vw * (mobile ? 0.8 : 0.56)
+        const lv = vw * (mobile ? 0.1 : 0.22)
+        const ecart = 8
+        items.forEach((li, i) => {
+          const d = decalage(i, actif, n)
+          const w = d === 0 ? lc : lv
+          const c = vw / 2 + Math.sign(d) * (lc / 2 + ecart + lv / 2 + (Math.abs(d) - 1) * (lv + ecart))
+          const loin = Math.abs(d) > 3 || Math.abs(avant[i]) > 3
+          li.style.transition = anime && !loin && !reduit ? '' : 'none'
+          li.style.width = lc + 'px'
+          li.style.transform = `translateX(${c - lc / 2}px)`
+          li.style.clipPath = `inset(0 ${(lc - w) / 2}px)`
+          const a = li.firstElementChild
+          a.classList.toggle('survolable', d === 0)
+          a.classList.toggle('calque-visible', d === 0 && tactile)
+          li.classList.toggle('centrale', d === 0)
+          avant[i] = d
+        })
+      }
+
+      function aller(i) {
+        actif = modulo(i, n)
+        placer(true)
+        fondu(document.querySelector('.scene ul'))
+        annonce(`Projet ${actif + 1} sur ${n}`)
+        trace(projets[actif].couleur)
+      }
+
+      liste.addEventListener('click', (e) => {
+        const a = e.target.closest('.carte')
+        if (!a) return
+        const i = +a.dataset.i
+        if (i !== actif) (e.preventDefault(), aller(i))
+      })
+      liste.addEventListener('focusin', (e) => {
+        const i = +e.target.closest('.carte').dataset.i
+        if (i !== actif) aller(i)
+      })
+      pilote(document.querySelector('.scene'), (s) => aller(actif + s))
+      addEventListener('resize', () => placer(false))
+      placer(false)
+      trace(projets[0].couleur)
+    </script>
+  </body>
+</html>

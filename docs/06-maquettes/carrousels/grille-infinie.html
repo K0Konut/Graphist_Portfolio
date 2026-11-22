@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grille à glisser — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .mur {
+        position: relative;
+        height: 100svh;
+        overflow: hidden;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+      }
+      .mur.tire {
+        cursor: grabbing;
+      }
+      .mur .carte {
+        position: absolute;
+        top: 0;
+        left: 0;
+        will-change: transform;
+      }
+      .mur.tire .carte {
+        pointer-events: none;
+      }
+      /* Les 17 liens uniques, pour le clavier et les lecteurs d'écran ; visibles au focus */
+      .acces {
+        position: fixed;
+        left: var(--espace-3);
+        bottom: var(--espace-3);
+        z-index: 5;
+        list-style: none;
+        padding: var(--espace-3);
+        background: var(--blanc);
+        box-shadow: 0 0 0 1px var(--noir);
+        font-size: var(--taille-legende);
+        clip-path: inset(50%);
+      }
+      .acces:focus-within {
+        clip-path: none;
+      }
+      .acces a {
+        color: var(--noir);
+      }
+      .aide {
+        position: fixed;
+        left: 50%;
+        bottom: var(--espace-4);
+        translate: -50% 0;
+        padding: var(--espace-2) var(--espace-3);
+        background: var(--noir);
+        color: var(--blanc);
+        font-size: var(--taille-legende);
+        border-radius: 999px;
+        pointer-events: none;
+        transition: opacity var(--duree-lente) var(--ease-sortie);
+      }
+      .aide.partie {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="acces" aria-label="Projets"></ul>
+      <div class="mur" aria-hidden="true"></div>
+      <p class="aide" aria-hidden="true">Glissez pour explorer</p>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, carte, modulo, reduit, trace } = M
+      const n = projets.length
+      const mur = document.querySelector('.mur')
+      const aide = document.querySelector('.aide')
+      document.querySelector('.acces').innerHTML = projets
+        .map((p) => `<li><a href="#${p.slug}">${p.nom}</a></li>`)
+        .join('')
+
+      let cases = []
+      let cw, ch, cols, rows
+      let ox = 0
+      let oy = 0
+      const ecart = 12
+
+      function construire() {
+        cw = Math.max(innerWidth * (innerWidth <= 700 ? 0.44 : 0.17), 150)
+        ch = cw * 1.25 + ecart
+        cols = Math.ceil(innerWidth / (cw + ecart)) + 2
+        cols += cols % 2 // nombre pair : le décalage des colonnes impaires reste juste au raccord
+        rows = Math.ceil(innerHeight / ch) + 2
+        mur.innerHTML = ''
+        cases = []
+        for (let c = 0; c < cols; c++)
+          for (let r = 0; r < rows; r++) {
+            const p = projets[modulo(c * 7 + r * 3, n)]
+            mur.insertAdjacentHTML('beforeend', carte(p, { classe: 'survolable', attributs: 'tabindex="-1"' }))
+            const el = mur.lastElementChild
+            el.style.width = cw + 'px'
+            el.style.height = cw * 1.25 + 'px'
+            cases.push([el, c, r])
+          }
+        placer()
+      }
+
+      function placer() {
+        const W = cols * (cw + ecart)
+        const H = rows * ch
+        for (const [el, c, r] of cases) {
+          const x = modulo(c * (cw + ecart) + ox, W) - (cw + ecart)
+          const y = modulo(r * ch + oy + (c % 2 ? ch / 2 : 0), H) - ch
+          el.style.transform = `translate(${x}px, ${y}px)`
+        }
+      }
+
+      // Glisser avec élan ; l'élan est coupé en mouvement réduit
+      let tire = null
+      let vx = 0
+      let vy = 0
+      let bouge = false
+      let elan = 0
+      mur.addEventListener('pointerdown', (e) => {
+        mur.setPointerCapture(e.pointerId)
+        tire = [e.clientX, e.clientY]
+        vx = vy = 0
+        bouge = false
+        cancelAnimationFrame(elan)
+      })
+      mur.addEventListener('pointermove', (e) => {
+        if (!tire) return
+        const dx = e.clientX - tire[0]
+        const dy = e.clientY - tire[1]
+        tire = [e.clientX, e.clientY]
+        if (!bouge && Math.hypot(dx, dy) > 2) (bouge = true), mur.classList.add('tire'), aide.classList.add('partie')
+        ox += dx
+        oy += dy
+        vx = dx
+        vy = dy
+        placer()
+      })
+      mur.addEventListener('pointerup', (e) => {
+        tire = null
+        mur.classList.remove('tire')
+        if (!bouge) {
+          // Un clic sans glisser ouvre le projet sous le pointeur
+          const a = document.elementFromPoint(e.clientX, e.clientY)?.closest('.carte')
+          if (a) location.hash = a.getAttribute('href')
+          return
+        }
+        if (reduit) return
+        const glisser = () => {
+          vx *= 0.94
+          vy *= 0.94
+          ox += vx
+          oy += vy
+          placer()
+          if (Math.hypot(vx, vy) > 0.3) elan = requestAnimationFrame(glisser)
+        }
+        elan = requestAnimationFrame(glisser)
+      })
+      mur.addEventListener('click', (e) => e.preventDefault())
+      mur.addEventListener(
+        'wheel',
+        (e) => {
+          e.preventDefault()
+          ox -= e.deltaX
+          oy -= e.deltaY
+          aide.classList.add('partie')
+          placer()
+        },
+        { passive: false },
+      )
+      mur.addEventListener('pointerover', (e) => {
+        const a = e.target.closest('.carte')
+        if (a) trace(projets[+a.dataset.i].couleur)
+      })
+      document.addEventListener('keydown', (e) => {
+        const d = { ArrowLeft: [1, 0], ArrowRight: [-1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] }[e.key]
+        if (!d || document.getElementById('menu').open) return
+        e.preventDefault()
+        ox += d[0] * (cw + ecart)
+        oy += d[1] * ch
+        placer()
+      })
+      addEventListener('resize', construire)
+      construire()
+    </script>
+  </body>
+</html>

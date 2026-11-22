@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Index typographique — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        --fond: var(--blanc);
+        --texte: var(--noir);
+        background: var(--fond);
+        color: var(--texte);
+        transition:
+          background-color var(--duree-lente) var(--ease-signature),
+          color var(--duree-lente) var(--ease-signature);
+      }
+      .flot {
+        list-style: none;
+        padding: calc(var(--degagement) + var(--espace-4)) var(--marge) 30svh;
+        font-size: clamp(2.25rem, 6.4vw, 7rem);
+        font-weight: 800;
+        line-height: 0.98;
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+      }
+      .flot li {
+        display: inline;
+      }
+      .flot li:not(:last-child)::after {
+        content: ' / ';
+        font-weight: 300;
+        opacity: 0.35;
+      }
+      .flot a {
+        color: inherit;
+        text-decoration: none;
+        transition: opacity var(--duree-standard) var(--ease-signature);
+      }
+      .flot.survol a:not(.actif) {
+        opacity: 0.28;
+      }
+      .flot a.actif {
+        text-decoration: underline;
+        text-decoration-thickness: 0.06em;
+        text-underline-offset: 0.08em;
+      }
+      .apercu {
+        position: fixed;
+        right: var(--marge);
+        bottom: var(--marge);
+        width: clamp(140px, 22vw, 320px);
+        aspect-ratio: 4 / 5;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(var(--deplacement-texte));
+        transition:
+          opacity var(--duree-rapide) var(--ease-sortie),
+          transform var(--duree-rapide) var(--ease-sortie);
+      }
+      .apercu.visible {
+        opacity: 1;
+        transform: none;
+        transition:
+          opacity var(--duree-standard) var(--ease-signature),
+          transform var(--duree-standard) var(--ease-signature);
+      }
+      .apercu img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .apercu p {
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + var(--espace-2));
+        font-size: var(--taille-legende);
+        font-weight: 700;
+        text-align: right;
+        line-height: 1.3;
+      }
+      .apercu p span {
+        display: block;
+        font-weight: 400;
+      }
+      @media (width <= 700px) {
+        .apercu {
+          width: 34vw;
+          right: var(--espace-3);
+          bottom: var(--espace-5);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="flot" aria-label="Projets"></ul>
+      <div class="apercu" aria-hidden="true"><p></p><img alt="" /></div>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, trace } = M
+      const flot = document.querySelector('.flot')
+      const apercu = document.querySelector('.apercu')
+      flot.innerHTML = projets
+        .map(
+          (p) =>
+            `<li><a href="#${p.slug}" data-i="${p.i}">${p.nom}<span class="visuellement-masque">, ${p.discipline}, ${p.client}</span></a></li>`,
+        )
+        .join('')
+      const liens = [...flot.querySelectorAll('a')]
+      const corps = document.body.style
+
+      function montrer(i) {
+        liens.forEach((a, k) => a.classList.toggle('actif', k === i))
+        flot.classList.toggle('survol', i !== null)
+        apercu.classList.toggle('visible', i !== null)
+        if (i === null) {
+          corps.removeProperty('--fond')
+          corps.removeProperty('--texte')
+          return trace('#ffffff')
+        }
+        const p = projets[i]
+        corps.setProperty('--fond', p.couleur)
+        corps.setProperty('--texte', p.texte)
+        apercu.querySelector('img').src = p.couverture
+        apercu.querySelector('p').innerHTML = `${p.discipline}<span>${p.client}</span>`
+        trace(p.couleur)
+      }
+
+      if (matchMedia('(hover: hover)').matches) {
+        liens.forEach((a, i) => {
+          a.addEventListener('pointerenter', () => montrer(i))
+          a.addEventListener('focus', () => montrer(i))
+        })
+        flot.addEventListener('pointerleave', () => montrer(null))
+        flot.addEventListener('focusout', (e) => !flot.contains(e.relatedTarget) && montrer(null))
+      } else {
+        // Au doigt : le nom qui passe au milieu de l'écran colore la page
+        const obs = new IntersectionObserver(
+          (entrees) => entrees.forEach((e) => e.isIntersecting && montrer(+e.target.dataset.i)),
+          { rootMargin: '-45% 0px -45% 0px' },
+        )
+        liens.forEach((a) => obs.observe(a))
+      }
+    </script>
+  </body>
+</html>

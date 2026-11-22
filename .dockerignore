@@ -1,6 +1,8 @@
 node_modules
 dist
 docs
+# Servies en prod pour le moment (docker/maquettes.conf)
+!docs/06-maquettes/carrousels
 .git
 .github
 .vscode
