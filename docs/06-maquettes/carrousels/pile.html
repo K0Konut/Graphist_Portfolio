@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pile d’épreuves — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .table {
+        --h: min(62svh, 100vw);
+        height: 100svh;
+        display: grid;
+        place-content: center;
+        justify-items: center;
+        gap: var(--espace-5);
+        padding-top: var(--entete-hauteur);
+        touch-action: pan-y;
+      }
+      .pile {
+        position: relative;
+        width: calc(var(--h) * 0.8);
+        height: var(--h);
+        list-style: none;
+        padding: 0;
+      }
+      .pile li {
+        position: absolute;
+        inset: 0;
+        transition:
+          transform var(--duree-lente) var(--ease-signature),
+          opacity var(--duree-lente) var(--ease-signature);
+      }
+      .pile .carte {
+        height: 100%;
+        box-shadow: 0 0 0 1px rgb(0 0 0 / 0.08);
+      }
+      .pied {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: var(--espace-4);
+        width: min(calc(var(--h) * 0.8 + 120px), calc(100vw - 2 * var(--marge)));
+      }
+      .pied p {
+        display: grid;
+        text-align: center;
+        line-height: 1.3;
+      }
+      .pied b {
+        font-weight: 700;
+      }
+      .pied span {
+        color: var(--gris);
+        font-size: var(--taille-legende);
+        font-variant-numeric: tabular-nums;
+      }
+      .pied button {
+        min-width: 44px;
+        min-height: 44px;
+        border: 1.5px solid currentColor;
+        border-radius: 999px;
+        font-size: 1.25rem;
+        transition:
+          background-color var(--duree-standard) var(--ease-signature),
+          color var(--duree-standard) var(--ease-signature);
+      }
+      .pied button:hover {
+        background: var(--noir);
+        color: var(--blanc);
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu" class="table">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="pile" aria-label="Projets"></ul>
+      <div class="pied">
+        <button type="button" aria-label="Projet précédent" data-pas="-1">‹</button>
+        <p aria-hidden="true"><b></b><span></span></p>
+        <button type="button" aria-label="Projet suivant" data-pas="1">›</button>
+      </div>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, carte, pilote, annonce, trace, modulo, reduit, fondu } = M
+      const n = projets.length
+      const pile = document.querySelector('.pile')
+      pile.innerHTML = projets.map((p) => `<li>${carte(p)}</li>`).join('')
+      const items = [...pile.children]
+      // Une légère inclinaison propre à chaque tirage, sauf en mouvement réduit
+      const angle = (i) => (reduit ? 0 : (((i * 7919) % 9) - 4) * 0.5)
+      let actif = 0
+
+      function poser(i, k) {
+        const li = items[i]
+        const visible = k <= 3
+        li.style.zIndex = n - k
+        li.style.opacity = visible ? 1 : 0
+        li.style.transform = `translate(${Math.min(k, 3) * 14}px, ${Math.min(k, 3) * -14}px) rotate(${k === 0 ? 0 : angle(i)}deg)`
+        const a = li.firstElementChild
+        a.classList.toggle('survolable', k === 0)
+        a.tabIndex = k === 0 ? 0 : -1
+        li.setAttribute('aria-hidden', k === 0 ? 'false' : 'true')
+      }
+
+      function legende() {
+        const p = projets[actif]
+        document.querySelector('.pied b').textContent = p.nom
+        document.querySelector('.pied span').textContent = `${actif + 1} / ${n}`
+        annonce(`Projet ${actif + 1} sur ${n} : ${p.nom}`)
+        trace(p.couleur)
+      }
+
+      function aller(s) {
+        const ancien = actif
+        actif = modulo(actif + s, n)
+        if (reduit) {
+          items.forEach((_, i) => poser(i, modulo(i - actif, n)))
+          fondu(pile)
+          return legende()
+        }
+        const li = items[s > 0 ? ancien : actif]
+        if (s > 0) {
+          // Le tirage du dessus part sur la gauche, puis glisse sous la pile
+          li.animate(
+            [
+              { transform: li.style.transform, zIndex: n, opacity: 1 },
+              { transform: `translate(-115%, 30px) rotate(-6deg)`, zIndex: n, opacity: 1, offset: 0.45 },
+              { transform: `translate(42px, -42px) rotate(${angle(ancien)}deg)`, zIndex: 0, opacity: 0 },
+            ],
+            { duration: 700, easing: 'cubic-bezier(0.2, 0, 0, 1)' },
+          )
+        } else {
+          li.animate(
+            [
+              { transform: `translate(-115%, 30px) rotate(-6deg)`, zIndex: n, opacity: 1 },
+              { transform: 'none', zIndex: n, opacity: 1 },
+            ],
+            { duration: 500, easing: 'cubic-bezier(0.2, 0, 0, 1)' },
+          )
+        }
+        items.forEach((_, i) => poser(i, modulo(i - actif, n)))
+        legende()
+      }
+
+      document.querySelectorAll('[data-pas]').forEach((b) => b.addEventListener('click', () => aller(+b.dataset.pas)))
+      pilote(pile, aller)
+      items.forEach((_, i) => poser(i, i))
+      legende()
+    </script>
+  </body>
+</html>
