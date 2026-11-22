@@ -110,14 +110,14 @@ Chaîne en place (PR #3), complétée :
 | PR vers `dev` ou `main` | `ci.yml` : `npm ci`, lint, types, tests unitaires, `contenu:demo`, build, Playwright (parcours + axe) |
 | Merge sur `main` (release) | `deploiement.yml` : CI, puis `contenu` (réel) + `check-content`, build, image Docker publiée sur GHCR (`latest` + empreinte du commit) |
 | **Publication dans Dashility** | Dashility appelle `repository_dispatch` (`dashility-publish`) ; même chemin que la release, **sans relancer les tests** (le code de `main` les a passés). Objectif : en ligne moins de 5 minutes après « Publier » |
-| Serveur | Inchangé : cron toutes les 5 minutes sur `vm-web`, `docker compose up -d --pull always` ; retour arrière par `IMAGE_TAG` |
+| Serveur | Cron toutes les minutes sur `vm-web` (toutes les 5 minutes jusqu'au 18/11/2026), `docker compose up -d --pull always` ; retour arrière par `IMAGE_TAG` |
 
 Réglages à faire une fois :
 1. Secret GitHub `DASHILITY_KEY` (clé de lecture de l'espace Mandolina).
 2. Dans Dashility (super-admin) : URL de déploiement `https://api.github.com/repos/K0Konut/Graphist_Portfolio/dispatches` et un jeton GitHub à grain fin limité à ce dépôt, permission « Contents » en écriture (la seule qui autorise `repository_dispatch`).
 3. Pas de tâche planifiée la nuit : contrairement à Portfolio, rien ne change sans publication.
 
-Le cron du serveur peut passer de 5 minutes à 1 minute si « en ligne moins de 5 minutes » ne tient pas (le build prend environ 2 minutes).
+Le cron du serveur est passé de 5 minutes à 1 minute le 18/11/2026 : avec 5 minutes, une publication pouvait mettre 6 minutes à arriver en ligne (build d'environ 1 minute, puis attente du cron). Délai constaté désormais : environ 2 minutes.
 
 ---
 
