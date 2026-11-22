@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aplat plein écran — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+        background: var(--fond, var(--blanc));
+        color: var(--texte, var(--noir));
+        transition:
+          background-color var(--duree-lente) var(--ease-signature),
+          color var(--duree-lente) var(--ease-signature);
+      }
+      .scene {
+        position: relative;
+        height: 100svh;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: end;
+        gap: var(--espace-5);
+        /* En bas, la place de la navigation entre maquettes */
+        padding: var(--degagement) var(--marge) calc(var(--marge) + 40px);
+        touch-action: pan-y;
+      }
+      /* Les deux moitiés de l'écran servent de précédent / suivant */
+      .zone {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+      }
+      .zone.prec {
+        left: 0;
+        cursor: w-resize;
+      }
+      .zone.suiv {
+        right: 0;
+        cursor: e-resize;
+      }
+      .couverture {
+        position: relative;
+        grid-column: 2;
+        grid-row: 1;
+        align-self: center;
+        height: min(68svh, 120vw);
+        aspect-ratio: 4 / 5;
+        display: block;
+      }
+      .couverture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .couverture:focus-visible {
+        outline-color: currentColor;
+      }
+      .texte {
+        position: relative;
+        grid-column: 1;
+        grid-row: 1;
+        display: grid;
+        gap: var(--espace-2);
+        pointer-events: none;
+      }
+      .texte h2 {
+        font-size: clamp(1.75rem, 3.4vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.025em;
+        text-decoration: underline;
+        text-decoration-thickness: 0.06em;
+        text-underline-offset: 0.1em;
+      }
+      .texte p {
+        font-size: var(--taille-texte);
+      }
+      .pied {
+        position: relative;
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+        display: flex;
+        align-items: center;
+        gap: var(--espace-2);
+        font-variant-numeric: tabular-nums;
+      }
+      .pied button {
+        min-width: 44px;
+        min-height: 44px;
+        border: 1.5px solid currentColor;
+        border-radius: 999px;
+        font-size: 1.25rem;
+      }
+      .pied button:focus-visible {
+        outline-color: currentColor;
+      }
+      .pied span {
+        white-space: nowrap;
+        min-width: 4.5ch;
+        text-align: center;
+        font-weight: 700;
+      }
+      @media (width <= 800px) {
+        .scene {
+          grid-template-columns: 1fr auto;
+          grid-template-rows: 1fr auto;
+          align-items: end;
+          gap: var(--espace-3);
+        }
+        .couverture {
+          grid-column: 1 / -1;
+          justify-self: center;
+          height: auto;
+          width: min(78vw, calc((100svh - var(--degagement) - 200px) * 0.8));
+        }
+        .texte {
+          grid-row: 2;
+        }
+        .pied {
+          grid-column: 2;
+          grid-row: 2;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu" class="scene">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <div class="zone prec" aria-hidden="true"></div>
+      <div class="zone suiv" aria-hidden="true"></div>
+      <a class="couverture" href="#"><img alt="" /></a>
+      <div class="texte"><h2></h2><p></p></div>
+      <div class="pied">
+        <button type="button" aria-label="Projet précédent" data-pas="-1">‹</button>
+        <span aria-hidden="true"></span>
+        <button type="button" aria-label="Projet suivant" data-pas="1">›</button>
+      </div>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, pilote, annonce, trace, modulo, reduit } = M
+      const n = projets.length
+      const corps = document.body.style
+      const couv = document.querySelector('.couverture')
+      const texte = document.querySelector('.texte')
+      let actif = 0
+
+      function remplir() {
+        const p = projets[actif]
+        corps.setProperty('--fond', p.couleur)
+        corps.setProperty('--texte', p.texte)
+        couv.href = '#' + p.slug
+        couv.querySelector('img').src = p.couverture
+        couv.setAttribute('aria-label', `${p.discipline}, ${p.client} — voir le projet`)
+        texte.querySelector('h2').textContent = p.discipline
+        texte.querySelector('p').textContent = p.client
+        document.querySelector('.pied span').textContent = `${String(actif + 1).padStart(2, '0')} / ${n}`
+        trace(p.couleur)
+      }
+
+      // L'image sort du côté opposé au geste, la suivante arrive de l'autre ; en mouvement réduit, un fondu
+      async function aller(s) {
+        actif = modulo(actif + s, n)
+        const elements = [couv, texte]
+        const dx = reduit ? 0 : 40 * s
+        await Promise.all(
+          elements.map(
+            (el) =>
+              el.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateX(${-dx}px)` }], {
+                duration: 150,
+                easing: 'cubic-bezier(0.3, 0, 1, 1)',
+                fill: 'forwards',
+              }).finished,
+          ),
+        )
+        remplir()
+        elements.forEach((el, k) =>
+          el.animate([{ opacity: 0, transform: `translateX(${dx}px)` }, { opacity: 1, transform: 'none' }], {
+            duration: reduit ? 150 : 350,
+            delay: k * 40,
+            easing: 'cubic-bezier(0.2, 0, 0, 1)',
+            fill: 'both',
+          }),
+        )
+        annonce(`Projet ${actif + 1} sur ${n} : ${projets[actif].discipline}, ${projets[actif].client}`)
+      }
+
+      document.querySelector('.zone.prec').addEventListener('click', () => aller(-1))
+      document.querySelector('.zone.suiv').addEventListener('click', () => aller(1))
+      document.querySelectorAll('[data-pas]').forEach((b) => b.addEventListener('click', () => aller(+b.dataset.pas)))
+      pilote(document.querySelector('.scene'), aller)
+      remplir()
+    </script>
+  </body>
+</html>

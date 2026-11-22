@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rail vertical — maquette carrousel</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .rail {
+        height: 100svh;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        scrollbar-width: none;
+        list-style: none;
+        padding: 0;
+      }
+      .rail li {
+        height: 100svh;
+        scroll-snap-align: start;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: end;
+        gap: var(--espace-5);
+        padding: var(--degagement) var(--marge) var(--espace-5);
+      }
+      .rail .carte {
+        grid-column: 2;
+        height: calc(100svh - var(--degagement) - var(--espace-5));
+        aspect-ratio: 4 / 5;
+      }
+      .texte {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: end;
+        text-align: right;
+        display: grid;
+        gap: var(--espace-1);
+        max-width: 22ch;
+      }
+      .texte b {
+        font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+      .texte span {
+        font-size: var(--taille-legende);
+        color: var(--gris);
+      }
+      .reperes {
+        position: fixed;
+        right: var(--marge);
+        top: 50%;
+        translate: 0 -50%;
+        display: grid;
+        gap: 2px;
+        list-style: none;
+        padding: 0;
+      }
+      .reperes button {
+        display: block;
+        width: 44px;
+        height: 14px;
+        position: relative;
+      }
+      .reperes button::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 6px;
+        width: 14px;
+        height: 2px;
+        background: var(--gris);
+        transition:
+          width var(--duree-standard) var(--ease-signature),
+          background-color var(--duree-standard) var(--ease-signature);
+      }
+      .reperes button:hover::after {
+        width: 24px;
+        background: var(--noir);
+      }
+      .reperes button[aria-current]::after {
+        width: 36px;
+        height: 4px;
+        top: 5px;
+        background: var(--noir);
+      }
+      @media (width <= 800px) {
+        .rail li {
+          grid-template-columns: 1fr;
+          align-content: center;
+          justify-items: center;
+          gap: var(--espace-3);
+          padding-bottom: var(--espace-4);
+        }
+        .rail .carte {
+          grid-column: 1;
+          height: auto;
+          width: min(80vw, calc((100svh - var(--degagement) - 140px) * 0.8));
+        }
+        .texte {
+          grid-row: 2;
+          justify-self: center;
+          text-align: center;
+        }
+        .reperes {
+          right: 4px;
+        }
+        .reperes button {
+          width: 24px;
+          height: 12px;
+        }
+        .reperes button::after {
+          width: 8px;
+        }
+        .reperes button[aria-current]::after {
+          width: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu">
+      <h1 class="visuellement-masque">Mandolina, graphiste — projets</h1>
+      <ul class="rail" aria-label="Projets"></ul>
+      <ol class="reperes" aria-label="Aller au projet"></ol>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      const { projets, carte, trace, annonce, reduit } = M
+      const n = projets.length
+      const rail = document.querySelector('.rail')
+      const reperes = document.querySelector('.reperes')
+      rail.innerHTML = projets
+        .map(
+          (p) =>
+            `<li data-i="${p.i}">${carte(p, { classe: 'survolable' })}<p class="texte" aria-hidden="true"><b>${p.nom}</b><span>${p.discipline} — ${p.client}</span></p></li>`,
+        )
+        .join('')
+      reperes.innerHTML = projets
+        .map((p) => `<li><button type="button" aria-label="${p.nom}" data-i="${p.i}"></button></li>`)
+        .join('')
+      const ecrans = [...rail.children]
+      const boutons = [...reperes.querySelectorAll('button')]
+
+      boutons.forEach((b, i) =>
+        b.addEventListener('click', () => ecrans[i].scrollIntoView({ behavior: reduit ? 'auto' : 'smooth' })),
+      )
+      const obs = new IntersectionObserver(
+        (entrees) =>
+          entrees.forEach((e) => {
+            if (!e.isIntersecting) return
+            const i = +e.target.dataset.i
+            boutons.forEach((b, k) => (k === i ? b.setAttribute('aria-current', 'true') : b.removeAttribute('aria-current')))
+            annonce(`Projet ${i + 1} sur ${n}`)
+            trace(projets[i].couleur)
+          }),
+        { root: rail, threshold: 0.6 },
+      )
+      ecrans.forEach((li) => obs.observe(li))
+      // Flèches du clavier : un projet par appui, même quand le focus est hors du rail
+      document.addEventListener('keydown', (e) => {
+        if (!['ArrowDown', 'ArrowUp'].includes(e.key) || document.getElementById('menu').open) return
+        e.preventDefault()
+        rail.scrollBy({ top: (e.key === 'ArrowDown' ? 1 : -1) * rail.clientHeight, behavior: reduit ? 'auto' : 'smooth' })
+      })
+    </script>
+  </body>
+</html>

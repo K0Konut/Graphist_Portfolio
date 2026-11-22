@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carrousels — maquettes</title>
+    <link rel="stylesheet" href="commun.css" />
+    <style>
+      main {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: calc(var(--degagement) + var(--espace-5)) var(--marge) var(--espace-6, 96px);
+      }
+      h1 {
+        font-size: clamp(2.25rem, 5vw, 4rem);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .intro {
+        max-width: 60ch;
+        margin-top: var(--espace-4);
+        color: var(--gris);
+      }
+      .intro + .intro {
+        margin-top: var(--espace-2);
+      }
+      .variantes {
+        list-style: none;
+        padding: 0;
+        margin-top: var(--espace-5);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+        gap: var(--espace-5) var(--espace-4);
+      }
+      .variantes a {
+        display: grid;
+        gap: var(--espace-2);
+        color: inherit;
+        text-decoration: none;
+      }
+      .apercus {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--espace-1);
+        align-items: end;
+        background: var(--vide);
+      }
+      .apercus img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        object-position: top;
+      }
+      .apercus img + img {
+        width: 64px;
+        aspect-ratio: 390 / 844;
+      }
+      .variantes h2 {
+        margin-top: var(--espace-2);
+        font-size: 1.25rem;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+      .variantes a:hover h2 {
+        text-decoration: underline;
+        text-decoration-thickness: var(--soulignement);
+        text-underline-offset: var(--soulignement-decalage);
+      }
+      .variantes p {
+        font-size: 0.9375rem;
+        line-height: 1.45;
+      }
+      .variantes .da {
+        color: var(--gris);
+        font-size: var(--taille-legende);
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu">
+      <h1>Carrousels</h1>
+      <p class="intro">
+        Dix façons de présenter les 17 projets sur l’accueil, avec le header de costamask.dev en noir et blanc. Toutes se
+        pilotent à la souris, au doigt, à la molette et aux flèches du clavier ; aucune ne défile toute seule.
+      </p>
+      <p class="intro">
+        Les couvertures sont provisoires (compositions grises) : seules les couleurs, les noms, les disciplines et les
+        clients sont réels. En bas à droite de chaque maquette, ‹ et › passent à la suivante.
+      </p>
+      <ul class="variantes"></ul>
+    </main>
+    <script src="commun.js"></script>
+    <script>
+      // Écart avec la DA validée (docs/03-direction-artistique.md §7), pour décider en connaissance de cause
+      const DA = {
+        'carte-centrale.html': 'Conforme à la DA : c’est le carrousel en place.',
+        'bande.html': 'Conforme à la DA.',
+        'accordeon.html': 'Conforme ; la couleur des projets est visible sans survol.',
+        'pile.html': 'S’écarte de la DA : légère inclinaison des tirages (retirée en mouvement réduit).',
+        'index-image.html': 'Conforme à la DA.',
+        'index-plein.html': 'Conforme ; le texte devient l’élément principal, l’image passe au second plan.',
+        'cylindre.html': 'S’écarte de la DA : rotation en 3D, retirée en mouvement réduit.',
+        'rail-vertical.html': 'Conforme à la DA.',
+        'grille-infinie.html': 'S’écarte de la DA : élan après le glisser (coupé en mouvement réduit).',
+        'aplat-plein.html': 'Conforme ; l’aplat devient le fond de page au lieu d’un calque au survol.',
+      }
+      document.querySelector('.variantes').innerHTML = M.VARIANTES.map(
+        ([f, nom, idee]) => `<li><a href="${f}">
+          <span class="apercus"><img src="captures/${f.replace('.html', '')}-ordinateur.png" alt="" loading="lazy"><img src="captures/${f.replace('.html', '')}-mobile.png" alt="" loading="lazy"></span>
+          <h2>${nom}</h2><p>${idee}</p><p class="da">${DA[f]}</p></a></li>`,
+      ).join('')
+    </script>
+  </body>
+</html>

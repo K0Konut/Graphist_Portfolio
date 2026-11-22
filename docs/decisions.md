@@ -87,3 +87,4 @@
 | 18/11/2026 | Langue non sélectionnée en `#8C8C8C` sur l'île noire | Le gris `#595959` n'aurait que 3:1 sur noir |
 | 18/11/2026 | Une rangée incomplète de la mosaïque garde la largeur choisie (une moitié seule = la moitié de la largeur), centrée | Une moitié seule prenait toute la largeur : le choix « Largeur » ne se voyait pas (retour du propriétaire) |
 | 18/11/2026 | Cron du serveur toutes les minutes au lieu de 5 | Une publication pouvait mettre 6 minutes à arriver en ligne ; environ 2 minutes désormais |
+| 22/11/2026 | Maquettes : header de costamask.dev (barre noire suspendue, coins du bas arrondis, navigation visible, menu plein écran sur mobile) à la place de l'île, et dix variantes de carrousel ; à valider avec la cliente | La cliente aime ce header ; s'écarte de la DA §5 (coins arrondis) et de l'île du 18/11/2026 |
