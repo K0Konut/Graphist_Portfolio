@@ -86,3 +86,4 @@
 | 18/11/2026 | Menu déroulant non modal (plus de contenu inerte) ; fermeture par « × », Échap, clic ou focus hors de l'île | Le menu ne couvre plus la page |
 | 18/11/2026 | Langue non sélectionnée en `#8C8C8C` sur l'île noire | Le gris `#595959` n'aurait que 3:1 sur noir |
 | 18/11/2026 | Une rangée incomplète de la mosaïque garde la largeur choisie (une moitié seule = la moitié de la largeur), centrée | Une moitié seule prenait toute la largeur : le choix « Largeur » ne se voyait pas (retour du propriétaire) |
+| 18/11/2026 | Cron du serveur toutes les minutes au lieu de 5 | Une publication pouvait mettre 6 minutes à arriver en ligne ; environ 2 minutes désormais |
