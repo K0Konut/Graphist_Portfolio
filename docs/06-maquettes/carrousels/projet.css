@@ -1,0 +1,94 @@
+/* Maquettes des pages projet : éléments partagés (fiche, navigation entre projets, mention provisoire). */
+
+:root {
+  --contenu: 1100px;
+  --teinte: color-mix(in srgb, var(--aplat) 6%, var(--blanc));
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.texte p + p,
+.texte p + h2 {
+  margin-top: var(--espace-3);
+}
+.provisoire {
+  margin-top: var(--espace-3);
+}
+.texte p {
+  max-width: 65ch;
+}
+
+.fiche {
+  display: grid;
+  gap: var(--espace-3);
+  font-size: var(--taille-legende);
+  line-height: 1.4;
+}
+.fiche dt {
+  color: var(--gris);
+}
+.fiche dd {
+  font-weight: 700;
+}
+
+.provisoire {
+  color: var(--gris);
+  font-size: var(--taille-legende);
+}
+
+/* Projet précédent / suivant : le nom du projet visé, en grand */
+.suite {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espace-4);
+  padding-block: var(--espace-5) calc(var(--espace-5) + 40px);
+}
+.suite a {
+  display: grid;
+  gap: var(--espace-1);
+  color: inherit;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  text-decoration: none;
+}
+.suite a[rel='next'] {
+  text-align: right;
+}
+.suite span {
+  font-size: var(--taille-legende);
+  font-weight: 400;
+}
+.suite a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: var(--soulignement);
+  text-underline-offset: var(--soulignement-decalage);
+}
+
+.galerie img {
+  width: 100%;
+  height: auto;
+  background: var(--vide);
+}
+
+/* Fiche sur une ligne (quatre colonnes, deux sur mobile) */
+.fiche.ligne {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (width <= 700px) {
+  .fiche.ligne {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Sur un aplat, le gris n'a plus assez de contraste : le texte secondaire prend la couleur du texte de l'aplat */
+.sur-aplat :is(.fiche dt, .provisoire, .suite span) {
+  color: inherit;
+}
+.sur-aplat :focus-visible {
+  outline-color: currentColor;
+}

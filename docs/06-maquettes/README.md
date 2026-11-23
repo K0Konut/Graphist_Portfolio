@@ -42,3 +42,13 @@ Dix variantes de carrousel, en HTML statique : ouvrir `docs/06-maquettes/carrous
 - **Contenu réel** : noms, disciplines, clients et couleurs des 17 projets. **Provisoire** : les couvertures (compositions grises marquées « image provisoire »).
 - **Écarts avec la DA** signalés sur le sommaire : inclinaison (Pile d'épreuves), rotation 3D (Cylindre), élan au glisser (Grille à glisser). Tous retirés en mouvement réduit.
 - Captures ordinateur (1440 × 900) et mobile (390 × 844) dans `carrousels/captures/`.
+
+## Pages projet — v0.2, 23/11/2026, à valider
+
+Dix façons de présenter un projet avec du texte, dans le même dossier que les carrousels (`carrousels/projet-*.html`) et dans une seconde catégorie du sommaire. Même header, même navigation ‹ › entre maquettes ; « Projet précédent » et « Projet suivant », en bas de chaque page, passent d'un projet à l'autre (l'adresse se termine par `#lutece-logo`, `#pswc`, etc.).
+
+- **Contenu enrichi** par rapport à la page de la v0.1 : une accroche, quatre parties (contexte, demande, réponse, résultat), une fiche (client, discipline, année, livrables) et une légende par image.
+- **Réel** : noms, disciplines, clients et couleurs. **Provisoire**, signalé sur chaque page : textes (rédigés d'après la discipline, communs aux projets d'une même discipline), années, images.
+- **Écarts avec la DA** signalés sur le sommaire : la couleur sur toute la page (Page en aplat), le défilement horizontal (Planche horizontale).
+- Si une variante est retenue, le modèle de contenu de Dashility (UX §4) devra s'enrichir : accroche, parties, année, livrables, légende des images.
+- Fichiers communs : `projet.js` (textes, galerie, fiche, navigation) et `projet.css`. Captures ordinateur et mobile dans `carrousels/captures/projet-*.png`.

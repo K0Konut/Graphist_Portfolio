@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Carrousels — maquettes</title>
+    <title>Maquettes — Mandolina</title>
     <link rel="stylesheet" href="commun.css" />
     <style>
       main {
@@ -24,6 +24,15 @@
       }
       .intro + .intro {
         margin-top: var(--espace-2);
+      }
+      main section {
+        margin-top: var(--espace-6, 96px);
+      }
+      main h2 {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
       }
       .variantes {
         list-style: none;
@@ -56,13 +65,13 @@
         width: 64px;
         aspect-ratio: 390 / 844;
       }
-      .variantes h2 {
+      .variantes h3 {
         margin-top: var(--espace-2);
         font-size: 1.25rem;
         font-weight: 800;
         line-height: 1.2;
       }
-      .variantes a:hover h2 {
+      .variantes a:hover h3 {
         text-decoration: underline;
         text-decoration-thickness: var(--soulignement);
         text-underline-offset: var(--soulignement-decalage);
@@ -79,16 +88,28 @@
   </head>
   <body>
     <main id="contenu">
-      <h1>Carrousels</h1>
+      <h1>Maquettes</h1>
       <p class="intro">
-        Dix façons de présenter les 17 projets sur l’accueil, avec le header de costamask.dev en noir et blanc. Toutes se
-        pilotent à la souris, au doigt, à la molette et aux flèches du clavier ; aucune ne défile toute seule.
+        Les images sont provisoires (compositions grises) : seuls les couleurs, les noms, les disciplines et les clients
+        sont réels. En bas à droite de chaque maquette, ‹ et › passent à la suivante de la même catégorie.
       </p>
-      <p class="intro">
-        Les couvertures sont provisoires (compositions grises) : seules les couleurs, les noms, les disciplines et les
-        clients sont réels. En bas à droite de chaque maquette, ‹ et › passent à la suivante.
-      </p>
-      <ul class="variantes"></ul>
+      <section aria-labelledby="carrousels">
+        <h2 id="carrousels">Carrousels de l’accueil</h2>
+        <p class="intro">
+          Dix façons de présenter les 17 projets sur l’accueil, avec le header de costamask.dev en noir et blanc. Toutes
+          se pilotent à la souris, au doigt, à la molette et aux flèches du clavier ; aucune ne défile toute seule.
+        </p>
+        <ul class="variantes" data-liste="VARIANTES"></ul>
+      </section>
+      <section aria-labelledby="pages-projet">
+        <h2 id="pages-projet">Pages projet</h2>
+        <p class="intro">
+          Dix façons de présenter un projet avec du texte : contexte, demande, réponse, résultat, et une fiche (client,
+          discipline, année, livrables). Les textes et les années sont provisoires, rédigés d’après la discipline. Chaque
+          page montre Lutèce — Logo ; « Projet suivant », en bas, passe aux autres projets.
+        </p>
+        <ul class="variantes" data-liste="PAGES"></ul>
+      </section>
     </main>
     <script src="commun.js"></script>
     <script>
@@ -104,11 +125,21 @@
         'rail-vertical.html': 'Conforme à la DA.',
         'grille-infinie.html': 'S’écarte de la DA : élan après le glisser (coupé en mouvement réduit).',
         'aplat-plein.html': 'Conforme ; l’aplat devient le fond de page au lieu d’un calque au survol.',
+        'projet-bandeau.html': 'Conforme à la DA : c’est la page prévue, avec une fiche et des intertitres en plus.',
+        'projet-colonne-fixe.html': 'Conforme ; l’aplat devient le fond de la colonne de texte.',
+        'projet-alternance.html': 'Conforme ; le texte est posé sur des aplats bord à bord.',
+        'projet-long-format.html': 'Conforme ; reprend le calque de l’accueil sur la couverture.',
+        'projet-chapitres.html': 'Conforme ; le sommaire suit la lecture, sans animation.',
+        'projet-legendes.html': 'Conforme ; chaque légende est un petit aplat.',
+        'projet-aplat.html': 'S’écarte de la DA : la couleur couvre toute la page au lieu d’un fond dilué.',
+        'projet-accroche.html': 'Conforme ; demande une accroche écrite par Mandolina pour chaque projet.',
+        'projet-planche.html': 'S’écarte de la DA : défilement horizontal sur ordinateur (vertical sur mobile).',
+        'projet-diaporama.html': 'Conforme ; une image à la fois, changée au clic, au doigt ou aux flèches.',
       }
-      document.querySelector('.variantes').innerHTML = M.VARIANTES.map(
+      for (const ul of document.querySelectorAll('.variantes')) ul.innerHTML = M[ul.dataset.liste].map(
         ([f, nom, idee]) => `<li><a href="${f}">
           <span class="apercus"><img src="captures/${f.replace('.html', '')}-ordinateur.png" alt="" loading="lazy"><img src="captures/${f.replace('.html', '')}-mobile.png" alt="" loading="lazy"></span>
-          <h2>${nom}</h2><p>${idee}</p><p class="da">${DA[f]}</p></a></li>`,
+          <h3>${nom}</h3><p>${idee}</p><p class="da">${DA[f]}</p></a></li>`,
       ).join('')
     </script>
   </body>
