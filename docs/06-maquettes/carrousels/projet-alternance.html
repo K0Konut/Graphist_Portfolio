@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alternance — maquette page projet</title>
+    <link rel="stylesheet" href="commun.css" />
+    <link rel="stylesheet" href="projet.css" />
+    <style>
+      .tete {
+        max-width: calc(var(--contenu) + 2 * var(--marge));
+        margin: 0 auto;
+        padding: calc(var(--degagement) + var(--espace-5)) var(--marge) var(--espace-5);
+        display: grid;
+        gap: var(--espace-4);
+      }
+      .tete h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        line-height: 1.05;
+        max-width: 18ch;
+      }
+      .accroche {
+        font-size: clamp(1.25rem, 2vw, 1.625rem);
+        font-weight: 700;
+        line-height: 1.3;
+        max-width: 36ch;
+      }
+      .tete .fiche {
+        margin-top: var(--espace-3);
+      }
+      /* Damier bord à bord : un aplat de texte face à une image, en alternant les côtés */
+      .damier {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .damier .case {
+        aspect-ratio: 4 / 5;
+        max-height: 100svh;
+        width: 100%;
+      }
+      .damier img {
+        height: 100%;
+        object-fit: cover;
+      }
+      .damier section {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: var(--espace-3);
+        padding: var(--marge);
+        background: var(--aplat);
+        color: var(--aplat-texte);
+      }
+      .damier h2 {
+        font-size: clamp(1.75rem, 3.4vw, 3rem);
+        line-height: 1.05;
+        text-decoration: underline;
+        text-decoration-thickness: 0.06em;
+        text-underline-offset: 0.12em;
+      }
+      .damier p {
+        max-width: 40ch;
+        font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+      }
+      /* Une rangée sur deux : le texte passe à droite, l'image vient combler la gauche */
+      .damier {
+        grid-auto-flow: dense;
+      }
+      .damier .rang {
+        display: contents;
+      }
+      .damier [data-pair] {
+        grid-column: 2;
+      }
+      .fin {
+        max-width: calc(var(--contenu) + 2 * var(--marge));
+        margin: 0 auto;
+        padding: var(--espace-2) var(--marge) 0;
+      }
+      .trio {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--espace-2);
+      }
+      @media (width <= 700px) {
+        .damier {
+          grid-template-columns: 1fr;
+        }
+        .damier .case {
+          aspect-ratio: auto;
+        }
+        .damier img {
+          aspect-ratio: 4 / 5;
+        }
+        .damier [data-pair] {
+          grid-column: auto;
+        }
+        .trio {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu"></main>
+    <script src="commun.js"></script>
+    <script src="projet.js"></script>
+    <script>
+      M.page((p, r, k) => {
+        const [a, b, c, d, ...reste] = r.galerie
+        // Ordre du DOM : texte puis image dans chaque rangée, pour la lecture ; l'ordre visuel alterne en CSS
+        const rangs = r.parties
+          .map(([t, x], i) => {
+            const g = [b, c, d, a][i]
+            return `<div class="rang"><section class="case sur-aplat"${i % 2 ? ' data-pair' : ''}><h2>${t}</h2><p>${x}</p></section>${M.image(g, `class="case"`)}</div>`
+          })
+          .join('')
+        document.getElementById('contenu').innerHTML = `
+          <header class="tete">
+            <h1>${p.client} — ${p.discipline}</h1>
+            <p class="accroche">${r.accroche}</p>
+            ${M.fiche(p, r).replace('class="fiche"', 'class="fiche ligne"')}
+            ${M.provisoire}
+          </header>
+          <div class="damier">${rangs}</div>
+          <div class="fin">
+            <div class="galerie trio">${reste.slice(0, 3).map((g) => M.image(g)).join('')}</div>
+            ${M.suite(k)}
+          </div>`
+      })
+    </script>
+  </body>
+</html>

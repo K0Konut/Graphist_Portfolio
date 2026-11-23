@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Long format — maquette page projet</title>
+    <link rel="stylesheet" href="commun.css" />
+    <link rel="stylesheet" href="projet.css" />
+    <style>
+      /* Couverture plein écran ; le titre est posé dans un calque, comme sur l'accueil */
+      .une {
+        position: relative;
+        height: 100svh;
+        background: var(--vide);
+      }
+      .une img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .une .calque-titre {
+        position: absolute;
+        left: var(--marge);
+        bottom: var(--marge);
+        width: min(620px, 100% - 2 * var(--marge));
+        display: grid;
+        gap: var(--espace-3);
+        padding: var(--marge-calque);
+        color: var(--aplat-texte);
+        isolation: isolate;
+      }
+      .calque-titre::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: var(--aplat);
+        opacity: var(--aplat-opacite);
+      }
+      .calque-titre h1 {
+        font-size: clamp(2rem, 4.6vw, 3.75rem);
+        line-height: 1.05;
+      }
+      .calque-titre p {
+        font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+        font-weight: 700;
+        line-height: 1.35;
+      }
+      .article {
+        padding: var(--espace-5) var(--marge) 0;
+      }
+      .article > * {
+        max-width: 65ch;
+        margin-inline: auto;
+      }
+      .article h2 {
+        margin-top: var(--espace-5);
+        margin-bottom: var(--espace-2);
+        font-size: 1.5rem;
+        line-height: 1.2;
+      }
+      .article .chapeau {
+        font-size: clamp(1.25rem, 2vw, 1.5rem);
+        line-height: 1.45;
+      }
+      /* Les images sortent de la colonne de texte : larges, puis pleine largeur */
+      .article figure {
+        max-width: var(--contenu);
+        margin-block: var(--espace-5);
+      }
+      .article figure.plein {
+        max-width: none;
+        margin-inline: calc(-1 * var(--marge));
+      }
+      .article figure.duo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espace-2);
+      }
+      figcaption {
+        grid-column: 1 / -1;
+        margin-top: var(--espace-2);
+        padding-inline: var(--marge);
+        color: var(--gris);
+        font-size: var(--taille-legende);
+      }
+      .duo figcaption {
+        padding-inline: 0;
+      }
+      .article .fiche {
+        margin-top: var(--espace-5);
+        padding-top: var(--espace-4);
+        border-top: var(--soulignement) solid var(--noir);
+      }
+      .article .provisoire {
+        margin-top: var(--espace-3);
+      }
+      .article .suite {
+        max-width: var(--contenu);
+      }
+      @media (width <= 700px) {
+        .une {
+          height: 88svh;
+        }
+        .article figure.duo {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu"></main>
+    <script src="commun.js"></script>
+    <script src="projet.js"></script>
+    <script>
+      M.page((p, r, k) => {
+        const [a, b, c, d, e, f, g] = r.galerie
+        const [[t1, x1], [t2, x2], [t3, x3], [t4, x4]] = r.parties
+        const figure = (classe, images, legende) =>
+          `<figure class="galerie ${classe}">${images.map((i) => M.image(i)).join('')}<figcaption>${legende}</figcaption></figure>`
+        document.getElementById('contenu').innerHTML = `
+          <header class="une">
+            <img src="${p.couverture}" alt="">
+            <div class="calque-titre"><h1>${p.client} — ${p.discipline}</h1><p>${r.accroche}</p></div>
+          </header>
+          <article class="article texte">
+            <p class="chapeau">${x1}</p>
+            <h2>${t2}</h2><p>${x2}</p>
+            ${figure('plein', [a], `${a.legende}. ${a.texte}`)}
+            <h2>${t3}</h2><p>${x3}</p>
+            ${figure('duo', [b, c], `${b.legende}, puis ${c.legende.toLowerCase()}.`)}
+            <h2>${t4}</h2><p>${x4}</p>
+            ${figure('plein', [g], `${g.legende}. ${g.texte}`)}
+            ${M.fiche(p, r).replace('class="fiche"', 'class="fiche ligne"')}
+            ${M.provisoire}
+            ${M.suite(k)}
+          </article>`
+      })
+    </script>
+  </body>
+</html>

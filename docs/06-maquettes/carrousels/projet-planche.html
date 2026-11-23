@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planche horizontale — maquette page projet</title>
+    <link rel="stylesheet" href="commun.css" />
+    <link rel="stylesheet" href="projet.css" />
+    <style>
+      /* Ordinateur : une seule ligne, du texte aux images, qu'on parcourt de gauche à droite */
+      @media (width > 700px) {
+        body {
+          overflow: hidden;
+        }
+        .planche {
+          height: 100svh;
+          display: flex;
+          gap: var(--espace-2);
+          padding: var(--degagement) 0 calc(var(--espace-3) + 48px);
+          overflow-x: auto;
+          overscroll-behavior-x: contain;
+        }
+        .planche > * {
+          flex: none;
+          height: 100%;
+        }
+        .planche img {
+          width: auto;
+        }
+        .panneau {
+          width: 440px;
+          overflow-y: auto;
+        }
+        .suite {
+          grid-template-columns: 1fr;
+          align-content: center;
+          width: 360px;
+          padding: var(--marge);
+        }
+        .suite a[rel='next'] {
+          text-align: left;
+        }
+      }
+      .panneau {
+        display: flex;
+        flex-direction: column;
+        gap: var(--espace-3);
+        padding: var(--marge);
+      }
+      .ouverture {
+        background: var(--aplat);
+        color: var(--aplat-texte);
+      }
+      .ouverture h1 {
+        font-size: clamp(2rem, 3.4vw, 3rem);
+        line-height: 1.05;
+      }
+      .ouverture .accroche {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .ouverture .fiche {
+        margin-top: auto;
+        grid-template-columns: 1fr 1fr;
+      }
+      .recit h2 {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+      .recit p {
+        font-size: 1rem;
+      }
+      .indice {
+        color: var(--gris);
+        font-size: var(--taille-legende);
+      }
+      @media (width <= 700px) {
+        .planche {
+          display: grid;
+          gap: var(--espace-2);
+        }
+        .ouverture {
+          padding-top: calc(var(--degagement) + var(--espace-3));
+        }
+        .indice {
+          display: none;
+        }
+        .suite {
+          padding-inline: var(--marge);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu">
+      <div class="planche galerie" tabindex="0" aria-label="Planche du projet"></div>
+    </main>
+    <script src="commun.js"></script>
+    <script src="projet.js"></script>
+    <script>
+      const planche = document.querySelector('.planche')
+      M.page((p, r, k) => {
+        planche.innerHTML = `
+          <header class="panneau ouverture sur-aplat">
+            <h1>${p.client} — ${p.discipline}</h1>
+            <p class="accroche">${r.accroche}</p>
+            ${M.fiche(p, r)}
+            ${M.provisoire}
+          </header>
+          <div class="panneau recit texte">
+            ${r.parties.map(([t, x]) => `<h2>${t}</h2><p>${x}</p>`).join('')}
+            <p class="indice">La molette ou le pavé tactile font avancer la planche.</p>
+          </div>
+          ${r.galerie.map((g) => M.image(g)).join('')}
+          ${M.suite(k)}`
+        planche.scrollLeft = 0
+      })
+      // La molette verticale fait avancer la planche ; sur mobile, la page défile normalement
+      planche.addEventListener(
+        'wheel',
+        (e) => {
+          if (innerWidth <= 700 || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
+          const panneau = e.target.closest('.panneau')
+          if (panneau && panneau.scrollHeight > panneau.clientHeight) return // un texte trop long défile d'abord
+          e.preventDefault()
+          planche.scrollLeft += e.deltaY
+        },
+        { passive: false },
+      )
+    </script>
+  </body>
+</html>
