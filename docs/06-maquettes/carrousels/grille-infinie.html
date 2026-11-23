@@ -92,14 +92,15 @@
       function construire() {
         cw = Math.max(innerWidth * (innerWidth <= 700 ? 0.44 : 0.17), 150)
         ch = cw * 1.25 + ecart
-        cols = Math.ceil(innerWidth / (cw + ecart)) + 2
-        cols += cols % 2 // nombre pair : le décalage des colonnes impaires reste juste au raccord
         rows = Math.ceil(innerHeight / ch) + 2
+        // Au moins une case par projet dans le bloc répété, quel que soit le nombre de projets
+        cols = Math.max(Math.ceil(innerWidth / (cw + ecart)) + 2, Math.ceil(n / rows))
+        cols += cols % 2 // nombre pair : le décalage des colonnes impaires reste juste au raccord
         mur.innerHTML = ''
         cases = []
         for (let c = 0; c < cols; c++)
           for (let r = 0; r < rows; r++) {
-            const p = projets[modulo(c * 7 + r * 3, n)]
+            const p = projets[(c * rows + r) % n] // cases numérotées à la suite : aucun projet sauté
             mur.insertAdjacentHTML('beforeend', carte(p, { classe: 'survolable', attributs: 'tabindex="-1"' }))
             const el = mur.lastElementChild
             el.style.width = cw + 'px'
