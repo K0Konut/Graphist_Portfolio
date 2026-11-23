@@ -1,0 +1,4 @@
+# Captures de maquettes et icônes : déjà décrites par leurs pages HTML et le design system,
+# et chaque image demanderait une analyse visuelle séparée.
+*.png
+*.svg
