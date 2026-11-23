@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Colonne fixe — maquette page projet</title>
+    <link rel="stylesheet" href="commun.css" />
+    <link rel="stylesheet" href="projet.css" />
+    <style>
+      #contenu {
+        display: grid;
+        grid-template-columns: minmax(340px, 36%) 1fr;
+      }
+      /* La colonne de texte reste en place pendant que les images défilent */
+      .colonne {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--espace-4);
+        padding: calc(var(--degagement) + var(--espace-4)) var(--marge) var(--espace-5);
+        background: var(--aplat);
+        color: var(--aplat-texte);
+      }
+      .colonne h1 {
+        font-size: clamp(2rem, 3.4vw, 3rem);
+        line-height: 1.05;
+      }
+      .accroche {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .colonne h2 {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+      .colonne .fiche {
+        margin-top: auto;
+        padding-top: var(--espace-4);
+        grid-template-columns: 1fr 1fr;
+      }
+      .images {
+        padding: var(--degagement) var(--marge) 0;
+        min-width: 0;
+      }
+      .galerie {
+        display: grid;
+        gap: var(--espace-2);
+      }
+      .galerie img {
+        max-height: calc(100svh - var(--degagement) - var(--espace-4));
+        width: auto;
+        max-width: 100%;
+        margin-inline: auto;
+      }
+      @media (width <= 700px) {
+        #contenu {
+          grid-template-columns: 1fr;
+        }
+        .colonne {
+          position: static;
+          height: auto;
+        }
+        .images {
+          padding-top: var(--espace-2);
+          padding-inline: 0;
+        }
+        .suite {
+          padding-inline: var(--marge);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="contenu"></main>
+    <script src="commun.js"></script>
+    <script src="projet.js"></script>
+    <script>
+      M.page((p, r, k) => {
+        document.getElementById('contenu').innerHTML = `
+          <div class="colonne sur-aplat">
+            <h1>${p.client} — ${p.discipline}</h1>
+            <p class="accroche">${r.accroche}</p>
+            <div class="texte">${r.parties.map(([t, x]) => `<h2>${t}</h2><p>${x}</p>`).join('')}</div>
+            ${M.fiche(p, r)}
+            ${M.provisoire}
+          </div>
+          <div class="images">
+            <div class="galerie">${r.galerie.map((g) => M.image(g)).join('')}</div>
+            ${M.suite(k)}
+          </div>`
+      })
+    </script>
+  </body>
+</html>

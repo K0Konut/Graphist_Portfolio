@@ -14,6 +14,19 @@
     ['aplat-plein.html', 'Aplat plein écran', 'Un projet à la fois ; tout l’écran prend sa couleur.'],
   ]
 
+  const PAGES = [
+    ['projet-bandeau.html', 'Bandeau', 'La page prévue par la DA, enrichie : bandeau à la couleur du projet, fiche, présentation en deux colonnes, mosaïque.'],
+    ['projet-colonne-fixe.html', 'Colonne fixe', 'Le texte et la fiche restent à gauche pendant que les images défilent à droite.'],
+    ['projet-alternance.html', 'Alternance', 'Le récit en quatre temps, chaque paragraphe face à une image, d’un côté puis de l’autre.'],
+    ['projet-long-format.html', 'Long format', 'Une couverture plein écran avec son aplat, puis une lecture de magazine où les images coupent le texte.'],
+    ['projet-chapitres.html', 'Chapitres', 'Une étude de cas en quatre chapitres, avec un sommaire qui suit la lecture.'],
+    ['projet-legendes.html', 'Images légendées', 'Les images d’abord, chacune avec sa légende à côté, comme dans un catalogue d’exposition.'],
+    ['projet-aplat.html', 'Page en aplat', 'Toute la page prend la couleur du projet ; le texte et les images se posent dessus.'],
+    ['projet-accroche.html', 'Grande accroche', 'Une phrase en très grand pour commencer, la fiche en une ligne, puis le détail.'],
+    ['projet-planche.html', 'Planche horizontale', 'Le texte puis les images sur une seule ligne, qu’on parcourt de gauche à droite.'],
+    ['projet-diaporama.html', 'Diaporama', 'Une image à la fois en grand, avec sa légende ; la présentation reste à côté.'],
+  ]
+
   const PROJETS = [
     ['Lutèce — Logo', 'Identité visuelle', 'Lutèce Destroyeuses', '85c4f9'],
     ['PSWC', 'Identité visuelle et événementiel', 'PSWC', 'ef6f96'],
@@ -54,7 +67,7 @@
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
   }
   const FONDS = ['#ececec', '#d6d6d6', '#bdbdbd', '#f5f5f5', '#2a2a2a', '#a3a3a3']
-  function couverture(i) {
+  function couverture(i, l = 1200, h = 1500) {
     const r = alea(i * 97 + 13)
     const fond = FONDS[i % FONDS.length]
     const sombre = fond === '#2a2a2a'
@@ -79,7 +92,8 @@
       default:
         f = `<polygon points="0,${n(300, 1100)} 1200,${n(200, 700)} 1200,1500 0,1500" fill="${a}"/><rect x="${n(100, 700)}" y="${n(120, 300)}" width="${n(160, 360)}" height="${n(160, 360)}" fill="${b}"/>`
     }
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500"><rect width="1200" height="1500" fill="${fond}"/>${f}<text x="1150" y="1460" text-anchor="end" font-family="sans-serif" font-size="32" fill="${b}">image provisoire</text></svg>`
+    // Composition dessinée en 4:5, recadrée au centre pour les autres formats
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${l} ${h}"><rect width="${l}" height="${h}" fill="${fond}"/><svg width="${l}" height="${h}" viewBox="0 0 1200 1500" preserveAspectRatio="xMidYMid slice">${f}</svg><text x="${l - h / 30}" y="${h - h / 37.5}" text-anchor="end" font-family="sans-serif" font-size="${h / 47}" fill="${b}">image provisoire</text></svg>`
     return 'data:image/svg+xml,' + encodeURIComponent(svg)
   }
 
@@ -136,14 +150,15 @@
 
   function banc() {
     const ici = location.pathname.split('/').pop()
-    const k = VARIANTES.findIndex(([f]) => f === ici)
-    if (k < 0) return
-    const n = VARIANTES.length
-    const [prec] = VARIANTES[(k + n - 1) % n]
-    const [suiv] = VARIANTES[(k + 1) % n]
+    const liste = [VARIANTES, PAGES].find((l) => l.some(([f]) => f === ici))
+    if (!liste) return
+    const k = liste.findIndex(([f]) => f === ici)
+    const n = liste.length
+    const [prec] = liste[(k + n - 1) % n]
+    const [suiv] = liste[(k + 1) % n]
     document.body.insertAdjacentHTML(
       'beforeend',
-      `<nav class="banc" aria-label="Maquettes"><a href="${prec}" aria-label="Maquette précédente">‹</a><a class="titre" href="index.html">${k + 1}/${n} ${VARIANTES[k][1]}</a><a href="${suiv}" aria-label="Maquette suivante">›</a></nav>`,
+      `<nav class="banc" aria-label="Maquettes"><a href="${prec}" aria-label="Maquette précédente">‹</a><a class="titre" href="index.html">${k + 1}/${n} ${liste[k][1]}</a><a href="${suiv}" aria-label="Maquette suivante">›</a></nav>`,
     )
   }
 
@@ -203,7 +218,7 @@
     cible.addEventListener('click', (e) => glisse && e.preventDefault(), true)
   }
 
-  window.M = { VARIANTES, projets, carte, entete, annonce, trace, modulo, decalage, pilote, fondu, reduit }
+  window.M = { VARIANTES, PAGES, projets, couverture, carte, entete, annonce, trace, modulo, decalage, pilote, fondu, reduit }
   entete()
   banc()
 })()
