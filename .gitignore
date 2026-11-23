@@ -31,3 +31,7 @@ public/book/
 # Tests de bout en bout
 playwright-report/
 test-results/
+
+# Graphe de connaissances local (graphify)
+graphify-out/
+.claude/settings.local.json
